@@ -1,0 +1,201 @@
+"""
+This module provides the GitHandler class for handling git operations.
+
+The GitHandler class initializes and clones repositories and creates a 
+feature branch.
+"""
+import os
+import shutil
+import stat
+import requests
+import json
+from git import Repo
+from datetime import datetime
+from uuid import uuid4
+
+class GitHandler:
+    """
+    The GitHandler class provides methods for handling git operations.
+
+    This class provides methods for initializing and cloning repositories, 
+    creating a feature branch, cleaning up the temporary directory, committing 
+    and pushing changes, writing responses back to files, and creating pull 
+    requests.
+
+    Attributes:
+        _tmp_path (str): The path to the temporary directory.
+        _repo (git.Repo): The cloned repository.
+        _owner (str): The owner of the repository.
+        _token (str): The git access token used to interact with the repository.
+        _repo_name (str): The name of the repository.
+        _branch (str): The name of the branch.
+        _feature_branch (git.Head): The feature branch.
+        _unique_feature_branch_name (str): The unique name of the feature branch.
+    """
+    _tmp_path = None
+    _repo = None
+    _owner = ""
+    _token = ""
+    _repo_name = ""
+    _branch = None
+    _feature_branch = None
+    _unique_feature_branch_name = ""
+
+    def get_tmp_path(self):
+        return self._tmp_path
+
+    @classmethod
+    def initialize(
+        cls,
+        branch: str,
+        git_user: str,
+        owner: str,
+        token: str,
+        repo_name: str
+        ):
+        """
+        Initializes the GitHandler class with the provided parameters.
+
+        This method sets the _branch, _git_user, _owner, _token, and _repo_name
+        attributes and creates a temporary directory.
+
+        Args:
+            branch (str): The name of the branch.
+            git_user (str): The username of the git user.
+            owner (str): The owner of the repository.
+            token (str): The access token for the repository.
+            repo_name (str): The name of the repository.
+        """
+        project_root_dir = os.path.dirname(
+            os.path.dirname(
+                os.path.dirname(
+                    os.path.abspath(__file__)
+                )
+            )
+        )
+        cls._tmp_path = os.path.join(project_root_dir, ".tmp")
+        print("Temporary directory: " + cls._tmp_path)
+        cls._branch = branch
+        cls._git_user = git_user
+        cls._owner = owner
+        cls._token = token
+        cls._repo_name = repo_name
+
+    @classmethod
+    def clone(cls):
+        """
+        Clones the repository and creates a feature branch.
+
+        This method clones the repository from the provided URL, checks out the
+        branch, creates a unique feature branch name, creates the feature 
+        branch, and checks out the feature branch.
+        """
+        cls._repo = Repo.clone_from(
+            "https://{git_username}:{git_access_token}@github.com/{owner}/{repo}.git".format(
+                git_username=cls._git_user,
+                git_access_token=cls._token,
+                owner=cls._owner,
+                repo=cls._repo_name
+            ),
+            cls._tmp_path
+            )
+        # Feature Branch soll aus der target branch erstellt werden,
+        # weil hier der Pull Request erstellt wurde.
+        cls._repo.git.checkout(cls._branch)
+        cls._unique_feature_branch_name = datetime.now().strftime("%Y%m-%d%H-%M%S-") + str(uuid4())
+        cls._feature_branch = cls._repo.create_head(cls._unique_feature_branch_name)
+        cls._repo.git.checkout(cls._feature_branch)
+        print("Creatured feature branch.")
+        print("active branch: " + cls._repo.active_branch.name)
+
+    @classmethod
+    def clean_up(cls):
+        """
+        Cleans up the temporary directory.
+
+        This method iterates over the directories and files in the temporary directory, changes their 
+        permissions to make them readable, writable, and executable by the user, and then removes the 
+        temporary directory.
+        """
+        if os.path.exists(cls._tmp_path):
+            print("Cleaning up the .tmp directory ...")
+            for root, dirs, files in os.walk(cls._tmp_path):
+                for dir in dirs:
+                    os.chmod(os.path.join(root, dir), stat.S_IRWXU)
+                for file in files:
+                    os.chmod(os.path.join(root, file), stat.S_IRWXU)
+            shutil.rmtree(cls._tmp_path)
+
+    @classmethod
+    def commit_and_push(cls, file_paths, commit_msg):
+        """
+        Performs Git actions such as add, commit, and push.
+
+        This method performs the following Git actions in the downstream repository:
+        - Adds the files with the resolved merge conflicts to the staging area.
+        - Commits the changes with the commit message generated by the AI model.
+        - Pushes the changes to the remote repository, setting the upstream branch to the active branch.
+        """
+        cls._repo.git.add(file_paths)
+        cls._repo.git.commit("-m", commit_msg)
+        cls._repo.git.push("--set-upstream", "origin", GitHandler._repo.active_branch.name)
+
+    @classmethod
+    def write_responses(cls, file_paths, responses):
+        """
+        Writes the AI's responses (solutions to the merge conflicts) back to the files.
+
+        This method iterates over the _file_paths list and for each file path, it opens the corresponding 
+        file in the downstream repository in write mode and writes the corresponding response from the 
+        responses list to the file.
+
+        Note: The method assumes that the order of the file paths in _file_paths matches the order of 
+        the responses in responses.
+        """
+        print("Writing responses to files...")
+        print(file_paths)
+        for i, file_path in enumerate(file_paths):
+            with open(os.path.join(cls._tmp_path, file_path), 'w') as file:
+                print("Writing to " + os.path.join(cls._tmp_path, file_path))
+                file.write(responses[i])
+    
+    @classmethod
+    def create_pull_request(cls, title: str, body: str):
+        """
+        Creates a pull request on GitHub.
+
+        This method uses the GitHub API to create a pull request with the 
+        provided title and body. The pull request is created from the feature 
+        branch to the main branch.
+
+        Args:
+            title (str): The title of the pull request.
+            body (str): The body of the pull request.
+        """
+        data = {
+            "title": title,
+            "body": body,
+            "head": cls._unique_feature_branch_name,  # The name of the branch where your changes are implemented
+            "base": cls._branch                       # The name of the branch you want the changes pulled into
+        }
+        url = "https://api.github.com/repos/{owner}/{repo}/pulls".format(
+            owner=cls._owner,
+            repo=cls._repo_name
+        )
+        headers = {
+            "Content-type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "token {token}".format(token=cls._token)
+        }
+        resp = requests.post(url, data=json.dumps(data), headers=headers)
+
+        print("owner: " + cls._owner)
+        print("repo_name: " + cls._repo_name)
+        print("token: " + cls._token)
+        print("url: " + url)
+
+        if resp.status_code == 201:
+            return resp.json()
+        else:
+            print(f"Request failed with status code {resp.status_code}")
+            return resp.text
