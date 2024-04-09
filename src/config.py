@@ -31,15 +31,17 @@ class PromptConfig:
         commit_prompt (str): The prompt used for committing.
     """
     def __init__(self):
-        self.tmp_prompt = tmp_prompt
+        pass
 
-tmp_prompt = """
-This is a placeholder.
+    def _read_file_content(self, file_path: str) -> str:
+        with open(file_path, "r") as file:
+            return file.read()
 
-Placeholder:
-{placeholder}
-"""
+    def get_file_summary_prompt(self) -> str:
+        return self._read_file_content("./src/prompts/file_summary_prompt.txt")
 
+    def get_method_pydoc_prompt(self) -> str:
+        return self._read_file_content("./src/prompts/method_pydoc_prompt.txt")
 
 
 @dataclass
