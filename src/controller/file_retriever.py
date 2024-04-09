@@ -18,7 +18,6 @@ class FileRetriever:
             "logs"
         ] #TODO files ignorieren, ggf. Einträge aus .gitignore verwenden, falls vorhanden
         self.ignored_files = [
-            "__init__.py",
             "Thumbs.db",
             "desktop.ini"
         ]
