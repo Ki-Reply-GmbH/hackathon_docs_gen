@@ -16,7 +16,7 @@ def main():
 
     #TODO Change local path to your target repository
     fr = FileRetriever("../targets/IIRA")
-    print(str(fr))
+    py_file_paths = fr.file_mapping["py"]
 
 if __name__ == "__main__":
     main()
