@@ -31,9 +31,9 @@ class PromptConfig:
         commit_prompt (str): The prompt used for committing.
     """
     def __init__(self):
-        self.tmp_prompt = tmp_prompt
+        self.in_code_prompt = in_code_prompt
 
-tmp_prompt = """
+in_code_prompt = """
 This is a placeholder.
 
 Placeholder:
