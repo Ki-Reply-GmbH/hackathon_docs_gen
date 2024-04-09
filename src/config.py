@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 LOGGER = logging.getLogger(__name__)
-logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"))
+logging.basicConfig(level=os.environ.get("LOG_LEVEL", "DEBUG"))
 
 
 @dataclass
@@ -70,7 +70,7 @@ class Config:
         ####################
         # Cache CONFIG
         ####################
-        self.USE_CACHE = self._read_bool_value("USE_CACHE", "False")
+        self.USE_CACHE = self._read_bool_value("USE_CACHE", "True")
 
         ####################
         # AGI CONFIG
