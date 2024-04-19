@@ -1,3 +1,4 @@
+import ast
 from src.agents.docs_agent import DocsAgent
 from src.config import load_config
 from src.models import LLModel
@@ -22,8 +23,19 @@ def main():
         LLModel(config, cache)
     )
 
-    partially_documented_code = dAgent._document_file(py_file_paths[0])
-    tmp_write_file("partially_documented_code.py", partially_documented_code)
+    print("Processing file ... " + py_file_paths[0])
+    #tree = dAgent._generate_ast(py_file_paths[0])
+    #print(
+    #    ast.dump(tree, indent=4)
+    #)
+    partially_documented_code = dAgent._document_file(
+        py_file_paths[0],
+        method_name="init_frames"
+        )
+    tmp_write_file(
+        "./generated_docs/partially_documented_cod3.py",
+        partially_documented_code
+        )
 
 def tmp_write_file(file_path, content):
     with open(file_path, "w") as file:

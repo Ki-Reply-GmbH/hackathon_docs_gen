@@ -33,6 +33,7 @@ class PromptConfig:
     def __init__(self):
         self.in_code_prompt = in_code_prompt
         self.next_method_prompt = next_method_prompt
+        self.certain_method_prompt = certain_method_prompt
 
 in_code_prompt = """\
 Human:
@@ -47,12 +48,54 @@ Use this docstring the google docstrings coding convention.
 AI:
 """
 
+# Idea: Create ast representation of the code and then iterate over all the 
+# methods or function that are not documented (or not properly documented).
+certain_method_prompt = """\
+Human:
+You are provided with Python source code (delimited by ####).
+Your task is to create docstrings for the method or function with the name 
+{method_name}.
+Don't create docstrings for classes or the module, only document the provided \
+method or function.
+If all methods or functions have already been documented, respond with "DONE".
+
+Follow this step-by-step guide to create the docstring:
+1. Understand the source code semantically.
+2. Search for the method or function to be documented.
+3. Write a docstring for the method or function.
+4. Respond with a json object. The json object has 1 key-value pair. The key is
+   the name of the function or method that you documented. The value is the \
+   docstring. If you are done documenting all methods or functions, respond with \
+   "DONE".
+
+####
+{source_code}
+####
+
+AI:
+"""
+
+# Issue: The LLM model is not able to generate docstrings for the next method or function.
+# It generaties docstrings for arbitrary methods or functions and also creates
+# docstrings for methods or functions that are already documented.
 next_method_prompt = """\
 Human:
 Create docstrings for the next method or function from the following source \
 code (delimited by ####). Don't create docstrings for classes or the module, \
-only document methods or functions.
+only document the next method or function that is not already documented.
 If all methods or functions have been documented, respond with "DONE".
+
+Follow this step-by-step guide to create the docstring:
+1. Understand the source code semantically.
+2. Search for the next method or function that is not already documented.
+3. Write a docstring for the method or function.
+4. Evaluate whether the method or function for which you want to create the \
+   docstrings is already documented. If yes, discard the answer and go to 2.
+   If no go to 5.
+5. Respond with a json object. The json object has 1 key-value pair. The key is
+   the name of the function or method that you documented. The value is the \
+   docstring. If you are done documenting all methods or functions, respond with \
+   "DONE".
 
 ####
 {source_code}
