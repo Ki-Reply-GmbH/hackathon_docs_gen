@@ -32,14 +32,41 @@ class PromptConfig:
     """
     def __init__(self):
         self.in_code_prompt = in_code_prompt
+        self.next_method_prompt = next_method_prompt
 
-in_code_prompt = """
-This is a placeholder.
+in_code_prompt = """\
+Human:
+Create module and class based docstrings for the following source code \
+(delimited by ####). Don't create docstrings for
+Use this docstring the google docstrings coding convention.
 
-Placeholder:
-{placeholder}
+####
+{source_code}
+####
+
+AI:
 """
 
+next_method_prompt = """\
+Human:
+Create docstrings for the next method or function from the following source \
+code (delimited by ####). Don't create docstrings for classes or the module, \
+only document methods or functions.
+If all methods or functions have been documented, respond with "DONE".
+
+####
+{source_code}
+####
+
+AI:
+"""
+
+human_template = """\
+Human:
+Create docstrings for the next method or function from the previous source code.
+
+AI:
+"""
 
 
 @dataclass
@@ -77,7 +104,7 @@ class Config:
         ####################
         self.prompts = PromptConfig()
         self.AGI_VERBOSE = True
-        self.LLM_MODEL_NAME = os.environ.get("LLM_MODEL_NAME", "gpt-4-1106-preview")
+        self.LLM_MODEL_NAME = os.environ.get("LLM_MODEL_NAME", "gpt-4-0125-preview")
         self.LLM_TEMPERATURE = os.environ.get("LLM_TEMPERATURE", 0.0)
         self.LLM_MAX_LENGTH = os.environ.get("LLM_MAX_LENGTH", 4096)
         self.OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
@@ -102,7 +129,7 @@ class Config:
         Returns:
             bool: The boolean value.
         """
-        env_value: str | bool = os.environ.get(env_name, default_value)
+        env_value = os.environ.get(env_name, default_value)
         if env_value is None:
             return default_value
 
