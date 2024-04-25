@@ -31,77 +31,17 @@ class PromptConfig:
         commit_prompt (str): The prompt used for committing.
     """
     def __init__(self):
-        self.in_code_prompt = in_code_prompt
-        self.document_method_prompt = document_method_prompt
-        self.extract_methods_prompt = extract_methods_prompt
-
-in_code_prompt = """\
-Human:
-Create module and class based docstrings for the following source code \
-(delimited by ####). Don't create docstrings for
-Use this docstring the google docstrings coding convention.
-
-####
-{source_code}
-####
-
-AI:
-"""
-
-extract_methods_prompt = """
-You are provided with source code and your task is to extract all the methods \
-or functions from the code.
-Respond with all the method or function names extracted from the code. Delimit \
-the method or function names with a semicolon (;).
-
-####
-{source_code}
-####
-"""
-
-# Idea: Create ast representation of the code and then iterate over all the 
-# methods or function that are not documented (or not properly documented).
-# Besser sprachunabhängig mit LLM die Methodennamen ausgeben.
-# Mit ca. 100 Files testen und zuverlässigkeit prüfen.
-document_method_prompt = """\
-Human:
-You are provided with Python source code (delimited by ####).
-Your task is to create docstrings for the method or function with the name 
-{method_name}.
-Don't create docstrings for classes or the module, only document the provided \
-method or function.
-If all methods or functions have already been documented, respond with "DONE".
-
-Follow this step-by-step guide to create the docstring:
-1. Understand the source code semantically.
-2. Write a docstring for the provided method or function.
-4. Respond with the docstring for the provided method or function. Don't include \
-any other information in your response except the docstring.
-
-####
-{source_code}
-####
-
-AI:
-"""
-
-human_template = """\
-Human:
-Create docstrings for the next method or function from the previous source code.
-
-AI:
-"""
         pass
 
     def _read_file_content(self, file_path: str) -> str:
         with open(file_path, "r") as file:
             return file.read()
 
-    def get_file_summary_prompt(self) -> str:
-        return self._read_file_content("./src/prompts/file_summary_prompt.txt")
+    def get_document_method_prompt(self) -> str:
+        return self._read_file_content("./src/prompts/document_method_prompt.txt")
 
-    def get_method_pydoc_prompt(self) -> str:
-        return self._read_file_content("./src/prompts/method_pydoc_prompt.txt")
+    def get_exract_methods_prompt(self) -> str:
+        return self._read_file_content("./src/prompts/exract_methods_prompt.txt")
 
 
 @dataclass
