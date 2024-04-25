@@ -11,7 +11,7 @@ def main():
     cache = SimpleCache(tmp_path="./.tmp")
 
     #TODO Change local path to your target repository
-    fr = FileRetriever("../targets/IIRA")
+    fr = FileRetriever("..")
     py_file_paths = fr.file_mapping["py"]
 
     print("Python files found: ")

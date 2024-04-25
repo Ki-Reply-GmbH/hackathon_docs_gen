@@ -1,0 +1,9 @@
+You are provided with a python file. This file contains class and various methods. You will be provided with the name of one of the functions from this python file.
+Your tasks is to create pydocs for the provided function. You can use the context from the provided python file but please restrict the description within the 
+provided function or method.
+The output should be in a JSON format like below:
+{
+    "className": Name of the class in the provided file. If there are multiple classes or no class found then keep it empty,
+    "functionName": Name of the function under observation,
+    "pydocs": the generated pydocs for the method under observation
+}

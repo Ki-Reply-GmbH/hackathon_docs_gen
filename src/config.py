@@ -91,6 +91,17 @@ Create docstrings for the next method or function from the previous source code.
 
 AI:
 """
+        pass
+
+    def _read_file_content(self, file_path: str) -> str:
+        with open(file_path, "r") as file:
+            return file.read()
+
+    def get_file_summary_prompt(self) -> str:
+        return self._read_file_content("./src/prompts/file_summary_prompt.txt")
+
+    def get_method_pydoc_prompt(self) -> str:
+        return self._read_file_content("./src/prompts/method_pydoc_prompt.txt")
 
 
 @dataclass
