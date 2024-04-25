@@ -32,8 +32,8 @@ class PromptConfig:
     """
     def __init__(self):
         self.in_code_prompt = in_code_prompt
-        self.next_method_prompt = next_method_prompt
-        self.certain_method_prompt = certain_method_prompt
+        self.document_method_prompt = document_method_prompt
+        self.extract_methods_prompt = extract_methods_prompt
 
 in_code_prompt = """\
 Human:
@@ -48,9 +48,22 @@ Use this docstring the google docstrings coding convention.
 AI:
 """
 
+extract_methods_prompt = """
+You are provided with source code and your task is to extract all the methods \
+or functions from the code.
+Respond with all the method or function names extracted from the code. Delimit \
+the method or function names with a semicolon (;).
+
+####
+{source_code}
+####
+"""
+
 # Idea: Create ast representation of the code and then iterate over all the 
 # methods or function that are not documented (or not properly documented).
-certain_method_prompt = """\
+# Besser sprachunabhängig mit LLM die Methodennamen ausgeben.
+# Mit ca. 100 Files testen und zuverlässigkeit prüfen.
+document_method_prompt = """\
 Human:
 You are provided with Python source code (delimited by ####).
 Your task is to create docstrings for the method or function with the name 
@@ -61,41 +74,9 @@ If all methods or functions have already been documented, respond with "DONE".
 
 Follow this step-by-step guide to create the docstring:
 1. Understand the source code semantically.
-2. Search for the method or function to be documented.
-3. Write a docstring for the method or function.
-4. Respond with a json object. The json object has 1 key-value pair. The key is
-   the name of the function or method that you documented. The value is the \
-   docstring. If you are done documenting all methods or functions, respond with \
-   "DONE".
-
-####
-{source_code}
-####
-
-AI:
-"""
-
-# Issue: The LLM model is not able to generate docstrings for the next method or function.
-# It generaties docstrings for arbitrary methods or functions and also creates
-# docstrings for methods or functions that are already documented.
-next_method_prompt = """\
-Human:
-Create docstrings for the next method or function from the following source \
-code (delimited by ####). Don't create docstrings for classes or the module, \
-only document the next method or function that is not already documented.
-If all methods or functions have been documented, respond with "DONE".
-
-Follow this step-by-step guide to create the docstring:
-1. Understand the source code semantically.
-2. Search for the next method or function that is not already documented.
-3. Write a docstring for the method or function.
-4. Evaluate whether the method or function for which you want to create the \
-   docstrings is already documented. If yes, discard the answer and go to 2.
-   If no go to 5.
-5. Respond with a json object. The json object has 1 key-value pair. The key is
-   the name of the function or method that you documented. The value is the \
-   docstring. If you are done documenting all methods or functions, respond with \
-   "DONE".
+2. Write a docstring for the provided method or function.
+4. Respond with the docstring for the provided method or function. Don't include \
+any other information in your response except the docstring.
 
 ####
 {source_code}
@@ -147,7 +128,7 @@ class Config:
         ####################
         self.prompts = PromptConfig()
         self.AGI_VERBOSE = True
-        self.LLM_MODEL_NAME = os.environ.get("LLM_MODEL_NAME", "gpt-4-0125-preview")
+        self.LLM_MODEL_NAME = os.environ.get("LLM_MODEL_NAME", "gpt-4-turbo")
         self.LLM_TEMPERATURE = os.environ.get("LLM_TEMPERATURE", 0.0)
         self.LLM_MAX_LENGTH = os.environ.get("LLM_MAX_LENGTH", 4096)
         self.OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")

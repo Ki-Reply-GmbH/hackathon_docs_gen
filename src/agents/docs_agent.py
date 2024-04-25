@@ -13,7 +13,7 @@ class DocsAgent:
         self._directory = directory
         self._prompts = prompts
         self._model = model
-        self.responses = []
+        self.responses = {}
 
         #TODO extract this on the fly (instead of argument)
         self.tmp_file_paths = tmp_file_paths
@@ -23,8 +23,13 @@ class DocsAgent:
         for file_path in self.tmp_file_paths:
             pass
     
-    def _document_file(self, file_path, method_name):
-        prompt = self._prompts.certain_method_prompt
+    def _document_methods(self, file_path, method_names):
+        self.responses[file_path] = {}
+        for method_name in method_names:
+            self.responses[file_path][method_name] = self._document_method(file_path, method_name)
+
+    def _document_method(self, file_path, method_name):
+        prompt = self._prompts.document_method_prompt
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
         return self._model.get_completion(
@@ -34,10 +39,15 @@ class DocsAgent:
                 )
             )
 
-    def _generate_ast(self, file_path):
-        with open(file_path, "r", encoding='utf-8') as source:
-            tree = ast.parse(source.read())
-        return tree
+    def _extract_methods(self, file_path):
+        prompt = self._prompts.extract_methods_prompt
+        with open(file_path, "r", encoding="utf-8") as file:
+            code = file.read()
+        return self._model.get_completion(
+            prompt.format(
+                source_code=code
+                )
+            )
 
     def write_files(self):
         for i, response in enumerate(self.responses):

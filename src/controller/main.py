@@ -1,4 +1,4 @@
-import ast
+import json
 from src.agents.docs_agent import DocsAgent
 from src.config import load_config
 from src.models import LLModel
@@ -24,22 +24,34 @@ def main():
     )
 
     print("Processing file ... " + py_file_paths[0])
-    #tree = dAgent._generate_ast(py_file_paths[0])
-    #print(
-    #    ast.dump(tree, indent=4)
-    #)
-    partially_documented_code = dAgent._document_file(
-        py_file_paths[0],
-        method_name="init_frames"
-        )
-    tmp_write_file(
-        "./generated_docs/partially_documented_cod3.py",
-        partially_documented_code
-        )
+    #tmp_write_file(
+    #    "./generated_docs/partially_documented_cod3.py",
+    #    partially_documented_code
+    #    )
+    print("Extracting methods ...")
+    extracted_methods = dAgent._extract_methods(py_file_paths[0])
+    print(extracted_methods)
+    #TODO check functionality 1 by 1; formatting content is sometimes provided
+    # in the response that should not be there. Dictionary in self.responses
+    # is also not properly formatted (keys are weird).
 
-def tmp_write_file(file_path, content):
-    with open(file_path, "w") as file:
-        file.write(content)
+    """
+    print("Documenting methods and functions ...")
+    dAgent._document_methods(
+        py_file_paths[0],
+        method_names=extracted_methods
+        )
+    partially_documented_code = dAgent.responses
+    print(partially_documented_code)
+
+    print("Writing files ...")
+    print(partially_documented_code)
+    json_string = str(partially_documented_code).replace("'", '"').replace('\\\\', '\\')
+    dict_data = json.loads(json_string)
+    with open('data.json', 'w') as f:
+        json.dump(dict_data, f)
+    """
+
 
 if __name__ == "__main__":
     main()
