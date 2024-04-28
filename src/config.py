@@ -38,10 +38,20 @@ class PromptConfig:
             return file.read()
 
     def get_document_method_prompt(self) -> str:
-        return self._read_file_content("./src/prompts/document_method_prompt.txt")
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts",
+            "document_method_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
 
     def get_exract_methods_prompt(self) -> str:
-        return self._read_file_content("./src/prompts/exract_methods_prompt.txt")
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts",
+            "exract_methods_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
 
 
 @dataclass
