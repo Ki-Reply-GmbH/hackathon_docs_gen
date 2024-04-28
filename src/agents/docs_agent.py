@@ -29,7 +29,7 @@ class DocsAgent:
             self.responses[file_path][method_name] = self._document_method(file_path, method_name)
 
     def _document_method(self, file_path, method_name):
-        prompt = self._prompts.document_method_prompt
+        prompt = self._prompts.get_document_method_prompt
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
         return self._model.get_completion(
@@ -40,7 +40,7 @@ class DocsAgent:
             )
 
     def _extract_methods(self, file_path):
-        prompt = self._prompts.extract_methods_prompt
+        prompt = self._prompts.get_exract_methods_prompt
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
         return self._model.get_completion(
