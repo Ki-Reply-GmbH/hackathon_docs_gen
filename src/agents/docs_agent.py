@@ -19,11 +19,11 @@ class DocsAgent:
         self.tmp_file_paths = tmp_file_paths
     
     def make_in_code_docs(self):
-        #TODO nur temporär funktionalität zum debuggen
         for file_path in self.tmp_file_paths:
-            pass
+            self._document_methods(file_path)
     
-    def _document_methods(self, file_path, method_names):
+    def _document_methods(self, file_path):
+        method_names = self._extract_methods(file_path)
         self.responses[file_path] = {}
         for method_name in method_names:
             self.responses[file_path][method_name] = self._document_method(file_path, method_name)
@@ -47,7 +47,7 @@ class DocsAgent:
             prompt.format(
                 source_code=code
                 )
-            )
+            ).split(";")
 
     def write_files(self):
         for i, response in enumerate(self.responses):
