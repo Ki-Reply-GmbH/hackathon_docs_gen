@@ -49,7 +49,7 @@ class PromptConfig:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
             base_dir, "prompts",
-            "exract_methods_prompt.txt"
+            "extract_methods_prompt.txt"
             )
         return self._read_file_content(prompt_path)
 
