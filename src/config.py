@@ -52,6 +52,14 @@ class PromptConfig:
             "extract_methods_prompt.txt"
             )
         return self._read_file_content(prompt_path)
+    
+    def get_exract_methods_loc_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts",
+            "extract_methods_prompt_loc.txt"
+            )
+        return self._read_file_content(prompt_path)
 
 
 @dataclass
