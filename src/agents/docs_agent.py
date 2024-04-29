@@ -13,7 +13,7 @@ class DocsAgent:
         self._directory = directory
         self._prompts = prompts
         self._model = model
-        self.responses = {}
+        self.responses = {} #TODO Klassenhierarchie mit einbauen
 
         #TODO extract this on the fly (instead of argument)
         self.tmp_file_paths = tmp_file_paths
@@ -40,6 +40,8 @@ class DocsAgent:
             )
 
     def _extract_methods(self, file_path):
+        #TODO Damit umgehen können, dass Methodennamen mehrfach vorkommen
+        # können (wenn sie zu unterschiedlichen Klassen gehören).
         prompt = self._prompts.get_exract_methods_prompt()
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()

@@ -10,7 +10,10 @@ Follow this step-by-step guide to create the docstring:
 1. Understand the source code semantically.
 2. Write a docstring for the provided method or function.
 4. Respond with the docstring for the provided method or function. Don't include \
-any other information in your response except the docstring.
+any other information in your response except the docstring. Don't add metadata \
+like ```python or ```java, or other unnecessary information to your response \
+and don't include the function bodies to your prompt. Just respond with the \
+docstring.
 
 ####
 {source_code}
