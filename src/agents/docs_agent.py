@@ -24,6 +24,10 @@ class DocsAgent:
     
     def _document_methods(self, file_path):
         method_names = self._extract_methods(file_path)
+        locs = []
+        for method_name in method_names:
+            locs.append(self._extract_methods_LoCs(file_path, method_name))
+        methods_loc = dict(zip(method_names, locs))
         self.responses[file_path] = {}
         for method_name in method_names:
             self.responses[file_path][method_name] = self._document_method(file_path, method_name)
@@ -50,6 +54,17 @@ class DocsAgent:
                 source_code=code
                 )
             ).split(";")
+
+    def _extract_methods_LoCs(self, file_path, method_name):
+        prompt = self._prompts.get_exract_methods_loc_prompt()
+        with open(file_path, "r", encoding="utf-8") as file:
+            code = file.read()
+            return self._model.get_completion(
+                prompt.format(
+                    method_name=method_name,
+                    source_code=code
+                    )
+                )
 
     def write_files(self):
         for i, response in enumerate(self.responses):
