@@ -22,7 +22,7 @@ def main():
     print(str(py_file_paths))
     dAgent = DocsAgent(
         config.WORKING_DIR,
-        py_file_paths[:3],
+        py_file_paths[:1],
         config.prompts,
         LLModel(config, cache)
     )
@@ -47,10 +47,13 @@ def main():
         )
     """
     dAgent.make_in_code_docs()
+    print()
+    print(dAgent.methods_loc)
+    print()
     print(dAgent.responses)
     print()
-    print(type(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"]))
-    print(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"])
+    #print(type(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"]))
+    #print(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"])
 
 
 if __name__ == "__main__":

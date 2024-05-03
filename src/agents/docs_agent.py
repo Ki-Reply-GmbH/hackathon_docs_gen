@@ -14,6 +14,7 @@ class DocsAgent:
         self._prompts = prompts
         self._model = model
         self.responses = {} #TODO Klassenhierarchie mit einbauen
+        self.methods_loc = {}
 
         #TODO extract this on the fly (instead of argument)
         self.tmp_file_paths = tmp_file_paths
@@ -25,9 +26,11 @@ class DocsAgent:
     def _document_methods(self, file_path):
         method_names = self._extract_methods(file_path)
         locs = []
+        with open(file_path, "r", encoding="utf-8") as file:
+            code = file.read()
         for method_name in method_names:
-            locs.append(self._extract_methods_LoCs(file_path, method_name))
-        methods_loc = dict(zip(method_names, locs))
+            locs.append(self._extract_methods_LoCs(code, method_name))
+        self.methods_loc = dict(zip(method_names, locs))
         self.responses[file_path] = {}
         for method_name in method_names:
             self.responses[file_path][method_name] = self._document_method(file_path, method_name)
@@ -55,17 +58,17 @@ class DocsAgent:
                 )
             ).split(";")
 
-    def _extract_methods_LoCs(self, file_path, method_name):
-        prompt = self._prompts.get_exract_methods_loc_prompt()
-        with open(file_path, "r", encoding="utf-8") as file:
-            code = file.read()
-            return self._model.get_completion(
-                prompt.format(
-                    method_name=method_name,
-                    source_code=code
-                    )
-                )
-
+    def _extract_methods_LoCs(self, code, method_name, language="Python"):
+        if language=="Python":
+            lines = code.split('\n')
+            method_indent = None
+            for i, line in enumerate(lines, start=1):
+                stripped = line.lstrip()
+                if stripped.startswith("def " + method_name):
+                    method_indent = len(line) - len(stripped)
+                    return i
+            return None
+    
     def write_files(self):
         for i, response in enumerate(self.responses):
             with open(f"./generated_docs/docs_{i}.py", "w") as file:
