@@ -7,6 +7,12 @@ from src.utils.cache import DisabledCache, SimpleCache
 from src.controller.file_retriever import FileRetriever
 from pprint import pprint
 
+"""
+1. Format vom Dictionary anpassen. 
+2. Prompt für Klassendokumentation erstellen
+3. Prompt for Module based documentation; least priority; best practices prüfen
+"""
+
 def main():
     # Allow prinint utf-8 characters in console
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')

@@ -24,16 +24,20 @@ class DocsAgent:
             self._document_methods(file_path)
     
     def _document_methods(self, file_path):
-        method_names = self._extract_methods(file_path)
-        locs = []
-        with open(file_path, "r", encoding="utf-8") as file:
-            code = file.read()
-        for method_name in method_names:
-            locs.append(self._extract_methods_LoCs(code, method_name))
-        self.methods_loc = dict(zip(method_names, locs))
-        self.responses[file_path] = {}
-        for method_name in method_names:
-            self.responses[file_path][method_name] = self._document_method(file_path, method_name)
+        class_names = self._extract_classes(file_path)  # Angenommen, diese Funktion gibt eine Liste der Klassennamen zurück
+        self.responses[file_path] = []
+        for class_name in class_names + ["global"]:
+            method_names = self._extract_class_methods(file_path, class_name)  # Angenommen, diese Funktion gibt eine Liste von Methodennamen für die gegebene Klasse zurück
+            locs = []
+            with open(file_path, "r", encoding="utf-8") as file:
+                code = file.read()
+            for method_name in method_names:
+                locs.append(self._extract_methods_LoCs(code, method_name))
+            self.methods_loc = dict(zip(method_names, locs))
+            class_dict = {class_name: {}}
+            for method_name in method_names:
+                class_dict[class_name][method_name] = self._document_method(file_path, method_name)
+            self.responses[file_path].append(class_dict)
 
     def _document_method(self, file_path, method_name):
         prompt = self._prompts.get_document_method_prompt()
@@ -45,10 +49,12 @@ class DocsAgent:
                 method_name=method_name
                 )
             )
+    def _extract_classes(self, file_path):
+        pass
 
-    def _extract_methods(self, file_path):
-        #TODO Damit umgehen können, dass Methodennamen mehrfach vorkommen
-        # können (wenn sie zu unterschiedlichen Klassen gehören).
+    def _extract_methods(self, file_path, class_name="global"):
+        #TODO class_name Funktionalität implementieren.
+        #Also, dass die Methoden nur für eine Klasse extrahiert werden.
         prompt = self._prompts.get_exract_methods_prompt()
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
