@@ -27,7 +27,7 @@ class DocsAgent:
         class_names = self._extract_classes(file_path)  # Angenommen, diese Funktion gibt eine Liste der Klassennamen zurück
         self.responses[file_path] = []
         for class_name in class_names + ["global"]:
-            method_names = self._extract_class_methods(file_path, class_name)  # Angenommen, diese Funktion gibt eine Liste von Methodennamen für die gegebene Klasse zurück
+            method_names = self._extract_methods(file_path, class_name)  # Angenommen, diese Funktion gibt eine Liste von Methodennamen für die gegebene Klasse zurück
             locs = []
             with open(file_path, "r", encoding="utf-8") as file:
                 code = file.read()
@@ -50,7 +50,14 @@ class DocsAgent:
                 )
             )
     def _extract_classes(self, file_path):
-        pass
+        prompt = self._prompts.get_exract_classes_prompt()
+        with open(file_path, "r", encoding="utf-8") as file:
+            code = file.read()
+        return self._model.get_completion(
+            prompt.format(
+                source_code=code
+                )
+            ).split(";")
 
     def _extract_methods(self, file_path, class_name="global"):
         #TODO class_name Funktionalität implementieren.

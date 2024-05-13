@@ -38,6 +38,11 @@ def main():
     #    "./generated_docs/partially_documented_cod3.py",
     #    partially_documented_code
     #    )
+    print("Extracting classes ...")
+    extracted_classes = dAgent._extract_classes(py_file_paths[0])
+    print("Extracted classes: ")
+    print(extracted_classes)
+    """
     print("Extracting methods ...")
     extracted_methods = dAgent._extract_methods(py_file_paths[0])
     print("Extracted methods: ")
@@ -47,11 +52,6 @@ def main():
     # is also not properly formatted (keys are weird).
 
     print("Documenting methods and functions ...")
-    """
-    dAgent._document_methods(
-        py_file_paths[0],
-        )
-    """
     dAgent.make_in_code_docs()
     print()
     print(dAgent.methods_loc)
@@ -60,6 +60,7 @@ def main():
     print()
     #print(type(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"]))
     #print(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"])
+    """
 
 
 if __name__ == "__main__":
