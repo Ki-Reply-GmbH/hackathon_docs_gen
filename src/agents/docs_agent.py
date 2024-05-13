@@ -67,7 +67,8 @@ class DocsAgent:
             code = file.read()
         return self._model.get_completion(
             prompt.format(
-                source_code=code
+                source_code=code,
+                class_name=class_name
                 )
             ).split(";")
 
