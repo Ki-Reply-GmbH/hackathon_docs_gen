@@ -24,10 +24,10 @@ class DocsAgent:
             self._document_methods(file_path)
     
     def _document_methods(self, file_path):
-        class_names = self._extract_classes(file_path)  # Angenommen, diese Funktion gibt eine Liste der Klassennamen zurück
+        class_names = self._extract_classes(file_path) 
         self.responses[file_path] = []
         for class_name in class_names + ["global"]:
-            method_names = self._extract_methods(file_path, class_name)  # Angenommen, diese Funktion gibt eine Liste von Methodennamen für die gegebene Klasse zurück
+            method_names = self._extract_methods(file_path, class_name)
             locs = []
             with open(file_path, "r", encoding="utf-8") as file:
                 code = file.read()
@@ -49,15 +49,18 @@ class DocsAgent:
                 method_name=method_name
                 )
             )
+    
     def _extract_classes(self, file_path):
         prompt = self._prompts.get_exract_classes_prompt()
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
-        return self._model.get_completion(
-            prompt.format(
-                source_code=code
-                )
-            ).split(";")
+        return self._clean_list(
+            self._model.get_completion(
+                prompt.format(
+                    source_code=code
+                    )
+                ).split(";")
+            )
 
     def _extract_methods(self, file_path, class_name="global"):
         #TODO class_name Funktionalität implementieren.
@@ -65,12 +68,14 @@ class DocsAgent:
         prompt = self._prompts.get_exract_methods_prompt()
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
-        return self._model.get_completion(
-            prompt.format(
-                source_code=code,
-                class_name=class_name
-                )
-            ).split(";")
+        return self._clean_list(
+            self._model.get_completion(
+                prompt.format(
+                    source_code=code,
+                    class_name=class_name
+                    )
+                ).split(";")
+            )
 
     def _extract_methods_LoCs(self, code, method_name, language="Python"):
         if language=="Python":
@@ -82,6 +87,9 @@ class DocsAgent:
                     method_indent = len(line) - len(stripped)
                     return i
             return None
+    
+    def _clean_list(self, lst):
+        return [x for x in lst if x]
     
     def write_files(self):
         for i, response in enumerate(self.responses):

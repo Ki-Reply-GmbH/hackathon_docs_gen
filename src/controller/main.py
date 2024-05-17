@@ -28,39 +28,25 @@ def main():
     print(str(py_file_paths))
     dAgent = DocsAgent(
         config.WORKING_DIR,
-        py_file_paths[:1],
+        py_file_paths[:2],
         config.prompts,
         LLModel(config, cache)
     )
 
-    #print("Processing file ... " + py_file_paths[0])
-    #tmp_write_file(
-    #    "./generated_docs/partially_documented_cod3.py",
-    #    partially_documented_code
-    #    )
-    print("Extracting classes ...")
-    extracted_classes = dAgent._extract_classes(py_file_paths[0])
-    print("Extracted classes: ")
-    print(extracted_classes)
-    print("Extracting methods ...")
-    extracted_methods = dAgent._extract_methods(py_file_paths[0], class_name="App")
-    print("Extracted methods: ")
-    print(extracted_methods)
-    """
     #TODO check functionality 1 by 1; formatting content is sometimes provided
     # in the response that should not be there. Dictionary in self.responses
     # is also not properly formatted (keys are weird).
-
     print("Documenting methods and functions ...")
     dAgent.make_in_code_docs()
     print()
+    print("Methods loc:")
     print(dAgent.methods_loc)
     print()
+    print("Responses:")
     print(dAgent.responses)
     print()
     #print(type(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"]))
     #print(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"])
-    """
  
 
 
