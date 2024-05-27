@@ -33,12 +33,10 @@ class DocsAgent:
                 code = file.read()
             if code.strip():
                 # Files with content
-                for method_name in method_names:
-                    locs.append(self._extract_methods_LoCs(code, method_name))
-                self.methods_loc = dict(zip(method_names, locs))
                 class_dict = {class_name: {}}
                 for method_name in method_names:
-                    class_dict[class_name][method_name] = self._document_method(file_path, method_name)
+                    methods_loc = self._extract_methods_LoCs(code, method_name)
+                    class_dict[class_name][method_name] = ["Method's LoC: " + str(methods_loc) ,self._document_method(file_path, method_name)]
                 self.responses[file_path].append(class_dict)
             else:
                 # Empty files
@@ -69,8 +67,6 @@ class DocsAgent:
             )
 
     def _extract_methods(self, file_path, class_name="global"):
-        #TODO class_name Funktionalität implementieren.
-        #Also, dass die Methoden nur für eine Klasse extrahiert werden.
         prompt = self._prompts.get_exract_methods_prompt()
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
@@ -86,11 +82,9 @@ class DocsAgent:
     def _extract_methods_LoCs(self, code, method_name, language="Python"):
         if language=="Python":
             lines = code.split('\n')
-            method_indent = None
             for i, line in enumerate(lines, start=1):
                 stripped = line.lstrip()
                 if stripped.startswith("def " + method_name):
-                    method_indent = len(line) - len(stripped)
                     return i
             return None
 

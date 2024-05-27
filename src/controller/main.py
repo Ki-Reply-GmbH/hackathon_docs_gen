@@ -28,14 +28,11 @@ def main():
     print(str(py_file_paths))
     dAgent = DocsAgent(
         config.WORKING_DIR,
-        py_file_paths[:2],
+        py_file_paths[:3],
         config.prompts,
         LLModel(config, cache)
     )
 
-    #TODO check functionality 1 by 1; formatting content is sometimes provided
-    # in the response that should not be there. Dictionary in self.responses
-    # is also not properly formatted (keys are weird).
     print("Documenting methods and functions ...")
     dAgent.make_in_code_docs()
     print()
@@ -45,8 +42,8 @@ def main():
     print("Responses:")
     print(dAgent.responses)
     print()
-    #print(type(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"]))
-    #print(dAgent.responses["C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py"]["show_frame"])
+
+    
  
 
 
