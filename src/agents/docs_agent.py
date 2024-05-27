@@ -31,13 +31,19 @@ class DocsAgent:
             locs = []
             with open(file_path, "r", encoding="utf-8") as file:
                 code = file.read()
-            for method_name in method_names:
-                locs.append(self._extract_methods_LoCs(code, method_name))
-            self.methods_loc = dict(zip(method_names, locs))
-            class_dict = {class_name: {}}
-            for method_name in method_names:
-                class_dict[class_name][method_name] = self._document_method(file_path, method_name)
-            self.responses[file_path].append(class_dict)
+            if code.strip():
+                # Files with content
+                for method_name in method_names:
+                    locs.append(self._extract_methods_LoCs(code, method_name))
+                self.methods_loc = dict(zip(method_names, locs))
+                class_dict = {class_name: {}}
+                for method_name in method_names:
+                    class_dict[class_name][method_name] = self._document_method(file_path, method_name)
+                self.responses[file_path].append(class_dict)
+            else:
+                # Empty files
+                self.responses[file_path].append("This file is empty.")
+                break
 
     def _document_method(self, file_path, method_name):
         prompt = self._prompts.get_document_method_prompt()
@@ -87,7 +93,7 @@ class DocsAgent:
                     method_indent = len(line) - len(stripped)
                     return i
             return None
-    
+
     def _clean_list(self, lst):
         return [x for x in lst if x]
     
