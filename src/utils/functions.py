@@ -7,6 +7,7 @@ not already, and encodes it to base64.
 The `decode_from_base64` function takes a base64 encoded string and decodes it.
 """
 import base64
+import numpy as np
 
 
 def encode_to_base64(input_string):
@@ -46,6 +47,8 @@ def decode_from_base64(encoded_string):
     Returns:
         str: The decoded string.
     """
+    if np.isnan(encoded_string):
+        return ""
     # Decode the base64 encoded string
     decoded_bytes = base64.b64decode(encoded_string.encode("utf-8"))
     # Convert bytes to string
