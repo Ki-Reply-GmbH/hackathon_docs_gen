@@ -47,10 +47,12 @@ def decode_from_base64(encoded_string):
     Returns:
         str: The decoded string.
     """
-    if np.isnan(encoded_string):
-        return ""
     # Decode the base64 encoded string
-    decoded_bytes = base64.b64decode(encoded_string.encode("utf-8"))
+    try:
+        decoded_bytes = base64.b64decode(encoded_string.encode("utf-8"))
+    except AttributeError as e:
+        print("Error decoding base64 string: ", e)
+        return ""
     # Convert bytes to string
     decoded_string = decoded_bytes.decode("utf-8")
 
