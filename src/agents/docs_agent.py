@@ -1,4 +1,5 @@
 import ast
+import re
 from src.config import PromptConfig
 from src.models import LLModel
 
@@ -13,8 +14,7 @@ class DocsAgent:
         self._directory = directory
         self._prompts = prompts
         self._model = model
-        self.responses = {} #TODO Klassenhierarchie mit einbauen
-        self.methods_loc = {}
+        self.responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen, sowie LoC
 
         #TODO extract this on the fly (instead of argument)
         self.tmp_file_paths = tmp_file_paths
@@ -28,7 +28,6 @@ class DocsAgent:
         self.responses[file_path] = []
         for class_name in class_names + ["global"]:
             method_names = self._extract_methods(file_path, class_name)
-            locs = []
             with open(file_path, "r", encoding="utf-8") as file:
                 code = file.read()
             if code.strip():
@@ -88,10 +87,45 @@ class DocsAgent:
                     return i
             return None
 
+    def extract_number(s):
+        match = re.search(r"Method's LoC: (\d+)", s)
+        if match:
+            return int(match.group(1))
+        return None
+
     def _clean_list(self, lst):
         return [x for x in lst if x]
     
-    def write_files(self):
-        for i, response in enumerate(self.responses):
-            with open(f"./generated_docs/docs_{i}.py", "w") as file:
-                file.write(response)
+    def write_in_code_docs(self):
+        for file_path, classes in self.responses.items():
+            # Überspringen, wenn der Dateipfad auf eine leere Datei oder globale Einstellungen verweist
+            if isinstance(classes, str) or 'global' in classes[0]:
+                continue
+
+            # Dateiinhalt vor Änderungen lesen
+            with open(file_path, 'r', encoding='utf-8') as file:
+                lines = file.readlines()
+
+            # Durch jede Klasse im Dateipfad iterieren
+            for class_dict in classes:
+                if isinstance(class_dict, str):
+                    continue
+                for class_name, methods in class_dict.items():
+                    # Durch jede Methode in der Klasse iterieren
+                    for method_name, method_info in methods.items():
+                        # Zeilennummer und Dokumentation extrahieren
+                        try:
+                            line_number = int(method_info[0].split(': ')[1]) - 1  # 0-basierter Index. Daher wird bei LoC + 1 geschrieben.
+                            docstring = method_info[1]
+                        except ValueError:
+                            print(f"Error: Invalid line number format in method_info: {method_info[0]}")
+                            print(f"Error: Class Name: {class_name}")
+                            print(f"Error: Method Name: {method_name}")
+                            continue
+
+                        # Dokumentation an der spezifizierten Zeilennummer einfügen
+                        lines.insert(line_number, docstring + '\n')
+
+            # Dateiinhalt nach Änderungen schreiben
+            with open(file_path, 'w', encoding='utf-8') as file:
+                file.writelines(lines)

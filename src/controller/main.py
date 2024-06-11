@@ -36,12 +36,13 @@ def main():
     print("Documenting methods and functions ...")
     dAgent.make_in_code_docs()
     print()
-    print("Methods loc:")
-    print(dAgent.methods_loc)
+    print("Responses for files:")
+    keys = [key for key in dAgent.responses.keys()]
+    print(keys)
     print()
-    print("Responses:")
-    print(dAgent.responses)
-    print()
+
+    print("Writing in code docs ...")
+    dAgent.write_in_code_docs()
 
     
  
