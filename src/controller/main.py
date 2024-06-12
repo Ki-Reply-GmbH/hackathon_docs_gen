@@ -32,7 +32,6 @@ def main():
         config.prompts,
         LLModel(config, cache)
     )
-    """
     print("Documenting methods and functions ...")
     dAgent.make_in_code_docs()
     print()
@@ -40,11 +39,12 @@ def main():
     keys = [key for key in dAgent.responses.keys()]
     print(keys)
     print()
+    print(dAgent.responses)
 
     print("Writing in code docs ...")
     dAgent.write_in_code_docs()
-    """
-    dAgent.write_with_ast('C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py')
+
+    #dAgent.write_with_ast('C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py')
 
     
  

@@ -16,7 +16,7 @@ class DocsAgent:
         self._directory = directory
         self._prompts = prompts
         self._model = model
-        self.responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen, sowie LoC
+        self.responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
 
         #TODO extract this on the fly (instead of argument)
         self.tmp_file_paths = tmp_file_paths
@@ -36,8 +36,7 @@ class DocsAgent:
                 # Files with content
                 class_dict = {class_name: {}}
                 for method_name in method_names:
-                    methods_loc = self._extract_methods_LoCs(code, method_name)
-                    class_dict[class_name][method_name] = ["Method's LoC: " + str(methods_loc) ,self._document_method(file_path, method_name)]
+                    class_dict[class_name][method_name] = self._document_method(file_path, method_name)
                 self.responses[file_path].append(class_dict)
             else:
                 # Empty files
@@ -80,59 +79,17 @@ class DocsAgent:
                 ).split(";")
             )
 
-    def _extract_methods_LoCs(self, code, method_name, language="Python"):
-        if language=="Python":
-            lines = code.split('\n')
-            for i, line in enumerate(lines, start=1):
-                stripped = line.lstrip()
-                if stripped.startswith("def " + method_name):
-                    return i
-            return None
-
-    def extract_number(s):
-        match = re.search(r"Method's LoC: (\d+)", s)
-        if match:
-            return int(match.group(1))
-        return None
-
     def _clean_list(self, lst):
         return [x for x in lst if x]
     
     def write_in_code_docs(self):
-        for file_path, classes in self.responses.items():
-            # Überspringen, wenn der Dateipfad auf eine leere Datei oder globale Einstellungen verweist
-            if isinstance(classes, str) or 'global' in classes[0]:
+        for file_path in self.responses:
+            if self.responses[file_path] == ["This file is empty."]:
+                # Skip files without any source code.
                 continue
+            self.write_with_ast(file_path, self.responses[file_path])
 
-            # Dateiinhalt vor Änderungen lesen
-            with open(file_path, 'r', encoding='utf-8') as file:
-                lines = file.readlines()
-
-            # Durch jede Klasse im Dateipfad iterieren
-            for class_dict in classes:
-                if isinstance(class_dict, str):
-                    continue
-                for class_name, methods in class_dict.items():
-                    # Durch jede Methode in der Klasse iterieren
-                    for method_name, method_info in methods.items():
-                        # Zeilennummer und Dokumentation extrahieren
-                        try:
-                            line_number = int(method_info[0].split(': ')[1]) - 1  # 0-basierter Index. Daher wird bei LoC + 1 geschrieben.
-                            docstring = method_info[1]
-                        except ValueError:
-                            print(f"Error: Invalid line number format in method_info: {method_info[0]}")
-                            print(f"Error: Class Name: {class_name}")
-                            print(f"Error: Method Name: {method_name}")
-                            continue
-
-                        # Dokumentation an der spezifizierten Zeilennummer einfügen
-                        lines.insert(line_number, docstring + '\n')
-
-            # Dateiinhalt nach Änderungen schreiben
-            with open(file_path, 'w', encoding='utf-8') as file:
-                file.writelines(lines)
-
-    def write_with_ast(self, file_path):
+    def write_with_ast(self, file_path, data):
         with open(file_path, "r", encoding="utf-8") as file:
             source_code = file.read()
         
@@ -140,7 +97,7 @@ class DocsAgent:
         print("file_path: ", file_path)
 
         tree = ast.parse(source_code)
-        visitor = ClassFunctionVisitor()
+        visitor = ClassFunctionVisitor(data)
         visitor.visit(tree)
 
         modified_source_code = astor.to_source(tree)
