@@ -39,6 +39,7 @@ def main():
     keys = [key for key in dAgent.responses.keys()]
     print(keys)
     print()
+    print("Responses for methods and functions:")
     print(dAgent.responses)
 
     print("Writing in code docs ...")

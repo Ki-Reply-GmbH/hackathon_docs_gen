@@ -1,7 +1,7 @@
 import ast
 import astor
 import re
-from src.utils.class_function_visitor import ClassFunctionVisitor
+from src.utils.ast_helpers import ClassFunctionVisitor, IndentLevelVisitor
 from src.config import PromptConfig
 from src.models import LLModel
 
@@ -92,13 +92,13 @@ class DocsAgent:
     def write_with_ast(self, file_path, data):
         with open(file_path, "r", encoding="utf-8") as file:
             source_code = file.read()
-        
-        docstrings_data = "To extract" # TODO extract me
-        print("file_path: ", file_path)
 
         tree = ast.parse(source_code)
-        visitor = ClassFunctionVisitor(data)
-        visitor.visit(tree)
+        indent_level_visitor = IndentLevelVisitor()
+        indent_level_visitor.visit(tree)
+
+        class_visitor = ClassFunctionVisitor(data, indent_level_visitor)
+        class_visitor.visit(tree)
 
         modified_source_code = astor.to_source(tree)
         with open(file_path, 'w', encoding='utf-8') as file:
