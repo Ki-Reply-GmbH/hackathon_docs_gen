@@ -23,10 +23,20 @@ class DocsAgent:
     
     def make_in_code_docs(self):
         for file_path in self.tmp_file_paths:
-            self._document_methods(file_path)
+            class_names = self._extract_classes(file_path) 
+            self._document_methods(file_path, class_names)
+
+            if class_names:
+                #print("--- Documentating class ---")
+                #print("file_path: ", file_path)
+                #print("class_names: ", class_names)
+                for class_name in class_names:
+                    #print("class_name: ", class_name)
+                    #print(self._document_class(file_path, class_name))
+                    #print()
+                    self._document_class(file_path, class_name)
     
-    def _document_methods(self, file_path):
-        class_names = self._extract_classes(file_path) 
+    def _document_methods(self, file_path, class_names):
         self.responses[file_path] = []
         for class_name in class_names + ["global"]:
             method_names = self._extract_methods(file_path, class_name)
@@ -53,11 +63,35 @@ class DocsAgent:
                 method_name=method_name
                 )
             )
-    
+
+    def _document_class(self, file_path, class_name):
+        # Documentation purely based on docstrings in self.responses
+        prompt = self._prompts.get_document_class_prompt()
+        for i in range(len(self.responses[file_path])):
+            print("self.responses[file_path]["+str(i)+"]")
+            print(self.responses[file_path][i])
+            if class_name in self.responses[file_path][i]:
+                index = i
+                break
+        response = self._model.get_completion(
+            prompt.format(
+                class_name=class_name,
+                class_dict=self.responses[file_path][index][class_name]
+                )
+            )
+        self.responses[file_path][index][class_name][class_name] = response
+        return response
+   
+
     def _extract_classes(self, file_path):
         prompt = self._prompts.get_exract_classes_prompt()
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
+
+        # Überprüfen, ob der Code nur aus Leerzeichen oder Zeilenumbrüchen besteht
+        if not code.strip():
+            return []
+        
         return self._clean_list(
             self._model.get_completion(
                 prompt.format(

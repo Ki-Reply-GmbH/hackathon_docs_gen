@@ -8,10 +8,11 @@ class ClassFunctionVisitor(ast.NodeVisitor):
 
     def visit_ClassDef(self, node):
         self.current_class = node.name  # Aktualisiert den Klassenkontext
+        val = self._make_docstring(self.current_class, node.name)
 
         # Überprüfen, ob die Klasse bereits einen Docstring hat
         if not (node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, (ast.Str, ast.Constant))):
-            docstring = ast.Expr(value=ast.Constant(value=f"Dies ist die Dokumentation für die Klasse {node.name}."))
+            docstring = ast.Expr(value=ast.Constant(value=val))
             node.body.insert(0, docstring)
 
         self.generic_visit(node)  # Besucht rekursiv die Kinder des Knotens
@@ -45,6 +46,8 @@ class ClassFunctionVisitor(ast.NodeVisitor):
         for dic in self.data:
             if class_name in dic:
                 docstring = dic[class_name][method_name]
+                if docstring.startswith('```python') and docstring.endswith('```'):
+                    docstring = docstring[9:-3]
                 if docstring.startswith('"""') and docstring.endswith('"""'):
                     # ast fügt """""" hinzu, daher entfernen
                     docstring = docstring[3:-3]

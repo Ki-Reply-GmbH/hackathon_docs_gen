@@ -37,6 +37,14 @@ class PromptConfig:
         with open(file_path, "r") as file:
             return file.read()
 
+    def get_document_class_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts",
+            "document_class_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+
     def get_document_method_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
