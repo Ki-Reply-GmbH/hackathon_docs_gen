@@ -1,5 +1,7 @@
 import ast
+import astor
 import re
+from src.utils.class_function_visitor import ClassFunctionVisitor
 from src.config import PromptConfig
 from src.models import LLModel
 
@@ -129,3 +131,28 @@ class DocsAgent:
             # Dateiinhalt nach Änderungen schreiben
             with open(file_path, 'w', encoding='utf-8') as file:
                 file.writelines(lines)
+
+    def write_with_ast(self, file_path):
+        with open(file_path, "r", encoding="utf-8") as file:
+            source_code = file.read()
+        
+        docstrings_data = "To extract" # TODO extract me
+        print("file_path: ", file_path)
+
+        tree = ast.parse(source_code)
+        visitor = ClassFunctionVisitor()
+        visitor.visit(tree)
+
+        modified_source_code = astor.to_source(tree)
+        with open(file_path, 'w', encoding='utf-8') as file:
+            file.write(modified_source_code)
+        """
+        for node in ast.walk(tree):
+            # Check if the node has a 'name' attribute before trying to print it
+            print("Node: ", node)
+            if hasattr(node, 'name'):
+                print("Node name: ", node.name)
+            else:
+                print("Node type without 'name': ", type(node).__name__)
+            print()
+        """
