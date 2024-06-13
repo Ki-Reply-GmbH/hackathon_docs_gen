@@ -22,13 +22,17 @@ def main():
 
     #TODO Change local path to your target repository
     fr = FileRetriever("../targets/IIRA")
-    py_file_paths = fr.file_mapping["py"]
+    #py_file_paths = fr.file_mapping["py"]
+    py_file_paths = [
+        "C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\gui\\helperframes.py",
+        "C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\core\\metrics.py"
+    ]
 
     print("Python files found: ")
     print(str(py_file_paths))
     dAgent = DocsAgent(
         config.WORKING_DIR,
-        py_file_paths[:3],
+        py_file_paths,
         config.prompts,
         LLModel(config, cache)
     )
@@ -47,7 +51,10 @@ def main():
 
     #dAgent.write_with_ast('C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py')
 
-    
+    #TODO delete
+    import json
+    with open('responses.json', 'w') as f:
+        json.dump(dAgent.responses, f, indent=4)
  
 
 

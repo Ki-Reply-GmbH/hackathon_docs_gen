@@ -9,7 +9,7 @@ class DocsAgent:
     def __init__(
             self,
             directory,
-            tmp_file_paths,
+            file_paths,
             prompts: PromptConfig,
             model: LLModel
             ):
@@ -19,11 +19,15 @@ class DocsAgent:
         self.responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
 
         #TODO extract this on the fly (instead of argument)
-        self.tmp_file_paths = tmp_file_paths
+        self.file_paths = file_paths
     
     def make_in_code_docs(self):
-        for file_path in self.tmp_file_paths:
-            class_names = self._extract_classes(file_path) 
+        for file_path in self.file_paths:
+            class_names = self._extract_classes(file_path)
+            print("~~~~~~~~~")
+            print("file_path: ", file_path)
+            print("class_names: ", class_names)
+            print("~~~~~~~~~")
             self._document_methods(file_path, class_names)
 
             if class_names:

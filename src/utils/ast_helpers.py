@@ -1,4 +1,5 @@
 import ast
+import re
 
 class ClassFunctionVisitor(ast.NodeVisitor):
     def __init__(self, data, indent_levels):
@@ -11,7 +12,9 @@ class ClassFunctionVisitor(ast.NodeVisitor):
         val = self._make_docstring(self.current_class, node.name)
 
         # Überprüfen, ob die Klasse bereits einen Docstring hat
-        if not (node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, (ast.Str, ast.Constant))):
+        if not (node.body and isinstance(node.body[0], ast.Expr) \
+            and isinstance(node.body[0].value, (ast.Str, ast.Constant)))\
+            and val:
             docstring = ast.Expr(value=ast.Constant(value=val))
             node.body.insert(0, docstring)
 
@@ -29,29 +32,40 @@ class ClassFunctionVisitor(ast.NodeVisitor):
         # Überprüfen, ob die Funktion bereits einen Docstring hat
         if not (node.body and isinstance(node.body[0], ast.Expr) and isinstance(node.body[0].value, (ast.Str, ast.Constant))):
             # Erstellen des Docstring-Knotens
-            docstring = ast.Expr(value=ast.Constant(value=val))
+            if val:
+                docstring = ast.Expr(value=ast.Constant(value=val))
             
-            # Hinzufügen des Docstring-Knotens am Anfang der body-Liste der Funktion
-            node.body.insert(0, docstring)
+                # Hinzufügen des Docstring-Knotens am Anfang der body-Liste der Funktion
+                node.body.insert(0, docstring)
 
         self.generic_visit(node)  # Besucht rekursiv die Kinder des Knotens
     
     def _make_docstring(self, class_name, method_name):
         #TODO Auch für Klassen implementieren
-        raw_docstring = self._extract_docstring(class_name, method_name)
+        try:
+            raw_docstring = self._extract_docstring(class_name, method_name)
+        except Exception as e:
+            print(f"Exception extracting docstring for {class_name}.{method_name}: {e}")
+            return None
         indent_level = self.indent_levels.get_indent_level(method_name)
         return self._adjust_docstring_indentation(indent_level, raw_docstring)
 
     def _extract_docstring(self, class_name, method_name):
         for dic in self.data:
             if class_name in dic:
+                print("--- Debug _extract_docstring ---")
+                print("searching for method name: ", method_name)
+                print("dic[class_name]:\n", dic[class_name])
+                print("------")
+                
                 docstring = dic[class_name][method_name]
                 if docstring.startswith('```python') and docstring.endswith('```'):
                     docstring = docstring[9:-3]
                 if docstring.startswith('"""') and docstring.endswith('"""'):
                     # ast fügt """""" hinzu, daher entfernen
                     docstring = docstring[3:-3]
-                return docstring
+                cleaned_docstring = re.sub(r"def .+?:\n", "", docstring, count=1)
+                return cleaned_docstring
 
     def _adjust_docstring_indentation(self, indent_level, docstring):
         # Fügt Leerzeichen für jede Zeile im Docstring hinzu, basierend auf dem Einrückungslevel
