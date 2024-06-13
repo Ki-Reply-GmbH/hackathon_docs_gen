@@ -151,3 +151,12 @@ class DocsAgent:
                 print("Node type without 'name': ", type(node).__name__)
             print()
         """
+
+    def make_readme(self):
+        prompt = self._prompts.get_readme_prompt()
+        return self._model.get_completion(
+            prompt.format(
+                programming_language="Python",
+                project_information=self.responses
+                )
+            )

@@ -5,7 +5,6 @@ from src.config import load_config
 from src.models import LLModel
 from src.utils.cache import DisabledCache, SimpleCache
 from src.controller.file_retriever import FileRetriever
-from pprint import pprint
 
 """
 1. Format vom Dictionary anpassen. 
@@ -22,11 +21,11 @@ def main():
 
     #TODO Change local path to your target repository
     fr = FileRetriever("../targets/IIRA")
-    #py_file_paths = fr.file_mapping["py"]
-    py_file_paths = [
-        "C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\gui\\helperframes.py",
-        "C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\core\\metrics.py"
-    ]
+    py_file_paths = fr.file_mapping["py"]
+    #py_file_paths = [
+    #    "C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\gui\\helperframes.py",
+    #    "C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\core\\metrics.py"
+    #]
 
     print("Python files found: ")
     print(str(py_file_paths))
