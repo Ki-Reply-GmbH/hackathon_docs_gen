@@ -1,3 +1,4 @@
+import argparse
 import sys
 import io
 from src.agents.docs_agent import DocsAgent
@@ -13,19 +14,20 @@ from src.controller.file_retriever import FileRetriever
 """
 
 def main():
+    parser = argparse.ArgumentParser(description="Generate documentation for Python files in a specified directory.")
+    parser.add_argument("--target-path", required=True, help="Path to the target repository containing Python files.")
+    args = parser.parse_args()
+    target_path = args.target_path
+
+
     # Allow prinint utf-8 characters in console
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')
     config = load_config()
 
     cache = SimpleCache(tmp_path="./.tmp")
 
-    #TODO Change local path to your target repository
-    fr = FileRetriever("../targets/IIRA")
+    fr = FileRetriever(target_path)
     py_file_paths = fr.file_mapping["py"]
-    #py_file_paths = [
-    #    "C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\gui\\helperframes.py",
-    #    "C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\core\\metrics.py"
-    #]
 
     print("Python files found: ")
     print(str(py_file_paths))
@@ -48,12 +50,6 @@ def main():
     print("Writing in code docs ...")
     dAgent.write_in_code_docs()
 
-    #dAgent.write_with_ast('C:\\Users\\t.kubera\\dev\\hackathon\\targets\\IIRA\\app.py')
-
-    #TODO delete
-    import json
-    with open('responses.json', 'w') as f:
-        json.dump(dAgent.responses, f, indent=4)
  
 
 

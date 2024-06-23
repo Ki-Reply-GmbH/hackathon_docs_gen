@@ -141,16 +141,6 @@ class DocsAgent:
         modified_source_code = astor.to_source(tree)
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(modified_source_code)
-        """
-        for node in ast.walk(tree):
-            # Check if the node has a 'name' attribute before trying to print it
-            print("Node: ", node)
-            if hasattr(node, 'name'):
-                print("Node name: ", node.name)
-            else:
-                print("Node type without 'name': ", type(node).__name__)
-            print()
-        """
 
     def make_readme(self):
         prompt = self._prompts.get_readme_prompt()
