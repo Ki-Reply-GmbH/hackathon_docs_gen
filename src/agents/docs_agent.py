@@ -17,27 +17,15 @@ class DocsAgent:
         self._prompts = prompts
         self._model = model
         self.responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
-
-        #TODO extract this on the fly (instead of argument)
         self.file_paths = file_paths
     
     def make_in_code_docs(self):
         for file_path in self.file_paths:
             class_names = self._extract_classes(file_path)
-            print("~~~~~~~~~")
-            print("file_path: ", file_path)
-            print("class_names: ", class_names)
-            print("~~~~~~~~~")
             self._document_methods(file_path, class_names)
 
             if class_names:
-                #print("--- Documentating class ---")
-                #print("file_path: ", file_path)
-                #print("class_names: ", class_names)
                 for class_name in class_names:
-                    #print("class_name: ", class_name)
-                    #print(self._document_class(file_path, class_name))
-                    #print()
                     self._document_class(file_path, class_name)
     
     def _document_methods(self, file_path, class_names):

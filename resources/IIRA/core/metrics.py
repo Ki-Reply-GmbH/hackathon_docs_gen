@@ -20,26 +20,6 @@ SECOND_REPLICATE = 1
 
 
 class Metrics():
-    """
-    Die Klasse berechnet in Abhängigkeit vom Skalenformat, den Kategorien, den Gewichten und den Ratings Reliabilitätswerte.
-    Die Ratings werden in einem Pandas-Dataframe-Objekt übergeben, der das folgende Format hat (Units-Spalte ist eine
-    Indexspalte und somit kein eigener Header):
-
-            Rater1  Rater2  Rater3  Rater4
-    Units
-    0         1.0     1.0     NaN     1.0
-    1         2.0     2.0     3.0     2.0
-    2         3.0     3.0     3.0     3.0
-    3         3.0     3.0     3.0     3.0
-    4         2.0     2.0     2.0     2.0
-    5         1.0     2.0     3.0     4.0
-    6         4.0     4.0     4.0     4.0
-    7         1.0     1.0     2.0     1.0
-    8         2.0     2.0     2.0     2.0
-    9         NaN     5.0     5.0     5.0
-    10        NaN     NaN     1.0     1.0
-    11        NaN     NaN     3.0     NaN
-    """
     def __init__(self, scale_format, categories, ratings, weights):
         self.debug = False
         self.scale_format = scale_format
@@ -95,20 +75,12 @@ class Metrics():
 
 
     def cohens_kappa(self):
-        """
-        Cohen's Kappa für nominale Daten. Exakt 2 Repliakte pro Subject erforderlich.
-        Quelle: INTRARATER RELIABILITY, KILEM L. GWET, STATAXIS Consulting, Gaithersburg, Maryland
-        """
         return self.analysis.conger()["est"]["coefficient_value"]
 
     def fleiss_kappa(self):
-        """
-        """
         return self.analysis.fleiss()["est"]["coefficient_value"]
 
     def gwets_ac(self):
-        """
-        """
         return self.analysis.gwet()["est"]["coefficient_value"]
 
 
@@ -116,10 +88,6 @@ class Metrics():
         return self.analysis.krippendorff()["est"]["coefficient_value"]
 
     def g_index(self):
-        """
-        G_Index für nominale Daten. 2 oder mehr Replikate pro Subject.
-        Quelle: INTRARATER RELIABILITY, KILEM L. GWET, STATAXIS Consulting, Gaithersburg, Maryland
-        """
         #TODO Vorraussetzungen checken
         q = len(self.categories)
         p_a = self.overall_agreement()
@@ -129,47 +97,6 @@ class Metrics():
         return float(round(g_index, 4))
 
     def icc(self):
-        """
-        Berechnet die unterschiedlichen ICC-Werte mit dem pingouin package.
-        Es werden die folgenden ICC's berechnet:
-        ICC1    Single raters absolute
-        ICC2      Single random raters
-        ICC3       Single fixed raters
-        ICC1k  Average raters absolute
-        ICC2k    Average random raters
-        ICC3k     Average fixed raters
-
-        Die ICC-Funktion aus dem Package erwartet eine andere Struktur der Dateien.
-        Der pandas-Dataframe von oben
-                Rater1  Rater2  Rater3  Rater4
-        Units
-        0         1.0     1.0     NaN     1.0
-        1         2.0     2.0     3.0     2.0
-        2         3.0     3.0     3.0     3.0
-        3         3.0     3.0     3.0     3.0
-        4         2.0     2.0     2.0     2.0
-        5         1.0     2.0     3.0     4.0
-        6         4.0     4.0     4.0     4.0
-        7         1.0     1.0     2.0     1.0
-        8         2.0     2.0     2.0     2.0
-        9         NaN     5.0     5.0     5.0
-        10        NaN     NaN     1.0     1.0
-        11        NaN     NaN     3.0     NaN
-
-        
-        muss zunächst umgeformt werden in drei Listen:
-
-        pg_targets = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 
-                      10, 11, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-        pg_raters = ['Rater1', 'Rater1', 'Rater1', 'Rater1', 'Rater1', 'Rater1', 'Rater1', 'Rater1', 'Rater1', 'Rater1', 'Rater1', 
-                     'Rater1', 'Rater2', 'Rater2', 'Rater2', 'Rater2', 'Rater2', 'Rater2', 'Rater2', 'Rater2', 'Rater2', 'Rater2', 
-                     'Rater2', 'Rater2', 'Rater3', 'Rater3', 'Rater3', 'Rater3', 'Rater3', 'Rater3', 'Rater3', 'Rater3', 'Rater3', 
-                     'Rater3', 'Rater3', 'Rater3', 'Rater4', 'Rater4', 'Rater4', 'Rater4', 'Rater4', 'Rater4', 'Rater4', 'Rater4', 
-                     'Rater4', 'Rater4', 'Rater4', 'Rater4']
-        pg_ratings = [1.0, 2.0, 3.0, 3.0, 2.0, 1.0, 4.0, 1.0, 2.0, nan, nan, nan, 1.0, 2.0, 3.0, 3.0, 2.0, 2.0, 4.0, 1.0, 2.0, 5.0, 
-                      nan, nan, nan, 3.0, 3.0, 3.0, 2.0, 3.0, 4.0, 2.0, 2.0, 5.0, 1.0, 3.0, 1.0, 2.0, 3.0, 3.0, 2.0, 4.0, 4.0, 1.0, 
-                      2.0, 5.0, 1.0, nan]
-        """
         pg_targets = []
         pg_raters = []
         pg_ratings = []
@@ -199,9 +126,6 @@ class Metrics():
 
     # Helper functions
     def overall_agreement(self):
-        """
-        Quelle: INTRARATER RELIABILITY, KILEM L. GWET, STATAXIS Consulting, Gaithersburg, Maryland
-        """
         q = len(self.categories)
         p_a = dec.Decimal("0")
         if self.replications == 2:
@@ -243,10 +167,6 @@ class Metrics():
     
 
 def map_metrics(metric):
-    """
-    Die Funktion gibt für jeden Metriknamen den Namen der Funktion zurück, mit der der Wert der jeweiligen Metrik
-    in dem CAC-Objekt berechnet wird.
-    """
     if metric == "Cohen's-|Conger's \u03BA":
         return "conger"
     elif metric == "Fleiss' \u03BA":

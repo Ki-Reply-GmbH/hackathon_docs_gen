@@ -41,7 +41,6 @@ class ClassFunctionVisitor(ast.NodeVisitor):
         self.generic_visit(node)  # Besucht rekursiv die Kinder des Knotens
     
     def _make_docstring(self, class_name, method_name):
-        #TODO Auch für Klassen implementieren
         try:
             raw_docstring = self._extract_docstring(class_name, method_name)
         except Exception as e:

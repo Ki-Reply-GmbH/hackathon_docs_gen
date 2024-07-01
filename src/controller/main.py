@@ -7,12 +7,6 @@ from src.models import LLModel
 from src.utils.cache import DisabledCache, SimpleCache
 from src.controller.file_retriever import FileRetriever
 
-"""
-1. Format vom Dictionary anpassen. 
-2. Prompt für Klassendokumentation erstellen
-3. Prompt for Module based documentation; least priority; best practices prüfen
-"""
-
 def main():
     parser = argparse.ArgumentParser(description="Generate documentation for Python files in a specified directory.")
     parser.add_argument("--target-path", required=True, help="Path to the target repository containing Python files.")
@@ -37,17 +31,12 @@ def main():
         config.prompts,
         LLModel(config, cache)
     )
-    print("Documenting methods and functions ...")
+    print("Documenting code...")
     dAgent.make_in_code_docs()
-    print()
-    print("Responses for files:")
     keys = [key for key in dAgent.responses.keys()]
-    print(keys)
-    print()
-    print("Responses for methods and functions:")
     print(dAgent.responses)
 
-    print("Writing in code docs ...")
+    print("Writing in code docs...")
     dAgent.write_in_code_docs()
 
  
