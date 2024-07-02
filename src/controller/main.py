@@ -26,7 +26,6 @@ def main():
     print("Python files found: ")
     print(str(py_file_paths))
     dAgent = DocsAgent(
-        config.WORKING_DIR,
         py_file_paths,
         config.prompts,
         LLModel(config, cache)

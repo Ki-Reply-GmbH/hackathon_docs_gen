@@ -8,12 +8,10 @@ from src.models import LLModel
 class DocsAgent:
     def __init__(
             self,
-            directory,
             file_paths,
             prompts: PromptConfig,
             model: LLModel
             ):
-        self._directory = directory
         self._prompts = prompts
         self._model = model
         self.responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
@@ -46,6 +44,7 @@ class DocsAgent:
                 break
 
     def _document_method(self, file_path, method_name):
+        #TODO Provide class context
         prompt = self._prompts.get_document_method_prompt()
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()

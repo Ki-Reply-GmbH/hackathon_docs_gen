@@ -1,7 +1,8 @@
 {
     'path/to/file1/file1': [
         {
-            'class_name': {
+            'class_name1': {
+                'class_name1': 'docstring',
                 'method_name': 'docstring',
                 'method_name': 'docstring',
                 # ...
