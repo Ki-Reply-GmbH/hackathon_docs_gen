@@ -10,12 +10,16 @@ class DocsAgent:
             self,
             file_paths,
             prompts: PromptConfig,
-            model: LLModel
+            model: LLModel,
+            programming_language: str = "Python"
             ):
         self._prompts = prompts
         self._model = model
+        self._programming_language = programming_language
         self.responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
+        self.context_responses = {}
         self.file_paths = file_paths
+        self.code_file_paths = self._get_code_filepaths()
     
     def make_in_code_docs(self):
         for file_path in self.file_paths:
@@ -137,3 +141,9 @@ class DocsAgent:
                 project_information=self.responses
                 )
             )
+     
+    def _get_code_filepaths(self):
+        if self._programming_language == "Python":
+            return [file_path for file_path in self.file_paths if file_path.endswith(".py")]
+        
+        return []
