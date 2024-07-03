@@ -10,12 +10,14 @@ A brief description of what this project does and who it's for
 - [Keywords](#keywords)
 - [Technologies](#technologies)
 - [Installation](#Installation)
+- [How to run the project ](#howtoruntheproject)
 - [Introduction](#introduction)
 - [Data Acquisition](#dataacquisition)
 - [Result Analysis](#resultanalysis)
 - [Real-life applications of the project](#Real-lifeapplicationsoftheproject)
 - [License](#license)
 - [References](#references)
+
 ## Contribution 
 
 Define the contributers name, email id and contibution(roles in the project) in the following manner.
@@ -234,6 +236,54 @@ cd project-name
 pip install -r requirements.txt
 ```
 
+## How to run the project
+
+In order to run the corresponding project, mention several steps necessary so that the users can follow those steps.
+
+Here are some examples for better response:
+
+1. Set Up a Virtual Environment:
+
+   ```bash
+   python -m venv venv    
+
+   for Linux use this:
+
+    ```bash
+   source venv/bin/activate
+
+   for windows use this on the cmd:
+
+   `venv\Scripts\activate
+
+
+2. Install Dependencies:
+ 
+ ```sh
+ pip install -r requirements.txt
+
+3. Configure Environment Variables:
+
+ OPENAI_API_KEY = api_key
+ DATABASE_URL=your-database-url
+ SECRET_KEY=your-secret-key
+ DEBUG=True
+
+etc
+
+4.  Apply Migrations:
+
+If your project includes a database, apply migrations to set up the database schema:
+
+python manage.py migrate
+
+5. Run the project:
+
+To run the test suite and ensure everything is working correctly. Run the fowllowing command on the terminal:
+
+python project_name.py 
+
+
 ## Introduction
 Brief Introduction about the project, what's it about, unique features regarding the project and define those unique features brifely.
 
@@ -245,6 +295,9 @@ Define project's goal and which project repositories has been used as the input 
 
 Define different kind of metrics to evaluate the performance of the project, if exists. such as BLEU score, accuracy, recall, precision etc.
 
+## Real-life applications of the project
+Define the real life use cases about the project and for more info refer to the Documentation folder and if necesseary refer specific documents.
+
 ## License
 This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details. Add the License with the follwoing link.
 
@@ -252,10 +305,8 @@ Example link addition:
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/ddobric/htmdotnet/blob/master/LICENSE)
 
-## Real-life applications of the project
-Define the real life use cases about the project and for more info refer to the Documentation folder and if necesseary refer specific documents. 
+_For more examples, please refer to the [Documentation](https://github.com/your_github/IIRA)_ or any relevant documents like this.
 
-_For more examples, please refer to the [Documentation](https://github.com/your_github/IIRA)_
 ## References
 Add specific references or biblography in the precise context. check for the referenceson the documents and add them here as a following manner.
 
