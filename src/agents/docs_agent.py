@@ -18,8 +18,7 @@ class DocsAgent:
         self._model = model
         self._programming_language = programming_language
         self.in_code_docs_responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
-        self.system_context_responses = {}
-        self.context_responses = {}
+        self.system_context_responses = []
         self.file_retriever = FileRetriever(target_path)
 
     def make_system_context_diagram(self):
