@@ -65,7 +65,9 @@ class FileRetriever:
         # Zurückgeben des Mappings
         self.file_mapping = mapping
     
-    def get_mapping(self):
+    def get_mapping(self, file_format=None):
+        if file_format:
+            return self.file_mapping[file_format]
         return self.file_mapping
     
     def __str__(self):

@@ -20,20 +20,13 @@ def main():
 
     cache = SimpleCache(tmp_path="./.tmp")
 
-    fr = FileRetriever(target_path)
-    py_file_paths = fr.file_mapping["py"]
-
-    print("Python files found: ")
-    print(str(py_file_paths))
     dAgent = DocsAgent(
-        py_file_paths,
+        target_path,
         config.prompts,
         LLModel(config, cache)
     )
     print("Documenting code...")
     dAgent.make_in_code_docs()
-    keys = [key for key in dAgent.responses.keys()]
-    print(dAgent.responses)
 
     print("Writing in code docs...")
     dAgent.write_in_code_docs()

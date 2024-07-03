@@ -4,11 +4,12 @@ import re
 from src.utils.ast_helpers import ClassFunctionVisitor, IndentLevelVisitor
 from src.config import PromptConfig
 from src.models import LLModel
+from src.controller.file_retriever import FileRetriever
 
 class DocsAgent:
     def __init__(
             self,
-            file_paths,
+            target_path: str,
             prompts: PromptConfig,
             model: LLModel,
             programming_language: str = "Python"
@@ -16,13 +17,24 @@ class DocsAgent:
         self._prompts = prompts
         self._model = model
         self._programming_language = programming_language
-        self.responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
+        self.in_code_docs_responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
+        self.system_context_responses = {}
         self.context_responses = {}
-        self.file_paths = file_paths
-        self.code_file_paths = self._get_code_filepaths()
-    
+        self.file_retriever = FileRetriever(target_path)
+
+    def make_system_context_diagram(self):
+        pass
+
     def make_in_code_docs(self):
-        for file_path in self.file_paths:
+        if self._programming_language == "Python":
+            code_file_paths = self.file_retriever.get_mapping("py")
+        elif self._programming_language == "Java":
+            code_file_paths = self.file_retriever.get_mapping("java")
+        else:
+            raise ValueError("Programming language {} not supported."\
+                             .format(self._programming_language))
+
+        for file_path in code_file_paths:
             class_names = self._extract_classes(file_path)
             self._document_methods(file_path, class_names)
 
@@ -31,7 +43,7 @@ class DocsAgent:
                     self._document_class(file_path, class_name)
     
     def _document_methods(self, file_path, class_names):
-        self.responses[file_path] = []
+        self.in_code_docs_responses[file_path] = []
         for class_name in class_names + ["global"]:
             method_names = self._extract_methods(file_path, class_name)
             with open(file_path, "r", encoding="utf-8") as file:
@@ -41,10 +53,10 @@ class DocsAgent:
                 class_dict = {class_name: {}}
                 for method_name in method_names:
                     class_dict[class_name][method_name] = self._document_method(file_path, method_name)
-                self.responses[file_path].append(class_dict)
+                self.in_code_docs_responses[file_path].append(class_dict)
             else:
                 # Empty files
-                self.responses[file_path].append("This file is empty.")
+                self.in_code_docs_responses[file_path].append("This file is empty.")
                 break
 
     def _document_method(self, file_path, method_name):
@@ -60,21 +72,21 @@ class DocsAgent:
             )
 
     def _document_class(self, file_path, class_name):
-        # Documentation purely based on docstrings in self.responses
+        # Documentation purely based on docstrings in self.in_code_docs_resp
         prompt = self._prompts.get_document_class_prompt()
-        for i in range(len(self.responses[file_path])):
-            print("self.responses[file_path]["+str(i)+"]")
-            print(self.responses[file_path][i])
-            if class_name in self.responses[file_path][i]:
+        for i in range(len(self.in_code_docs_responses[file_path])):
+            print("self.in_code_docs_responses[file_path]["+str(i)+"]")
+            print(self.in_code_docs_responses[file_path][i])
+            if class_name in self.in_code_docs_responses[file_path][i]:
                 index = i
                 break
         response = self._model.get_completion(
             prompt.format(
                 class_name=class_name,
-                class_dict=self.responses[file_path][index][class_name]
+                class_dict=self.in_code_docs_responses[file_path][index][class_name]
                 )
             )
-        self.responses[file_path][index][class_name][class_name] = response
+        self.in_code_docs_responses[file_path][index][class_name][class_name] = response
         return response
    
 
@@ -112,11 +124,11 @@ class DocsAgent:
         return [x for x in lst if x]
     
     def write_in_code_docs(self):
-        for file_path in self.responses:
-            if self.responses[file_path] == ["This file is empty."]:
+        for file_path in self.in_code_docs_responses:
+            if self.in_code_docs_responses[file_path] == ["This file is empty."]:
                 # Skip files without any source code.
                 continue
-            self.write_with_ast(file_path, self.responses[file_path])
+            self.write_with_ast(file_path, self.in_code_docs_responses[file_path])
 
     def write_with_ast(self, file_path, data):
         with open(file_path, "r", encoding="utf-8") as file:
@@ -137,13 +149,7 @@ class DocsAgent:
         prompt = self._prompts.get_readme_prompt()
         return self._model.get_completion(
             prompt.format(
-                programming_language="Python",
-                project_information=self.responses
+                programming_language=self._programming_language,
+                project_information=self.in_code_docs_responses
                 )
             )
-     
-    def _get_code_filepaths(self):
-        if self._programming_language == "Python":
-            return [file_path for file_path in self.file_paths if file_path.endswith(".py")]
-        
-        return []
