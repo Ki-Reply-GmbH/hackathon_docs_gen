@@ -55,8 +55,14 @@ Define project's goal and which project repositories has been used as the input 
 ## Result Analysis
 
 Define different kind of metrics to evaluate the performance of the project, if exists. such as BLEU score, accuracy, recall, precision etc.
+
 ## License
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details. Add the License with the follwoing link.
+
+Example link addition:
+
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/ddobric/htmdotnet/blob/master/LICENSE)
+
 ## Real-life applications of the project
 Define the real life use cases about the project and for more info refer to the Documentation folder and if necesseary refer specific documents. 
 
