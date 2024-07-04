@@ -1,6 +1,7 @@
 import ast
 import astor
 import re
+import os
 from src.utils.ast_helpers import ClassFunctionVisitor, IndentLevelVisitor
 from src.config import PromptConfig
 from src.models import LLModel
@@ -18,6 +19,7 @@ class DocsAgent:
         self._model = model
         self._programming_language = programming_language
         self.file_retriever = FileRetriever(target_path)
+        self.project_name = os.path.basename(target_path.rstrip(os.sep)) # Letzter Ordername vom target_path, z.B. './path/to/IIRA' -> 'IIRA'
         self.in_code_docs_responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
         self.system_context_responses = []
         self.system_context_summary = ""
@@ -56,7 +58,8 @@ class DocsAgent:
         prompt = self._prompts.get_system_context_plantuml_prompt()
         response = self._model.get_completion(
             prompt.format(
-                system_context=self.system_context_summary
+                system_context=self.system_context_summary,
+                process_name=self.project_name
                 )
             )
         if response.startswith("```plantuml"):

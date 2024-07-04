@@ -1,0 +1,26 @@
+
+@startuml
+' System Context Diagram for IIRA
+
+' Define the system as the central element
+rectangle "IIRA" as IIRA #pink
+
+' Define external entities
+actor "Users" as Users
+rectangle "Internal Database" as Database
+rectangle "Files" as Files
+rectangle "Web Browser" as Browser
+
+' Define primary data flows
+Users --> IIRA : Input Data, Commands, Navigation, Selection
+IIRA --> Users : Error Messages, Results Display, Help Information
+
+IIRA --> Database : Profile Management, Data Storage, Retrieval
+Database --> IIRA : Profile Management, Data Storage, Retrieval
+
+Users --> Files : File Input
+IIRA --> Files : File Output
+
+IIRA --> Browser : URL Opening
+
+@enduml

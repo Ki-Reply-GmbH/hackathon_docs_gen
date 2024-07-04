@@ -9,8 +9,8 @@ diagram as follows:
 
 1. Begin with a comment section in PlantUML to briefly introduce what the diagram will represent.
 2. Construct the diagram by:
-   - Defining the system (Process Name) as the central element in the diagram. Select the background color pink for this element (and only for this element).
-   - Representing each Key External Entity around the system, indicating their interactions with the system.
+   - Defining the system (Process Name) as the central element in the diagram. Use this name '{process_name}' for the element. Select the background color pink for this element (and only for this element).
+   - Representing each Key External Entity around the system, indicating their interactions with the system. Use the actor entity for human users (and only for human users).
    - Illustrating the Primary Data Flows between the system and the external entities, with arrows to show the direction of the data flow and labels to describe the type of data being exchanged.
 3. Just respond with the PlantUML code and nothing else, so that it can be rendered without any further preprocessing.
 
