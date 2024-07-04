@@ -1,0 +1,23 @@
+
+@startuml
+' This diagram represents the system context for the Inter-Rater Reliability Analysis System (IIRA).
+
+skinparam backgroundColor #FEFECE
+
+actor User as U
+rectangle "File System" as FS
+rectangle "Web Resources" as WR
+
+rectangle "Inter-Rater Reliability Analysis System (IIRA)" as IIRA #pink
+
+U --> IIRA : Input Data Flow\n(intra_id_list, inter_id_list, intra_metrics, inter_metrics, scale_format, categories, weights, data)
+U --> IIRA : Command Flow\n(start analyses, select files, export results)
+IIRA --> U : Results Display\n(analysis results, error messages, feedback)
+IIRA --> U : Help Content\n(help and documentation)
+
+IIRA --> FS : File Import\n(input files)
+IIRA --> FS : File Export\n(analysis results)
+
+IIRA --> WR : Documentation Access\n(external web resources)
+
+@enduml

@@ -40,6 +40,10 @@ def main():
     with open("./system_context_summary.txt", "w", encoding="utf-8") as file:
         file.write(dAgent.system_context_summary)
 
+    plantuml = dAgent.make_plantuml_diagram()
+    with open("./IIRA_system_context_diagram.puml", "w", encoding="utf-8") as file:
+        file.write(plantuml)
+
 
 if __name__ == "__main__":
     main()

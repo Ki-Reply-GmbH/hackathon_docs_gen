@@ -36,6 +36,7 @@ class DocsAgent:
                 )
             )
         self.system_context_summary = self._summarize_context()
+        #self.make_plantuml_diagram()
     
     def _find_context(self, file_path):
         prompt = self._prompts.get_system_context_prompt()
@@ -55,6 +56,19 @@ class DocsAgent:
                 )
             )
     
+    def make_plantuml_diagram(self):
+        prompt = self._prompts.get_plantuml_prompt()
+        response = self._model.get_completion(
+            prompt.format(
+                system_context=self.system_context_summary
+                )
+            )
+        if response.startswith("```plantuml"):
+            response = response[11:]
+        if response.endswith("```"):
+            response = response[:-3]
+        return response
+
     def make_in_code_docs(self):
         if self._programming_language == "Python":
             code_file_paths = self.file_retriever.get_mapping("py")

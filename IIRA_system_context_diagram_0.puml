@@ -1,0 +1,30 @@
+@startuml
+' This diagram represents the system context for the Inter-Rater Reliability Analysis System (IIRA).
+
+' Set colors for the main process and external entities
+skinparam rectangle {
+  BackgroundColor<<main>> Pink
+  BackgroundColor<<external>> LightGreen
+}
+
+' Define the system as the central element and apply the main color
+rectangle "Inter-Rater Reliability Analysis System (IIRA)" as IIRA <<main>>
+
+' Define the key external entities and apply the external color
+actor "User" as User <<external>>
+rectangle "File System" as FileSystem <<external>>
+rectangle "Web Resources" as WebResources <<external>>
+
+' Define the interactions between the system and the external entities
+User --> IIRA : Input Data Flow\n(intra_id_list, inter_id_list, intra_metrics, inter_metrics, scale_format, categories, weights, data)
+User --> IIRA : Command Flow\n(start analyses, select files, export results)
+IIRA --> User : Results Display\n(analysis results, error messages, feedback)
+IIRA --> User : Help Content\n(help and documentation)
+
+IIRA --> FileSystem : File Import\n(input files)
+IIRA --> FileSystem : File Export\n(analysis results)
+
+IIRA --> WebResources : Documentation Access\n(links to external resources)
+
+@enduml
+' This diagram illustrates the system context of the Inter-Rater Reliability Analysis System (IIRA), showing the interactions between the system and its external entities, including users, the file system, and web resources. The primary data flows are depicted with arrows indicating the direction and type of data exchanged.

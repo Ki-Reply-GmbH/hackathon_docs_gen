@@ -1,0 +1,17 @@
+Create a system context diagram for a software project using PlantUML. Please \
+include the following details about the software project to accurately reflect \
+them in the diagram:
+
+{system_context}
+
+Your task is to structure the PlantUML content to create the system context \
+diagram as follows:
+
+1. Begin with a comment section in PlantUML to briefly introduce what the diagram will represent.
+2. Construct the diagram by:
+   - Defining the system (Process Name) as the central element in the diagram. Select the background color pink for this element (and only for this element).
+   - Representing each Key External Entity around the system, indicating their interactions with the system.
+   - Illustrating the Primary Data Flows between the system and the external entities, with arrows to show the direction of the data flow and labels to describe the type of data being exchanged.
+3. Just respond with the PlantUML code and nothing else, so that it can be rendered without any further preprocessing.
+
+Make sure to use PlantUML syntax correctly to ensure the diagram is accurately generated.
