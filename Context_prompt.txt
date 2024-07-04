@@ -32,6 +32,9 @@ I want to find the systems External sources. Your tasks are defined by the follo
     component, be it a web service, library, operating system, or other applications. For example, Web APIs, Library/Framework APIs, Operating System APIs, \
     Database APIs, Hardware APIs etc.
 
+3. Explain the purpose of each identified external source and why it interacts with this file.
+
+4. Describe the connections and interactions between these external sources and the chosen file.
 
 Now provide a precise ""Description"" briefly for each of these external sources which are present on the file and be careful of one thing if there is a library \
 which is present locally, "DO NOT IDENTIFY IT AS AN EXTERNAL SOURCE". Follow the Description Structure given bellow:
