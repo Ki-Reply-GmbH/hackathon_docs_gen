@@ -1,0 +1,37 @@
+Based on the analysis of multiple files from a GitHub repository, we have \
+gathered information on processes, external entities, and data flows within \
+the software system. Your task is now to synthesize this information to \
+identify the most crucial components for the system context diagram. \
+Specifically, we need:
+
+1. **Process Name**: Suggest a concise and descriptive name for the main \
+process or system based on the summaries provided. This name should capture \
+the essence of the system's functionality.
+
+2. **Key External Entities**: From the list of external entities identified, \
+select the most important ones that have significant interactions with the \
+system. These entities are critical for understanding the system's context \
+and its boundaries.
+
+3. **Primary Data Flows**: Identify the most critical data flows that \
+highlight the exchange of information between the system and the external \
+entities. Focus on the flows that are essential for the system's core \
+operations.
+
+Please use the summaries below to inform your decisions:
+
+---
+
+### Summaries of File Analyses:
+
+{summaries_of_file_analyses}
+
+---
+
+### Recommendations:
+
+1. **Process Name**: 
+
+2. **Key External Entities**: 
+
+3. **Primary Data Flows**: 

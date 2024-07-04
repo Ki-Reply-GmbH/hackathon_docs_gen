@@ -1,6 +1,7 @@
 import argparse
 import sys
 import io
+import json
 from src.agents.docs_agent import DocsAgent
 from src.config import load_config
 from src.models import LLModel
@@ -25,13 +26,19 @@ def main():
         config.prompts,
         LLModel(config, cache)
     )
-    print("Documenting code...")
-    dAgent.make_in_code_docs()
+    #print("Documenting code...")
+    #dAgent.make_in_code_docs()
 
-    print("Writing in code docs...")
-    dAgent.write_in_code_docs()
+    #print("Writing in code docs...")
+    #dAgent.write_in_code_docs()
 
- 
+    #print("Find relevant context information:")
+    dAgent.make_system_context_diagram()
+
+    with open("./system_context.json", "w", encoding="utf-8") as file:
+        json.dump(dAgent.system_context_responses, file)
+    with open("./system_context_summary.txt", "w", encoding="utf-8") as file:
+        file.write(dAgent.system_context_summary)
 
 
 if __name__ == "__main__":

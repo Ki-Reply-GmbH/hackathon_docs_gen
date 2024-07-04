@@ -37,6 +37,22 @@ class PromptConfig:
         with open(file_path, "r") as file:
             return file.read()
 
+    def get_system_context_diagram_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts",
+            "system_context_diagram_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+
+    def get_system_context_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts",
+            "system_context_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+
     def get_readme_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(

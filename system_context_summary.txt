@@ -1,0 +1,28 @@
+Based on the provided summaries, here are the recommendations for the system context diagram:
+
+### Recommendations:
+
+1. **Process Name**: 
+   - **Inter-Rater Reliability Analysis System (IIRA)**
+
+   This name captures the essence of the system's functionality, which revolves around performing intra- and inter-rater reliability analyses.
+
+2. **Key External Entities**: 
+   - **Users**: Interact with the system to provide input data, select metrics, initiate analyses, and receive results.
+   - **File System**: Used for importing input files (e.g., Excel, CSV) and exporting analysis results.
+   - **Web Resources**: Accessed for additional information and documentation (e.g., help content, external URLs).
+
+3. **Primary Data Flows**: 
+   - **User to System**:
+     - **Input Data Flow**: Users provide input data such as `intra_id_list`, `inter_id_list`, `intra_metrics`, `inter_metrics`, `scale_format`, `categories`, `weights`, and `data`.
+     - **Command Flow**: Users initiate commands such as starting analyses, selecting files, and exporting results.
+   - **System to User**:
+     - **Results Display**: The system displays analysis results, error messages, and other feedback to the user.
+     - **Help Content**: The system provides help and documentation based on user requests.
+   - **System to File System**:
+     - **File Import**: The system imports data from input files provided by the user.
+     - **File Export**: The system exports analysis results to files for user access.
+   - **System to Web Resources**:
+     - **Documentation Access**: The system provides links to external web resources for additional information and documentation.
+
+These components and data flows are essential for understanding the core operations and interactions within the Inter-Rater Reliability Analysis System (IIRA).

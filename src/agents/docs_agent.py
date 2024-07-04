@@ -17,13 +17,44 @@ class DocsAgent:
         self._prompts = prompts
         self._model = model
         self._programming_language = programming_language
+        self.file_retriever = FileRetriever(target_path)
         self.in_code_docs_responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
         self.system_context_responses = []
-        self.file_retriever = FileRetriever(target_path)
+        self.system_context_summary = ""
 
     def make_system_context_diagram(self):
-        pass
+        relevant_file_paths = self.file_retriever.get_mapping("py") \
+                                #+ self.file_retriever.get_mapping("csv") \
+                                #+ self.file_retriever.get_mapping("xlsx")
+        print("Relevant file paths:" + str(relevant_file_paths))
 
+        for file_path in relevant_file_paths:
+            self.system_context_responses.append(
+                (
+                    file_path,
+                    self._find_context(file_path)
+                )
+            )
+        self.system_context_summary = self._summarize_context()
+    
+    def _find_context(self, file_path):
+        prompt = self._prompts.get_system_context_prompt()
+        with open(file_path, "r", encoding="utf-8") as file:
+            file_content = file.read()
+        return self._model.get_completion(
+            prompt.format(
+                file_content=file_content
+                )
+            )
+
+    def _summarize_context(self):
+        prompt = self._prompts.get_system_context_diagram_prompt()
+        return self._model.get_completion(
+            prompt.format(
+                summaries_of_file_analyses=self.system_context_responses
+                )
+            )
+    
     def make_in_code_docs(self):
         if self._programming_language == "Python":
             code_file_paths = self.file_retriever.get_mapping("py")

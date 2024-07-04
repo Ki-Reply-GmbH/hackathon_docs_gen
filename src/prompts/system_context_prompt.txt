@@ -1,0 +1,31 @@
+I am analyzing a GitHub repository to create a system context diagram, which \
+visually represents the system's interactions with external entities. Your \
+task is to help me identify the following key elements from the content of a \
+single file within this repository:
+
+1. **Processes**: Symbolize the primary functions or activities.
+2. **External Entities**: Represent elements outside the system that interact \
+with it, such as users, other systems, or data sources.
+3. **Data Flows**: Illustrates the movement of information between processes \
+and external entities, with arrows indicating direction and labels describing \
+the data being exchanged.
+
+Please provide a brief summary of your findings based on these criteria. If \
+the file does not contain relevant information for a particular criterion, \
+simply state "Not Applicable" for that point. Also note that simply importing \
+third-party libraries does not make them external entities. Because if the \
+libraries are locally available, they are part of the internal system.
+
+---
+
+### File Content:
+
+{file_content}
+
+---
+
+### Summary:
+
+1. **Processes**: 
+2. **External Entities**: 
+3. **Data Flows**: 
