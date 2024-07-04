@@ -114,12 +114,6 @@ class Config:
         OPENAI_API_KEY (str): The API key for OpenAI.
         LLM_MODEL_NAME (str): The name of the language model to use.
         LLM_TEMPERATURE (float): The temperature setting for the language model.
-        GITHUB_TOKEN (str): The access token for GitHub.
-        GIT_USER (str): The username for GitHub.
-        GIT_EMAIL (str): The email for GitHub.
-        REPO_OWNER (str): The owner of the repository.
-        REPO_NAME (str): The name of the repository.
-        MAIN_BRANCH (str): The main branch of the repository.
     """
     _instance = None
 

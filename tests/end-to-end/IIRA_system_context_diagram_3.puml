@@ -1,0 +1,21 @@
+
+@startuml
+' This diagram represents the system context for the Inter-Rater Reliability Analysis System (IRRAS).
+
+skinparam backgroundColor #FEFECE
+
+' Define the system (Process Name) as the central element
+rectangle "Inter-Rater Reliability Analysis System (IRRAS)" as IRRAS #pink
+
+' Define the Key External Entities
+actor User
+rectangle "Internal Database" as InternalDB
+rectangle "File System" as FileSystem
+
+' Define the Primary Data Flows
+User --> IRRAS : Input Data\nGUI Interactions\nFile Selection
+IRRAS --> User : Display Results\nHelp and Documentation
+IRRAS --> InternalDB : Profile Management\nAnalysis Data
+IRRAS --> FileSystem : File Import\nFile Export
+
+@enduml

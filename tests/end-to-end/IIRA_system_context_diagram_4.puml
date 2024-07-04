@@ -1,0 +1,24 @@
+
+@startuml
+' This diagram represents the system context for the Inter-Rater Reliability Analysis System (IRRAS).
+
+skinparam backgroundColor #FEFECE
+
+rectangle "Inter-Rater Reliability Analysis System (IRRAS)" as IRRAS #pink {
+}
+
+actor User as U
+database "Internal Database\n(data/internal_db.csv)" as DB
+folder "File System" as FS
+cloud "Web Resources" as WR
+
+U --> IRRAS : Profile Management\nAnalysis Initiation\nRating Input\nFile Selection
+IRRAS --> U : GUI Updates\nHelp Content
+
+IRRAS --> DB : Profile Data Management
+
+IRRAS --> FS : File Import\nFile Export
+
+IRRAS --> WR : Web Links
+
+@enduml

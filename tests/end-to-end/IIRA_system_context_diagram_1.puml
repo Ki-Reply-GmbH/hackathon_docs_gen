@@ -1,0 +1,31 @@
+
+@startuml
+' This diagram represents the system context for the Reliability Analysis and Rating System.
+
+skinparam backgroundColor #FEFECE
+
+' Define the system (Process Name) with a pink background
+rectangle "Reliability Analysis and Rating System" as System #pink
+
+' Define the key external entities
+actor User
+database "Internal Database\n(data/internal_db.csv)" as InternalDB
+rectangle "File System" as FileSystem
+rectangle "Data Source" as DataSource
+
+' Define the primary data flows
+User --> System : Inputs and interactions\n(e.g., select metrics, initiate analysis)
+System --> User : Display results, feedback\n(e.g., analysis results, error messages)
+System --> InternalDB : Read/Write data\n(e.g., profile information)
+InternalDB --> System : Retrieve data\n(e.g., profile information)
+System --> FileSystem : Import/Export files\n(e.g., input files, output results)
+FileSystem --> System : Provide input files\n(e.g., Excel, CSV)
+DataSource --> System : Provide data for analysis\n(e.g., ratings data)
+
+' Position the entities around the system
+System -[hidden]-> User
+System -[hidden]-> InternalDB
+System -[hidden]-> FileSystem
+System -[hidden]-> DataSource
+
+@enduml

@@ -1,0 +1,22 @@
+
+@startuml
+' This diagram represents the system context for the Documentation Generation System.
+
+actor User
+actor "File System" as FileSystem
+actor "OpenAI API" as OpenAIAPI
+actor "Environment Variables" as EnvVars
+actor GitHub
+
+rectangle "Documentation Generation System" #pink {
+}
+
+User --> "Documentation Generation System" : Provides directory paths, target paths, and configuration settings
+"Documentation Generation System" --> FileSystem : Reads configuration data and prompt content
+"Documentation Generation System" --> FileSystem : Writes generated documentation and diagrams
+"Documentation Generation System" --> FileSystem : Manages cache data
+"Documentation Generation System" --> OpenAIAPI : Sends prompts and receives responses
+"Documentation Generation System" --> GitHub : Clones repositories, stages, commits, pushes changes, and creates pull requests
+EnvVars --> "Documentation Generation System" : Provides configuration settings
+
+@enduml

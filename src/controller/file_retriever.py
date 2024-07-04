@@ -15,7 +15,8 @@ class FileRetriever:
             "obj",
             "lib",
             "include",
-            "logs"
+            "logs",
+            "resources"
         ] #TODO files ignorieren, ggf. Einträge aus .gitignore verwenden, falls vorhanden
         self.ignored_files = [
             "Thumbs.db",
