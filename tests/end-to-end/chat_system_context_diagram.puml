@@ -1,0 +1,28 @@
+
+@startuml
+' This diagram represents the system context for the GenAI Chatbot,
+' showing the key external entities and the primary data flows between them.
+
+skinparam backgroundColor #FEFECE
+
+rectangle "GenAI Chatbot" as ICS #pink {
+}
+
+actor User
+rectangle "OpenAI API" as OpenAI
+rectangle "Environment Variables" as EnvVars
+database "MongoDB Atlas" as MongoDB
+
+User --> ICS : User Input
+ICS --> User : Generated Response
+
+EnvVars --> ICS : Configuration Data
+
+ICS --> OpenAI : API Requests
+OpenAI --> ICS : API Responses
+
+ICS --> MongoDB : Vector and Metadata
+ICS --> MongoDB : Query Vector
+MongoDB --> ICS : Similar Vectors
+
+@enduml

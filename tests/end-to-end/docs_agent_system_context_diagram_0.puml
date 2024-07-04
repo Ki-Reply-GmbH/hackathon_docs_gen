@@ -1,0 +1,28 @@
+
+@startuml
+' This diagram represents the system context for the DocsAgent.
+
+skinparam backgroundColor #FEFECE
+
+actor User
+actor "Environment Variables" as EnvVars
+actor "File System" as FileSys
+actor "OpenAI API" as OpenAI
+
+rectangle "DocsAgent" #pink {
+}
+
+User --> "DocsAgent" : Project Path Input
+User --> "DocsAgent" : Save Path Input
+User --> "DocsAgent" : Documentation Options
+
+EnvVars --> "DocsAgent" : Configuration Settings
+
+FileSys --> "DocsAgent" : Read Configuration Files
+FileSys --> "DocsAgent" : Read Prompt Files
+"DocsAgent" --> FileSys : Write Generated Documentation
+
+"DocsAgent" --> OpenAI : Prompt to OpenAI API
+OpenAI --> "DocsAgent" : Response from OpenAI API
+
+@enduml

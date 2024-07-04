@@ -13,13 +13,14 @@ Your task is to structure the PlantUML content to create a comprehensive and con
 
 1. Begin with a comment section in PlantUML to briefly introduce what the diagram will represent, emphasizing the importance of including all relevant class attributes and consistent representation of relationships.
 2. Construct the diagram by:
-   - Only use the provided information in the nested dictionary and don't make something up. This is very important to enhance the reproducibility of your responses.
+   - Only use the provided information in the nested dictionary and don't hallucinate. This is important to enhance the reproducibility of your responses.
    - Defining each class with its name as the central element. Ensure every class includes a list of attributes (fields) and methods (operations), clearly indicating their visibility (public `+`, private `-`, protected `#`).
    - Illustrating the relationships between classes consistently, using the following guidelines:
      - Use solid lines with open arrowheads for inheritance (`extends`) relationships.
      - Use dashed lines with open arrowheads for interface implementations.
      - Use solid lines with no arrowheads for associations, specifying multiplicity where applicable.
      - Use dashed lines with closed arrowheads for dependencies.
+     - Take a minimalist approach when defining the arrows. Only define the arrows that are clear from the nested dictionary and make no assumptions.
    - For clarity and consistency, include interfaces and abstract classes where relevant, using the appropriate PlantUML syntax to differentiate them from regular classes (e.g., `interface` for interfaces and `{{abstract}}` for abstract classes).
 3. Conclude with a comment reminding that the diagram should be rendered directly from the provided PlantUML code without any further preprocessing.
 

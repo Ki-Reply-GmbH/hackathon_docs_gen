@@ -1,0 +1,104 @@
+
+@startuml
+' This UML class diagram represents the structure of a software project.
+' It includes all relevant class attributes and methods, ensuring consistent representation of relationships.
+
+class PromptConfig {
+    - __init__()
+    - _read_file_content(file_path: str): str
+    + get_chat_with_your_sw_project_prompt(): str
+}
+
+class Config {
+    - __init__()
+    - _read_bool_value(env_name: str, default_value: bool): bool
+    + instance(): Config
+    + validate_llm_setup()
+}
+
+class DirectoryLoader {
+    - __init__(directory: str, ignored_dirs: list = [], ignored_files: list = [])
+    + load(): list
+    - _list_files(): list
+    - _get_loader_for_extension(extension: str)
+}
+
+class OpenAIEmbeddingAgent {
+    - __init__(documents: list = None, mode: str = None, model: str = "text-embedding-3-large")
+    + use_full_text(): list
+    + split_text(): list
+    + get_chunk(document_path: str, chunk_id: str): dict
+    + make_embedding(text: str): list
+    + make_embeddings()
+    + load_from_csv(file_paths: list = ["src/models/document_embeddings.csv", "src/models/chunks.csv"])
+    + write_to_csv(file_paths: list = ["src/models/document_embeddings.csv", "src/models/chunks.csv"])
+    + similarity_search(text_input: str, top_n: int = 5): pandas.DataFrame
+}
+
+class ChatAgent {
+    + chat()
+    + call_gpt(user_query: str, document_path: str, chunk: str): str
+}
+
+class LLModel {
+    - __init__(config: Config, cache: Cache = None)
+    - _get_llm_completion(prompt: str, resp_fmt_type: str = "text"): str
+    + get_completion(prompt: str, resp_fmt_type: str = "json_object"): str
+    - _get_completion_json(prompt: str, base64_prompt: str): str
+    - _get_completion_text(prompt: str, base64_prompt: str): str
+}
+
+class Cache {
+    - __init__(tmp_path: str)
+    + update(prompt: str, answer: str): bool
+    + delete(prompt: str)
+    + lookup(prompt: str): bool
+    + get_answer(prompt: str): str
+}
+
+class DisabledCache {
+    + lookup(prompt: str): bool
+    + update(prompt: str, answer: str): bool
+    + delete(prompt: str)
+    + get_answer(prompt: str): str
+}
+
+class SimpleCache {
+    - __init__(tmp_path: str, cache_folder: str = ".cache", cache_file: str = "prompts.csv")
+    + update(prompt: str, answer: str): bool
+    + delete(prompt: str)
+    + lookup(prompt: str): bool
+    + get_answer(prompt: str): str
+}
+
+class GitHandler {
+    + GitHandler()
+}
+
+class VectorDB {
+    - __init__(connection_string: str, database_name: str, collection_name: str)
+    + connect()
+    + insert_vector(vector: list, metadata: dict)
+    + find_similar_vectors(vector: list, k: int = 5): list
+}
+
+class MongoDBAtlasVectorDB {
+    + connect()
+    + insert_document(document: dict): ObjectId
+    + find_similar_vectors(vector: list, k: int = 5): list
+}
+
+' Relationships
+Config --> PromptConfig : uses
+DirectoryLoader --> OpenAIEmbeddingAgent : uses
+ChatAgent --> OpenAIEmbeddingAgent : uses
+LLModel --> Config : uses
+LLModel --> Cache : uses
+Cache <|-- DisabledCache
+Cache <|-- SimpleCache
+VectorDB <|-- MongoDBAtlasVectorDB
+
+@enduml
+```
+
+' This PlantUML code should be rendered directly to generate the UML class diagram without any further preprocessing.

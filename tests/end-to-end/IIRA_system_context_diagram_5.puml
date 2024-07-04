@@ -1,0 +1,31 @@
+
+@startuml
+' Reliability Analysis and Profile Management System Context Diagram
+
+' Define the external entities
+actor User
+entity "File System" as FileSystem
+database "Internal Database" as Database
+
+' Define the system with a pink background
+rectangle "Reliability Analysis and Profile Management System" as System #pink
+
+' Define the interactions between the User and the System
+User --> System : File Selection
+User --> System : Profile Management
+User --> System : Analysis Initiation
+User --> System : Rating Input
+User --> System : Export Results
+
+System --> User : Display of Analysis Results
+System --> User : Profile Information
+System --> User : Feedback and Error Messages
+
+' Define the interactions between the System and the File System
+System --> FileSystem : File Reading
+System --> FileSystem : File Writing
+
+' Define the interactions between the System and the Internal Database
+System --> Database : Profile Data Management
+
+@enduml

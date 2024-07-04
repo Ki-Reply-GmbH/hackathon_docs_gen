@@ -26,7 +26,6 @@ def main():
         config.prompts,
         LLModel(config, cache)
     )
-    """
     #print("Documenting code...")
     #dAgent.make_in_code_docs()
 
@@ -35,20 +34,13 @@ def main():
 
     #print("Find relevant context information:")
     plantuml = dAgent.make_system_context_diagram()
-
-    with open("./system_context.json", "w", encoding="utf-8") as file:
-        json.dump(dAgent.system_context_responses, file)
-    with open("./system_context_summary.txt", "w", encoding="utf-8") as file:
-        file.write(dAgent.system_context_summary)
-
     with open("./IIRA_system_context_diagram.puml", "w", encoding="utf-8") as file:
         file.write(plantuml)
-    """
-    dAgent.make_in_code_docs()
-    dAgent.write_in_code_docs()
-    plantuml = dAgent.make_class_diagram()
-    with open("./IIRA_class_diagram.puml", "w", encoding="utf-8") as file:
-        file.write(plantuml)
+    #dAgent.make_in_code_docs()
+    #dAgent.write_in_code_docs()
+    #plantuml = dAgent.make_class_diagram()
+    #with open("./IIRA_class_diagram.puml", "w", encoding="utf-8") as file:
+    #    file.write(plantuml)
 
 
 if __name__ == "__main__":
