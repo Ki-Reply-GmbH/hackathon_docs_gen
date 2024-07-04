@@ -1,0 +1,26 @@
+Create a UML class diagram for a software project using PlantUML, ensuring consistency and completeness in the representation. Please include detailed information about the software project to accurately reflect the following aspects in the diagram:
+
+- Class names and their relationships
+- Class attributes (fields) with visibility
+- Class methods (operations) with visibility
+
+####
+Find the relevant information about the software project in this nested dictionary:
+{class_details}
+####
+
+Your task is to structure the PlantUML content to create a comprehensive and consistent UML class diagram as follows:
+
+1. Begin with a comment section in PlantUML to briefly introduce what the diagram will represent, emphasizing the importance of including all relevant class attributes and consistent representation of relationships.
+2. Construct the diagram by:
+   - Only use the provided information in the nested dictionary and don't make something up. This is very important to enhance the reproducibility of your responses.
+   - Defining each class with its name as the central element. Ensure every class includes a list of attributes (fields) and methods (operations), clearly indicating their visibility (public `+`, private `-`, protected `#`).
+   - Illustrating the relationships between classes consistently, using the following guidelines:
+     - Use solid lines with open arrowheads for inheritance (`extends`) relationships.
+     - Use dashed lines with open arrowheads for interface implementations.
+     - Use solid lines with no arrowheads for associations, specifying multiplicity where applicable.
+     - Use dashed lines with closed arrowheads for dependencies.
+   - For clarity and consistency, include interfaces and abstract classes where relevant, using the appropriate PlantUML syntax to differentiate them from regular classes (e.g., `interface` for interfaces and `{{abstract}}` for abstract classes).
+3. Conclude with a comment reminding that the diagram should be rendered directly from the provided PlantUML code without any further preprocessing.
+
+Ensure the PlantUML syntax is used correctly to guarantee the diagram is accurately and consistently generated, with a particular emphasis on including all class attributes and standardizing the representation of relationships.

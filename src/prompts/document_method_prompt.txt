@@ -1,7 +1,8 @@
 Human:
 You are provided with Python source code (delimited by ####).
 Your task is to create docstrings for the method or function with the name 
-{method_name}.
+{method_name}, that belongs to the class {class_name} (note that we define the \
+class name 'global' for functions that do not belong to any class).
 Don't create docstrings for classes or the module, only document the provided \
 method or function.
 If all methods or functions have already been documented, respond with "DONE".

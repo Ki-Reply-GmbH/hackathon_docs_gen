@@ -1,0 +1,194 @@
+
+@startuml
+' UML Class Diagram for the Software Project
+
+' Define colors
+skinparam class {
+    BackgroundColor<<core>> LightBlue
+}
+
+' Define classes and their attributes and methods
+class App {
+    + __init__()
+    + show_frame(frame_name: str)
+    + load_icons()
+    + init_root_frame(frame: tk.Frame)
+    + init_frames()
+}
+
+class CreateAnalyses {
+    + __init__(intra_id_list: list, inter_id_list: list, intra_metrics: list, inter_metrics: list, scale_format: str, categories: list, weights: list, data: dict)
+    + create_intra_analyses()
+    + create_inter_analyses()
+    + find_intra_ratings(id: int): pd.DataFrame
+    + find_inter_ratings(): pd.DataFrame
+}
+
+class FileValidation {
+    + __init__(file: str, scale_format: str)
+    + check_format()
+    + find_categories()
+    + find_rater_ids()
+    + find_text()
+    + find_labels()
+    + write_file(path: str, ratings: list)
+    + usr_to_id(user: str): str
+    + nlp(text: str): str
+}
+
+class DBInteraction {
+    + load_profiles()
+    + create_profile(new_profile: str)
+    + delete_profile()
+    + change_profile(change_to: str)
+    + write_to_db()
+}
+
+class Metrics {
+    + __init__(scale_format: str, categories: list, ratings: pd.DataFrame, weights: list)
+    + cohens_kappa(): float
+    + fleiss_kappa(): float
+    + gwets_ac(): float
+    + krippendorfs_alpha(): float
+    + g_index(): float
+    + icc(): pd.DataFrame
+    + overall_agreement(): decimal.Decimal
+}
+
+class AnalyseFrame {
+    + __init__(container: tk.Tk or tk.Frame)
+    + analyse_start(container: tk.Tk)
+    + populate_rater_container()
+    + populate_metrics_container()
+    + map_metric_to_var(mode: str, metric_name: str): tk.IntVar
+    + toggle(mode: str)
+    + help_cmd(event: tkinter.Event)
+    + update_frame()
+}
+
+class ResultsFrame {
+    + export_cmd()
+    + help_cmd(event)
+    + update_frame()
+}
+
+class ContainerFrame {
+    + __init__(container: tk.Tk or tk.Frame)
+    + init_menu_bar()
+    + on_enter(frame: ttk.Frame, label: ttk.Label)
+    + on_leave(frame: ttk.Frame, label: ttk.Label)
+    + toggle_color_mode()
+    + create_table(parent: tk.Widget, headings: list, content: list)
+    + profile_cmd()
+    + home_cmd()
+    + help_cmd(event: tkinter.Event)
+    + update_frame()
+}
+
+class ScaleFrame {
+    + populate_frame(mode: str)
+    + populate_weights()
+    + populate_scaletype()
+    + next_cmd()
+    + help_cmd(event: tkinter.Event)
+    + update_frame()
+}
+
+class FileFrame {
+    + select_file(container: tk.Tk)
+    + help_cmd(event: tkinter.Event)
+    + update_frame()
+}
+
+class ProfileFrame {
+    + create_new_profile()
+    + change_profile(profile_selection: str)
+    + delete_profile()
+    + ok_cmd(event)
+    + populate_profile_label()
+    + populate_change_profile_menu()
+}
+
+class ScrollFrame {
+    + onFrameConfigure(event: tkinter.Event)
+    + onCanvasConfigure(event: tk.Event)
+    + onMouseWheel(event: tkinter.Event)
+    + onEnter(event: tk.Event)
+    + onLeave(event)
+}
+
+class MainHelpFrame {
+}
+
+class ScaleHelpFrame {
+    + ok(event)
+}
+
+class ImportHelpFrame {
+}
+
+class PrepAnalyseHelpFrame {
+}
+
+class ResultsHelpFrame {
+}
+
+class RateHelpFrame {
+    + ok_cmd(event: tkinter.Event)
+    + populate_profile_label()
+    + populate_change_profile_menu()
+    + create_new_profile()
+    + change_profile(profile_selection: str)
+    + delete_profile()
+}
+
+class MainFrame {
+    + start_mode(mode: str)
+    + no_profile()
+    + help_cmd(event: tkinter.Event)
+}
+
+class RateFrame {
+    + __init__(container: tk.Tk)
+    + populate_navigation()
+    + randomize(mode: str)
+    + doubleclick_treeview(event: tkinter.Event)
+    + delete_questions()
+    + populate_categories()
+    + delete_categories()
+    + populate_text()
+    + add_newlines(text: str, n: int): str
+    + count_upper_case(text: str, n: int): int
+    + entry_input_cmd(event: tkinter.Event)
+    + cat_hotkey_cmd(event: tkinter.Event)
+    + next_cmd(event: tkinter.Event)
+    + prev_cmd(event: tkinter.Event)
+    + save_cmd()
+    + delete_cmd()
+    + label_text(event: tkinter.Event)
+    + labeling_finished()
+    + populate_percentage()
+    + home_cmd()
+    + help_cmd(event: tkinter.Event)
+    + update_frame(mode: str)
+}
+
+' Define relationships
+App --> DBInteraction
+App --> AnalyseFrame
+App --> ResultsFrame
+App --> ContainerFrame
+App --> ScaleFrame
+App --> FileFrame
+App --> ProfileFrame
+App --> ScrollFrame
+App --> MainHelpFrame
+App --> ScaleHelpFrame
+App --> ImportHelpFrame
+App --> PrepAnalyseHelpFrame
+App --> ResultsHelpFrame
+App --> RateHelpFrame
+App --> MainFrame
+App --> RateFrame
+
+@enduml

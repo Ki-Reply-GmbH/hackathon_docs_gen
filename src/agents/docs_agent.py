@@ -22,6 +22,21 @@ class DocsAgent:
         self.system_context_responses = []
         self.system_context_summary = ""
 
+    def make_class_diagram(self):
+        if not self.in_code_docs_responses:
+            self.make_in_code_docs()
+        prompt = self._prompts.get_class_plantuml_prompt()
+        response = self._model.get_completion(
+            prompt.format(
+                class_details=self.in_code_docs_responses
+                )
+            )
+        if response.startswith("```plantuml"):
+            response = response[11:]
+        if response.endswith("```"):
+            response = response[:-3]
+        return response
+
     def make_system_context_diagram(self):
         relevant_file_paths = self.file_retriever.get_mapping("py") \
                                 #+ self.file_retriever.get_mapping("csv") \
@@ -36,7 +51,19 @@ class DocsAgent:
                 )
             )
         self.system_context_summary = self._summarize_context()
-        #self.make_plantuml_diagram()
+        
+        # Actually create the diagram using openai
+        prompt = self._prompts.get_system_context_plantuml_prompt()
+        response = self._model.get_completion(
+            prompt.format(
+                system_context=self.system_context_summary
+                )
+            )
+        if response.startswith("```plantuml"):
+            response = response[11:]
+        if response.endswith("```"):
+            response = response[:-3]
+        return response
     
     def _find_context(self, file_path):
         prompt = self._prompts.get_system_context_prompt()
@@ -55,19 +82,6 @@ class DocsAgent:
                 summaries_of_file_analyses=self.system_context_responses
                 )
             )
-    
-    def make_plantuml_diagram(self):
-        prompt = self._prompts.get_plantuml_prompt()
-        response = self._model.get_completion(
-            prompt.format(
-                system_context=self.system_context_summary
-                )
-            )
-        if response.startswith("```plantuml"):
-            response = response[11:]
-        if response.endswith("```"):
-            response = response[:-3]
-        return response
 
     def make_in_code_docs(self):
         if self._programming_language == "Python":
@@ -96,22 +110,26 @@ class DocsAgent:
                 # Files with content
                 class_dict = {class_name: {}}
                 for method_name in method_names:
-                    class_dict[class_name][method_name] = self._document_method(file_path, method_name)
+                    class_dict[class_name][method_name] = self._document_method(
+                        file_path,
+                        method_name,
+                        class_name
+                        )
                 self.in_code_docs_responses[file_path].append(class_dict)
             else:
                 # Empty files
                 self.in_code_docs_responses[file_path].append("This file is empty.")
                 break
 
-    def _document_method(self, file_path, method_name):
-        #TODO Provide class context
+    def _document_method(self, file_path, method_name, class_name):
         prompt = self._prompts.get_document_method_prompt()
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
         return self._model.get_completion(
             prompt.format(
                 source_code=code,
-                method_name=method_name
+                method_name=method_name,
+                class_name=class_name
                 )
             )
 

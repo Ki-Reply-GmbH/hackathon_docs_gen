@@ -10,8 +10,10 @@ Follow this step-by-step guide to create the docstring:
 1. Based on the provided dictionary, understand the purpose of each function \
 inside the class.
 2. Based on step 1., determine what purpose the class serves.
-3. Write docstrings for the class, based on 1. and 2..
-4. Respond with the docstring for the provided class. Don't include \
+3. List the attributes of the class and mention which superclass the class is \
+derived from, or which interface it implements if it is an inherited class.
+4. Write docstrings for the class, based on 1., 2. and 3..
+5. Respond with the docstring for the provided class. Don't include \
 any other information in your response except the docstring. Don't add metadata \
 like ```python or ```java, or other unnecessary information to your response \
 and don't include the function bodies to your prompt. Just respond with the \
