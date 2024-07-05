@@ -23,7 +23,6 @@ def make_readme():
     )
 
     dAgent.responses = rename_keys(responses)
-    print("Creating readme ...")
     readme = dAgent.make_readme()
 
     with open('README.md', 'w') as file:

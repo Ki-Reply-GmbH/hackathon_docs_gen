@@ -1,0 +1,33 @@
+
+@startuml
+' System Context Diagram for the cookiecutter project
+
+' Define the system (Process Name) as the central element
+rectangle "cookiecutter" as cookiecutter #pink
+
+' Define the key external entities
+actor "Users" as Users
+rectangle "GitHub" as GitHub
+rectangle "File System" as FileSystem
+rectangle "Environment Variables" as EnvVars
+rectangle "Remote Servers" as RemoteServers
+rectangle "Documentation Services" as DocServices
+
+' Define the primary data flows
+Users --> cookiecutter : Command-line arguments, configuration files, environment variables, template data
+cookiecutter --> Users : Help messages, error messages, status updates, generated project files, prompts
+
+cookiecutter --> GitHub : Clone repositories, fetch templates, issue tracking, source code hosting
+GitHub --> cookiecutter : Repository data, templates
+
+cookiecutter --> FileSystem : Read configuration files, template files, other resources
+FileSystem --> cookiecutter : User configuration files, template files, other resources
+
+cookiecutter --> EnvVars : Read environment variables
+
+cookiecutter --> RemoteServers : Download zip files, other resources
+RemoteServers --> cookiecutter : Zip files, other resources
+
+cookiecutter --> DocServices : Provide documentation
+
+@enduml

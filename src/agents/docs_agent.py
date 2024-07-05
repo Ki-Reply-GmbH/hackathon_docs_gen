@@ -43,7 +43,6 @@ class DocsAgent:
         relevant_file_paths = self.file_retriever.get_mapping("py") \
                                 #+ self.file_retriever.get_mapping("csv") \
                                 #+ self.file_retriever.get_mapping("xlsx")
-        print("Relevant file paths:" + str(relevant_file_paths))
 
         for file_path in relevant_file_paths:
             self.system_context_responses.append(
@@ -140,8 +139,6 @@ class DocsAgent:
         # Documentation purely based on docstrings in self.in_code_docs_resp
         prompt = self._prompts.get_document_class_prompt()
         for i in range(len(self.in_code_docs_responses[file_path])):
-            print("self.in_code_docs_responses[file_path]["+str(i)+"]")
-            print(self.in_code_docs_responses[file_path][i])
             if class_name in self.in_code_docs_responses[file_path][i]:
                 index = i
                 break

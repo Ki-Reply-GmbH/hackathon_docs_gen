@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 LOGGER = logging.getLogger(__name__)
-logging.basicConfig(level=os.environ.get("LOG_LEVEL", "DEBUG"))
+logging.basicConfig(level=os.environ.get("LOG_LEVEL", "ERROR"))
 
 
 @dataclass
@@ -40,7 +40,7 @@ class PromptConfig:
     def get_class_plantuml_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "class_plantuml_prompt.txt"
             )
         return self._read_file_content(prompt_path)
@@ -48,7 +48,7 @@ class PromptConfig:
     def get_system_context_plantuml_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "system_context_plantuml_prompt.txt"
             )
         return self._read_file_content(prompt_path)
@@ -56,7 +56,7 @@ class PromptConfig:
     def get_system_context_diagram_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "system_context_diagram_prompt.txt"
             )
         return self._read_file_content(prompt_path)
@@ -64,7 +64,7 @@ class PromptConfig:
     def get_system_context_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "system_context_prompt.txt"
             )
         return self._read_file_content(prompt_path)
@@ -72,7 +72,7 @@ class PromptConfig:
     def get_readme_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "readme_prompt.txt"
             )
         return self._read_file_content(prompt_path)
@@ -80,7 +80,7 @@ class PromptConfig:
     def get_document_class_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "document_class_prompt.txt"
             )
         return self._read_file_content(prompt_path)
@@ -88,7 +88,7 @@ class PromptConfig:
     def get_document_method_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "document_method_prompt.txt"
             )
         return self._read_file_content(prompt_path)
@@ -96,7 +96,7 @@ class PromptConfig:
     def get_exract_methods_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "extract_methods_prompt.txt"
             )
         return self._read_file_content(prompt_path)
@@ -104,7 +104,7 @@ class PromptConfig:
     def get_exract_classes_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
-            base_dir, "prompts",
+            base_dir, "prompts", "docs_agent",
             "extract_classes_prompt.txt"
             )
         return self._read_file_content(prompt_path)
