@@ -10,9 +10,9 @@ from src.controller.file_retriever import FileRetriever
 class DocsAgent:
     def __init__(
             self,
-            target_path: str,
             prompts: PromptConfig,
             model: LLModel,
+            target_path: str,
             programming_language: str = "Python"
             ):
         self._prompts = prompts
