@@ -3,10 +3,11 @@ Dependencies: Java and PlantUML being installed.
 """
 import os
 import subprocess
+from src.utils.observer import Observable
 from src.config import PromptConfig
 from src.models import LLModel
 
-class EvalAgent:
+class EvalAgent(Observable):
     def __init__(
             self,
             prompts: PromptConfig,

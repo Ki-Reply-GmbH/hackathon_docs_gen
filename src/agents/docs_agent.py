@@ -3,11 +3,12 @@ import astor
 import re
 import os
 from src.utils.ast_helpers import ClassFunctionVisitor, IndentLevelVisitor
+from src.utils.observer import Observable
 from src.config import PromptConfig
 from src.models import LLModel
 from src.controller.file_retriever import FileRetriever
 
-class DocsAgent:
+class DocsAgent(Observable):
     def __init__(
             self,
             prompts: PromptConfig,

@@ -6,6 +6,7 @@ from src.agents.docs_agent import DocsAgent
 from src.config import load_config
 from src.models import LLModel
 from src.utils.cache import DisabledCache, SimpleCache
+from src.utils.observer import Observer
 from src.controller.file_retriever import FileRetriever
 
 def main():
@@ -25,18 +26,20 @@ def main():
     print(f"Output Path: {output_path}")
     print(f"Create Items: {create_items}")
     print(f"Create Items: {project_name}")
-
     # Allow prinint utf-8 characters in console
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf8')
     config = load_config()
 
     cache = SimpleCache(tmp_path="./.tmp")
 
+    agents_observer = Observer()
+
     dAgent = DocsAgent(
         config.prompts,
         LLModel(config, cache),
         input_path
     )
+    dAgent.attach(agents_observer)
     if "in-code" in create_items or "*" in create_items:
         print("Creating in code documentation...")
         dAgent.make_in_code_docs()
