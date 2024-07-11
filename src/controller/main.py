@@ -33,9 +33,9 @@ def main():
     cache = SimpleCache(tmp_path="./.tmp")
 
     dAgent = DocsAgent(
-        input_path,
         config.prompts,
-        LLModel(config, cache)
+        LLModel(config, cache),
+        input_path
     )
     if "in-code" in create_items or "*" in create_items:
         print("Creating in code documentation...")
@@ -56,5 +56,33 @@ def main():
             file.write(plantuml)
 
 
+def test():
+    path = "C:\\Users\\t.kubera\\dev\\hackathon\\hackathon_code_gen\\resources\\simple-sw-projects-for-testing\\project"
+
+    #for j in range(1, 3):
+    #    print("Iteration " + str(j) + " ...")
+    j = 3
+    for i in range(1,5):
+        input_path = path + str(i)
+        project_name = input_path.split("\\")[-1]
+        config = load_config()
+
+        cache = DisabledCache(tmp_path="./.tmp")
+
+        dAgent = DocsAgent(
+            config.prompts,
+            LLModel(config, cache),
+            input_path
+        )
+        print("Creating system context diagram for " + input_path + " ...")
+        plantuml = dAgent.make_system_context_diagram()
+        with open(input_path + f"/{project_name}_system_context_diagram{j}.puml", "w", encoding="utf-8") as file:
+            file.write(plantuml)
+
+        print("Creating class diagram for " + input_path + " ...")
+        plantuml = dAgent.make_class_diagram()
+        with open(input_path + f"/{project_name}_class_diagram{j}.puml", "w", encoding="utf-8") as file:
+            file.write(plantuml)
+
 if __name__ == "__main__":
-    main()
+    test()

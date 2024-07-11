@@ -54,33 +54,32 @@ class EvalAgent:
         except subprocess.CalledProcessError as e:
             result_str = f"Error checking PUML string: {e.stderr}"
         
-        return result_str
-
-plantuml_str0 = """
-@startuml
-' System Context Diagram for IIRA
-
-' Define the system (Process Name) as the central element
-rectangle "IIRA" as IIRA #pink
-
-' Define the external entities
-actor "Users" as Users
-database "Internal Database" as Database
-file "Files" as Files
-actor "Web Browser" as WebBrowser
-
-' Define the primary data flows
-Users --> IIRA : Input Data (file selection, profile information, analysis parameters)
-IIRA --> Users : Output Data (analysis results, error messages, help information)
-IIRA --> Database : Profile Management (create, update, retrieve profiles)
-IIRA --> Files : File Interactions (import data, export results)
-IIRA --> WebBrowser : Open external URLs for help information
-
-@enduml
-
-"""    
+        return result_str 
 
 if __name__ == "__main__":
+    plantuml_str0 = """
+    @startuml
+    ' System Context Diagram for IIRA
+
+    ' Define the system (Process Name) as the central element
+    rectangle "IIRA" as IIRA #pink
+
+    ' Define the external entities
+    actor "Users" as Users
+    database "Internal Database" as Database
+    file "Files" as Files
+    actor "Web Browser" as WebBrowser
+
+    ' Define the primary data flows
+    Users --> IIRA : Input Data (file selection, profile information, analysis parameters)
+    IIRA --> Users : Output Data (analysis results, error messages, help information)
+    IIRA --> Database : Profile Management (create, update, retrieve profiles)
+    IIRA --> Files : File Interactions (import data, export results)
+    IIRA --> WebBrowser : Open external URLs for help information
+
+    @enduml
+
+    """   
     eval_agent = EvalAgent(None, None, None)
     result_str = eval_agent._validate_puml(plantuml_str0)
     print(result_str)
