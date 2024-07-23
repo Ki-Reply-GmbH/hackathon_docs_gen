@@ -25,6 +25,26 @@ class Observer:
         _ = event_type, data
         raise NotImplementedError("update function is not implemented")
 
+class AgentObserver(Observer):    
+    def __init__(self) -> None:
+        self.update_id = 0
+        self.updates = {}
+    
+    def update(self, event_type: str, data):
+        """
+        Updates the observer with the given data.
+
+        :param event_type: Type of the observable event
+        :type event_type: str
+        :param data: The data to update the observer with.
+        :type data: dict
+        """
+        update_data = {
+            "event_type": event_type,
+            "data": data
+        }
+        self.updates[self.update_id] = update_data
+        self.update_id += 1
 
 class Observable:
     """
