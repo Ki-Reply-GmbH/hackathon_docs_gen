@@ -1,3 +1,4 @@
+#TODO Refactor file to follow clean code principles
 import argparse
 import sys
 import io
