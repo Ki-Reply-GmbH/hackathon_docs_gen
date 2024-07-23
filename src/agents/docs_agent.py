@@ -180,7 +180,7 @@ class InCodeAgent(DocsAgent):
                 )
             )
 
-class SummaryContextAgent(DocsAgent):
+class SystemContextAgent(DocsAgent):
     def __init__(
             self,
             prompts: PromptConfig,
