@@ -1,3 +1,7 @@
+"""
+TODO Berücksichtigen, dass GPT nun Json-Objekte zurückgibt. Es gibt einen 
+'Payload', sowie einen 'Reasoning' key.
+"""
 import ast
 import astor
 import re
@@ -21,70 +25,27 @@ class DocsAgent(Observable):
         self._programming_language = programming_language
         self.file_retriever = FileRetriever(target_path)
         self.project_name = os.path.basename(target_path.rstrip(os.sep)) # Letzter Ordername vom target_path, z.B. './path/to/IIRA' -> 'IIRA'
+
+    def _add_observability(self, prompt):
+        obs_prompt = self._prompts.get_observability_prompt()
+        return "\n".join([prompt, obs_prompt])
+
+    def _clean_list(self, lst):
+        return [x for x in lst if x]
+
+    def _get_class_name(self):
+        return self.__class__.__name__
+
+class InCodeAgent(DocsAgent):
+    def __init__(
+            self,
+            prompts: PromptConfig,
+            model: LLModel,
+            target_path: str,
+            programming_language: str = "Python"
+            ):
+        super().__init__(prompts, model, target_path, programming_language)
         self.in_code_docs_responses = {} # Datenstruktur mit allen Klassen- und Methodendokumentationen
-        self.system_context_responses = []
-        self.system_context_summary = ""
-
-    def make_class_diagram(self):
-        if not self.in_code_docs_responses:
-            self.make_in_code_docs()
-        prompt = self._prompts.get_class_plantuml_prompt()
-        response = self._model.get_completion(
-            prompt.format(
-                class_details=self.in_code_docs_responses
-                )
-            )
-        if response.startswith("```plantuml"):
-            response = response[11:]
-        if response.endswith("```"):
-            response = response[:-3]
-        return response
-
-    def make_system_context_diagram(self):
-        relevant_file_paths = self.file_retriever.get_mapping("py") \
-                                #+ self.file_retriever.get_mapping("csv") \
-                                #+ self.file_retriever.get_mapping("xlsx")
-
-        for file_path in relevant_file_paths:
-            self.system_context_responses.append(
-                (
-                    file_path,
-                    self._find_context(file_path)
-                )
-            )
-        self.system_context_summary = self._summarize_context()
-        
-        # Actually create the diagram using openai
-        prompt = self._prompts.get_system_context_plantuml_prompt()
-        response = self._model.get_completion(
-            prompt.format(
-                system_context=self.system_context_summary,
-                process_name=self.project_name
-                )
-            )
-        if response.startswith("```plantuml"):
-            response = response[11:]
-        if response.endswith("```"):
-            response = response[:-3]
-        return response
-    
-    def _find_context(self, file_path):
-        prompt = self._prompts.get_system_context_prompt()
-        with open(file_path, "r", encoding="utf-8") as file:
-            file_content = file.read()
-        return self._model.get_completion(
-            prompt.format(
-                file_content=file_content
-                )
-            )
-
-    def _summarize_context(self):
-        prompt = self._prompts.get_system_context_diagram_prompt()
-        return self._model.get_completion(
-            prompt.format(
-                summaries_of_file_analyses=self.system_context_responses
-                )
-            )
 
     def make_in_code_docs(self):
         if self._programming_language == "Python":
@@ -126,6 +87,7 @@ class DocsAgent(Observable):
 
     def _document_method(self, file_path, method_name, class_name):
         prompt = self._prompts.get_document_method_prompt()
+        prompt = self._add_observability(prompt)
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
         return self._model.get_completion(
@@ -139,6 +101,7 @@ class DocsAgent(Observable):
     def _document_class(self, file_path, class_name):
         # Documentation purely based on docstrings in self.in_code_docs_resp
         prompt = self._prompts.get_document_class_prompt()
+        prompt = self._add_observability(prompt)
         for i in range(len(self.in_code_docs_responses[file_path])):
             if class_name in self.in_code_docs_responses[file_path][i]:
                 index = i
@@ -155,6 +118,7 @@ class DocsAgent(Observable):
 
     def _extract_classes(self, file_path):
         prompt = self._prompts.get_exract_classes_prompt()
+        prompt = self._add_observability(prompt)
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
 
@@ -172,6 +136,7 @@ class DocsAgent(Observable):
 
     def _extract_methods(self, file_path, class_name="global"):
         prompt = self._prompts.get_exract_methods_prompt()
+        prompt = self._add_observability(prompt)
         with open(file_path, "r", encoding="utf-8") as file:
             code = file.read()
         return self._clean_list(
@@ -182,9 +147,6 @@ class DocsAgent(Observable):
                     )
                 ).split(";")
             )
-
-    def _clean_list(self, lst):
-        return [x for x in lst if x]
     
     def write_in_code_docs(self):
         for file_path in self.in_code_docs_responses:
@@ -210,9 +172,82 @@ class DocsAgent(Observable):
 
     def make_readme(self):
         prompt = self._prompts.get_readme_prompt()
+        prompt = self._add_observability(prompt)
         return self._model.get_completion(
             prompt.format(
                 programming_language=self._programming_language,
                 project_information=self.in_code_docs_responses
                 )
             )
+
+class SummaryContextAgent(DocsAgent):
+    def __init__(
+            self,
+            prompts: PromptConfig,
+            model: LLModel,
+            target_path: str,
+            programming_language: str = "Python"
+            ):
+        super().__init__(prompts, model, target_path, programming_language)
+        self.system_context_responses = []
+        self.system_context_summary = ""
+
+    def make_system_context_diagram(self):
+        relevant_file_paths = self.file_retriever.get_mapping("py") \
+                                #+ self.file_retriever.get_mapping("csv") \
+                                #+ self.file_retriever.get_mapping("xlsx")
+
+        for file_path in relevant_file_paths:
+            self.system_context_responses.append(
+                (
+                    file_path,
+                    self._find_context(file_path)
+                )
+            )
+        self.system_context_summary = self._summarize_context()
+        
+        # Actually create the diagram using openai
+        prompt = self._prompts.get_system_context_plantuml_prompt()
+        prompt = self._add_observability(prompt)
+        response = self._model.get_completion(
+            prompt.format(
+                system_context=self.system_context_summary,
+                process_name=self.project_name
+                )
+            )
+        if response.startswith("```plantuml"):
+            response = response[11:]
+        if response.endswith("```"):
+            response = response[:-3]
+        return response
+    
+    def _find_context(self, file_path):
+        prompt = self._prompts.get_system_context_prompt()
+        prompt = self._add_observability(prompt)
+        with open(file_path, "r", encoding="utf-8") as file:
+            file_content = file.read()
+        return self._model.get_completion(
+            prompt.format(
+                file_content=file_content
+                )
+            )
+
+    def _summarize_context(self):
+        prompt = self._prompts.get_system_context_diagram_prompt()
+        prompt = self._add_observability(prompt)
+        return self._model.get_completion(
+            prompt.format(
+                summaries_of_file_analyses=self.system_context_responses
+                )
+            )
+
+class ClassAgent(DocsAgent):
+    def __init__(
+            self,
+            prompts: PromptConfig,
+            model: LLModel,
+            target_path: str,
+            programming_language: str = "Python"
+            ):
+        super().__init__(prompts, model, target_path, programming_language)
+        pass
