@@ -1,0 +1,122 @@
+You are an advanced language model with expertise in software quality assessment. Your task is to evaluate the /
+*** Security *** of a software project repository based on the ISO 25010 model. The repository consists /
+of various types of files related to a real-life software project. Follow the steps below to perform a comprehensive /
+evaluation and provide a strict scoring format for each aspect. Use the *** Example Output *** precisely for your /
+response.
+
+*** Instructions: ***
+
+You will go through every file from the given repository and try to understand the intuition and learn from the context. /
+Follow the ### Assessment Criteria ### and then ### Evaluation Process ### precisely. 
+
+1. Assessment Criteria:
+
+   a. Confidentiality: Evaluate the software’s ability to ensure that data is accessible only to those authorized to have /
+      access.
+
+   b. Integrity: Assess the software’s ability to protect data from unauthorized modification or deletion.
+
+   c. Non-repudiation: Determine the software’s ability to prove the occurrence of a claimed event or action.
+
+   d. Accountability: Evaluate the software’s ability to ensure that the actions of an entity can be traced uniquely to the /
+      entity.
+
+   e. Authenticity: Determine the software’s ability to verify the identity of a user, process, or device.
+
+2. Evaluation Process:
+
+   a. Confidentiality:
+
+      ++ Identify mechanisms in place to protect data from unauthorized access.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means there are no mechanisms, and 10 means there are robust mechanisms /
+      ++ ensuring data confidentiality.
+      ++ Provide a total score and percentage for Confidentiality.
+
+   b. Integrity:
+
+      ++ Evaluate the controls and measures in place to protect data integrity.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means data integrity is not protected, and 10 means data integrity is fully 
+         protected.
+      ++ Provide a total score and percentage for Integrity.
+
+   c. Non-repudiation:
+
+      ++ Assess the mechanisms that ensure actions or events can be proven to have occurred.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means there are no mechanisms, and 10 means there are strong mechanisms ensuring /
+         non-repudiation.
+      ++ Provide a total score and percentage for Non-repudiation.
+
+    d. Accountability:
+
+       ++ Evaluate the ability to trace actions back to their source.
+       ++ Score this aspect on a scale of 0 to 10, where 0 means actions cannot be traced, and 10 means all actions are fully traceable.
+       ++ Provide a total score and percentage for Accountability.
+
+    e. Authenticity:
+
+      ++ Assess the methods used to verify identities.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means there are no identity verification methods, and 10 means there are strong /
+         methods ensuring authenticity.
+      ++ Provide a total score and percentage for Authenticity.
+
+After the *** Evaluation Process *** , strictly follow the *** Output Format *** defined below:
+
+*** Output Format: ***
+
+    ++ Provide a summary table with the following columns: Function, Confidentiality (0-10), Integrity (0-10), Non-repudiation (0-10), Accountability /
+       (0-10), Authenticity (0-10), Total Score (0-50).
+    ++ Include an overall percentage score for each sub-characteristic of Security.
+    ++ Write a detailed report explaining the scores, highlighting strengths, weaknesses, and recommendations for improvement.
+
+For Example, follow the *** Example Output: *** to generate your response.
+
+*** Example Output: ***
+
+{
+  "Security": {
+    "Functions": [
+      {
+        "Function": "User Login",
+        "Confidentiality": 9,
+        "Integrity": 8,
+        "NonRepudiation": 8,
+        "Accountability": 9,
+        "Authenticity": 9,
+        "TotalScore": 43
+      },
+      {
+        "Function": "Data Retrieval",
+        "Confidentiality": 8,
+        "Integrity": 7,
+        "NonRepudiation": 7,
+        "Accountability": 8,
+        "Authenticity": 8,
+        "TotalScore": 38
+      },
+      {
+        "Function": "Report Generation",
+        "Confidentiality": 8,
+        "Integrity": 8,
+        "NonRepudiation": 7,
+        "Accountability": 8,
+        "Authenticity": 8,
+        "TotalScore": 39
+      }
+      // Additional functions can be listed here
+    ],
+    "Summary": {
+      "ConfidentialityPercentage": 85,
+      "IntegrityPercentage": 76,
+      "NonRepudiationPercentage": 72,
+      "AccountabilityPercentage": 83,
+      "AuthenticityPercentage": 83
+    },
+    "DetailedReport": {
+      "Strengths": "User login function demonstrates strong confidentiality, accountability, and authenticity measures.",
+      "Weaknesses": "Data retrieval and report generation functions need improvements in non-repudiation mechanisms.",
+      "Recommendations": "Enhance non-repudiation mechanisms for data retrieval and report generation. Implement additional integrity checks to further secure data."
+    }
+  }
+}
+
+      
