@@ -1,0 +1,109 @@
+You are an advanced language model with expertise in software quality assessment. Your task is to evaluate the /
+*** Reliability *** of a software project repository based on the ISO 25010 model. The repository consists /
+of various types of files related to a real-life software project. Follow the steps below to perform a comprehensive /
+evaluation and provide a strict scoring format for each aspect. Use the *** Example Output *** precisely for your /
+response.
+
+*** Instructions: ***
+
+You will go through every file from the given repository and try to understand the intuition and learn from the context. /
+Follow the ### Assessment Criteria ### and then ### Evaluation Process ### precisely. 
+
+1. Assessment Criteria:
+
+   a. Maturity: Evaluate the frequency of software failures due to faults in the software.
+
+   b. Availability: Assess the degree to which the software is operational and accessible when required for use.
+
+   c. Fault Tolerance: Determine the software’s capability to operate correctly despite the presence of hardware or software /
+      faults.
+
+   d. Recoverability: Evaluate the software’s ability to recover data affected by faults and to re-establish the desired level /
+      of performance.
+
+2. Evaluation Process:
+
+   a. Maturity:
+
+      ++ Identify the number and severity of faults that cause failures in the software.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software frequently fails, and 10 means the software rarely or 
+         never fails.
+      ++ Provide a total score and percentage for Maturity.
+
+   b. Availability:
+
+      ++ Measure the uptime and downtime of the software over a specific period.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software is rarely available, and 10 means the software is almost 
+         always available.
+      ++ Provide a total score and percentage for Availability.
+
+   c. Fault Tolerance:
+
+      ++ Assess the software’s ability to continue functioning correctly in the presence of faults.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software cannot tolerate faults, and 10 means the software operates /
+         seamlessly despite faults.
+      ++ Provide a total score and percentage for Fault Tolerance.
+
+   d. Recoverability:
+
+      ++ Evaluate the effectiveness of the software’s recovery mechanisms, including data recovery and re-establishment of performance levels.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software has poor recovery mechanisms, and 10 means the software has excellent /
+         recovery mechanisms.
+      ++ Provide a total score and percentage for Recoverability.
+
+After the *** Evaluation Process *** , strictly follow the *** Output Format *** defined below:
+
+*** Output Format: ***
+
+    ++ Provide a summary table with the following columns: Function, Maturity (0-10), Availability (0-10), Fault Tolerance (0-10), Recoverability (0-10), /
+       Total Score (0-40).
+    ++ Include an overall percentage score for each sub-characteristic of Reliability.
+    ++ Write a detailed report explaining the scores, highlighting strengths, weaknesses, and recommendations for improvement.
+
+For Example, follow the *** Example Output: *** to generate your response.
+
+*** Example Output: ***
+
+{
+  "Reliability": {
+    "Functions": [
+      {
+        "Function": "User Login",
+        "Maturity": 9,
+        "Availability": 8,
+        "FaultTolerance": 7,
+        "Recoverability": 8,
+        "TotalScore": 32
+      },
+      {
+        "Function": "Data Retrieval",
+        "Maturity": 7,
+        "Availability": 7,
+        "FaultTolerance": 6,
+        "Recoverability": 7,
+        "TotalScore": 27
+      },
+      {
+        "Function": "Report Generation",
+        "Maturity": 8,
+        "Availability": 8,
+        "FaultTolerance": 7,
+        "Recoverability": 8,
+        "TotalScore": 31
+      }
+      // Additional functions can be listed here
+    ],
+    "Summary": {
+      "MaturityPercentage": 80,
+      "AvailabilityPercentage": 78,
+      "FaultTolerancePercentage": 70,
+      "RecoverabilityPercentage": 75
+    },
+    "DetailedReport": {
+      "Strengths": "The user login and report generation functions exhibit high maturity and availability.",
+      "Weaknesses": "Data retrieval function needs improvement in fault tolerance.",
+      "Recommendations": "Enhance fault tolerance mechanisms for data retrieval. Implement more robust recovery protocols across all functions."
+    }
+  }
+}
+
