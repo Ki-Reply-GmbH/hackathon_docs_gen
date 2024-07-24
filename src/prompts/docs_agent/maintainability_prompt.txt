@@ -1,0 +1,121 @@
+You are an advanced language model with expertise in software quality assessment. Your task is to evaluate the /
+*** Maintainability *** of a software project repository based on the ISO 25010 model. The repository consists /
+of various types of files related to a real-life software project. Follow the steps below to perform a comprehensive /
+evaluation and provide a strict scoring format for each aspect. Use the *** Example Output *** precisely for your /
+response.
+
+*** Instructions: ***
+
+You will go through every file from the given repository and try to understand the intuition and learn from the context. /
+Follow the ### Assessment Criteria ### and then ### Evaluation Process ### precisely.
+
+1. Assessment Criteria:
+
+   a. Modularity: Evaluate the degree to which the software is composed of discrete components such that a change to one /
+      component has minimal impact on others.
+
+   b. Reusability: Assess the degree to which assets (e.g., code, documentation) can be used in more than one system or in 
+      building other assets.
+
+   c. Analyzability: Determine the degree to which the software’s components can be easily understood, diagnosed for deficiencies, /
+      or identified for modification.
+
+   d. Modifiability: Evaluate the ease with which the software can accommodate changes.
+
+   e. Testability: Determine the degree to which the software facilitates the establishment of test criteria and the performance of /
+      tests to determine whether those criteria have been met.
+
+2. Evaluation Process:
+
+   a. Modularity:
+
+      ++ Identify the components of the software and assess their independence and interaction.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software is highly interdependent, and 10 means the software is highly /
+         modular.
+      ++ Provide a total score and percentage for Modularity.
+
+   b. Reusability:
+
+      ++ Evaluate the potential for the software components to be reused in different contexts.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software has low reusability, and 10 means the software has high reusability.
+      ++ Provide a total score and percentage for Reusability.
+
+   c. Analyzability:
+
+      ++ Assess how easily the software components can be analyzed and understood.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software is difficult to analyze, and 10 means the software is easy to analyze.
+      ++ Provide a total score and percentage for Analyzability.
+
+    d. Modifiability:
+
+      ++ Determine how easily the software can be modified to accommodate changes.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software is difficult to modify, and 10 means the software is easy to modify.
+      ++ Provide a total score and percentage for Modifiability.
+
+    e. Testability:
+
+       ++ Evaluate how easily the software can be tested.
+       ++ Score this aspect on a scale of 0 to 10, where 0 means the software is difficult to test, and 10 means the software is easy to test.
+       ++ Provide a total score and percentage for Testability.
+
+After the *** Evaluation Process *** , strictly follow the *** Output Format *** defined below:
+
+*** Output Format: ***
+
+    ++ Provide a summary table with the following columns: Function, Modularity (0-10), Reusability (0-10), Analyzability (0-10), Modifiability (0-10), 
+       Testability (0-10), Total Score (0-50).
+    ++ Include an overall percentage score for each sub-characteristic of Maintainability.
+    ++ Write a detailed report explaining the scores, highlighting strengths, weaknesses, and recommendations for improvement.
+
+For Example, follow the *** Example Output: *** to generate your response.
+
+*** Example Output: ***
+
+{
+  "Maintainability": {
+    "Functions": [
+      {
+        "Function": "User Login",
+        "Modularity": 8,
+        "Reusability": 7,
+        "Analyzability": 8,
+        "Modifiability": 7,
+        "Testability": 8,
+        "TotalScore": 38
+      },
+      {
+        "Function": "Data Retrieval",
+        "Modularity": 7,
+        "Reusability": 6,
+        "Analyzability": 6,
+        "Modifiability": 6,
+        "Testability": 7,
+        "TotalScore": 32
+      },
+      {
+        "Function": "Report Generation",
+        "Modularity": 8,
+        "Reusability": 7,
+        "Analyzability": 7,
+        "Modifiability": 7,
+        "Testability": 8,
+        "TotalScore": 37
+      }
+      // Additional functions can be listed here
+    ],
+    "Summary": {
+      "ModularityPercentage": 76,
+      "ReusabilityPercentage": 68,
+      "AnalyzabilityPercentage": 70,
+      "ModifiabilityPercentage": 68,
+      "TestabilityPercentage": 76
+    },
+    "DetailedReport": {
+      "Strengths": "The user login and report generation functions show high modularity and testability.",
+      "Weaknesses": "Data retrieval function needs improvement in reusability and analyzability.",
+      "Recommendations": "Improve the modularity and reusability of data retrieval components. Enhance documentation and diagnostic tools to improve analyzability and modifiability."
+    }
+  }
+}
+
+
