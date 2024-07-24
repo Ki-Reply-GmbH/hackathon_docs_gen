@@ -1,0 +1,137 @@
+You are tasked with evaluating a real-life software project repository using the **ISO/IEC 25010 model**. /
+you will explore every file from the repository and understand the whole context.The goal is to generate  /
+a scoring report that quantifies the eight high-order characteristics defined by the model. Follow these  /
+detailed instructions to perform the evaluation and generate the report:
+
+You will use the scoring mechanism defined bellow inorder to evaluate from 1 to 8 characteristics of the /
+model for the given repository. 
+
+*** scoring mechanism *** - 
+
+Establish a scoring scale (e.g., 1 to 5, where 1 is poor and 5 is excellent) for each characteristic. Define /
+specific criteria for each score within the scale to ensure consistency. use the ## Scoring Report Format ## and /
+## Final Scoring Summary ## defined below precisely for output response.
+
+**ISO/IEC 25010 model ** 
+
+1. Functional Suitability:
+
+   ++ Identify the primary functions and assess their completeness, correctness, and appropriateness. ++
+   ++ Score each function based on how well it meets user needs. ++
+   ++ Aggregate the scores to provide an overall score for functional suitability. ++
+   ++ Document the evaluation and scoring rationale. ++
+
+2. Performance Efficiency:
+
+   ++ Measure key performance indicators such as response time, throughput, and resource utilization. ++
+   ++ Score the software based on its performance metrics compared to industry standards or benchmarks. ++
+   ++ Aggregate the scores to provide an overall score for performance efficiency.
+   ++ Document the evaluation and scoring rationale.
+
+3. Compatibility:
+
+   ++ Test interoperability with different systems, software, and platforms. ++
+   ++ Score the software based on the number and severity of compatibility issues. ++
+   ++ Aggregate the scores to provide an overall score for compatibility. ++
+   ++ Document the evaluation and scoring rationale. ++
+
+4. Usability:
+
+   ++ Conduct usability testing and gather user feedback. ++
+   ++ Score the software based on ease of use, learnability, and user satisfaction. ++
+   ++ Aggregate the scores to provide an overall score for usability. ++
+   ++ Document the evaluation and scoring rationale. ++
+
+5. Reliability:
+
+   ++ Test fault tolerance, recoverability, and stability under different conditions. ++
+   ++ Score the software based on its ability to perform without failure. ++
+   ++ Aggregate the scores to provide an overall score for reliability. ++
+   ++ Document the evaluation and scoring rationale. ++
+
+6.  Security:
+
+    ++ Perform a security audit to identify vulnerabilities and assess protection measures. ++
+    ++ Score the software based on the number and severity of security issues found. ++
+    ++ Aggregate the scores to provide an overall score for security. ++
+    ++ Document the evaluation and scoring rationale. ++
+
+7. Maintainability:
+
+   ++ Review code quality, documentation, and modularity. ++
+   ++ Score the software based on ease of modification and maintainability. ++
+   ++ Aggregate the scores to provide an overall score for maintainability. ++
+   ++ Document the evaluation and scoring rationale. ++
+
+8. Portability:
+
+   ++ Test the software’s ability to be installed and run in different environments. ++
+   ++ Score the software based on the ease of transfer and the number of dependencies. ++
+   ++ Aggregate the scores to provide an overall score for portability. ++
+   ++ Document the evaluation and scoring rationale. ++
+
+
+*** Scoring Report Format ***
+
+{
+  "scoringReportTemplate": {
+    "Functional Suitability": {
+      "Score": "",
+      "Evaluation Summary": "- Summary of completeness, correctness, and appropriateness of functions.\n- Example findings and issues.",
+      "Recommendations": "- Suggested improvements for missing or redundant functions."
+    },
+    "Performance Efficiency": {
+      "Score": "",
+      "Evaluation Summary": "- Summary of performance metrics.\n- Example findings and bottlenecks.",
+      "Recommendations": "- Suggested optimizations for performance improvements."
+    },
+    "Compatibility": {
+      "Score": "",
+      "Evaluation Summary": "- Summary of interoperability tests.\n- Example findings and issues.",
+      "Recommendations": "- Suggested solutions for compatibility issues."
+    },
+    "Usability": {
+      "Score": "",
+      "Evaluation Summary": "- Summary of usability tests and user feedback.\n- Example findings.",
+      "Recommendations": "- Suggested improvements for user interface and experience."
+    },
+    "Reliability": {
+      "Score": "",
+      "Evaluation Summary": "- Summary of reliability tests.\n- Example findings and issues.",
+      "Recommendations": "- Suggested improvements for fault tolerance and stability."
+    },
+    "Security": {
+      "Score": "",
+      "Evaluation Summary": "- Summary of security audit.\n- Example findings and vulnerabilities.",
+      "Recommendations": "- Suggested enhancements for security measures."
+    },
+    "Maintainability": {
+      "Score": "",
+      "Evaluation Summary": "- Summary of code quality and documentation review.\n- Example findings.",
+      "Recommendations": "- Suggested best practices for code maintainability."
+    },
+    "Portability": {
+      "Score": "",
+      "Evaluation Summary": "- Summary of portability tests.\n- Example findings and issues.",
+      "Recommendations": "- Suggested improvements for ease of transfer and dependency management."
+    }
+  }
+
+
+*** Final Scoring Summary ***
+
+{
+  "finalScoringSummary": {
+    "Functional Suitability": "",
+    "Performance Efficiency": "",
+    "Compatibility": "",
+    "Usability": "",
+    "Reliability": "",
+    "Security": "",
+    "Maintainability": "",
+    "Portability": "",
+    "Overall Quality Score": ""
+  }
+}
+
+

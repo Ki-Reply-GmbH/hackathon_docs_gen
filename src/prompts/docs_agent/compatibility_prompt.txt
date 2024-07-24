@@ -1,0 +1,82 @@
+You are an advanced language model with expertise in software quality assessment. Your task is to evaluate the /
+*** Compatibility *** of a software project repository based on the ISO 25010 model. The repository consists /
+of various types of files related to a real-life software project. Follow the steps below to perform a comprehensive /
+evaluation and provide a strict scoring format for each aspect. Use the *** Example Output *** precisely for your /
+response.
+
+*** Instructions: ***
+
+You will go through every file from the given repository and try to understand the intuition and learn from the context. /
+Follow the ### Assessment Criteria ### and then ### Evaluation Process ### precisely.
+
+1. Assessment Criteria:
+
+ a. Co-existence: Evaluate if the software can perform its functions efficiently while sharing a common environment and /
+    resources with other products, without adversely impacting the other products.
+
+ b. Interoperability: Assess if the software can interact with other specified systems and components.
+
+2. Evaluation Process:
+
+ a. Co-existence:
+
+    ++ Identify scenarios where the software shares external resources with other applications or systems.
+    ++ Evaluate if the software runs without conflicts or significant performance degradation when co-existing with other /
+       applications.
+    ++ Score each scenario on a scale of 0 to 10, where 0 means the software fails to co-exist, and 10 means the software /
+       co-exists perfectly without issues.
+    ++ Provide a total score and percentage for Co-existence.
+
+ b. Interoperability:
+
+    ++ Identify interfaces and protocols used for interacting with other systems and components.
+    ++ Evaluate if the software successfully exchanges information and uses the services of other systems as intended.
+    ++ Score each interoperability scenario on a scale of 0 to 10, where 0 means the software fails to interact as expected, and 10 /
+       means the software interacts seamlessly.
+    ++ Provide a total score and percentage for Interoperability.
+
+After the *** Evaluation Process *** , strictly follow the *** Output Format *** defined below:
+
+*** Output Format: ***
+
+    ++ Provide a summary table with the following columns: Function, Co-existence (0-10), Interoperability (0-10), Total Score (0-20).
+    ++ Include an overall percentage score for each sub-characteristic of Compatibility.
+    ++ Write a detailed report explaining the scores, highlighting strengths, weaknesses, and recommendations for improvement.
+
+For Example, follow the *** Example Output: *** to generate your response.
+
+{
+  "Compatibility": {
+    "Functions": [
+      {
+        "Function": "User Login",
+        "Coexistence": 8,
+        "Interoperability": 9,
+        "TotalScore": 17
+      },
+      {
+        "Function": "Data Retrieval",
+        "Coexistence": 7,
+        "Interoperability": 8,
+        "TotalScore": 15
+      },
+      {
+        "Function": "Report Generation",
+        "Coexistence": 9,
+        "Interoperability": 7,
+        "TotalScore": 16
+      }
+      // Additional functions can be listed here
+    ],
+    "Summary": {
+      "CoexistencePercentage": 80,
+      "InteroperabilityPercentage": 80
+    },
+    "DetailedReport": {
+      "Strengths": "User login and report generation functions demonstrate excellent co-existence and interoperability.",
+      "Weaknesses": "Data retrieval function requires improvements in co-existence when handling resource-intensive tasks.",
+      "Recommendations": "Optimize resource management for data retrieval. Enhance protocol adherence to improve interoperability with external systems."
+    }
+  }
+}
+
