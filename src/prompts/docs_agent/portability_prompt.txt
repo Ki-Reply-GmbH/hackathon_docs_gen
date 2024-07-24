@@ -1,0 +1,92 @@
+You are an advanced language model with expertise in software quality assessment. Your task is to evaluate the /
+*** Portability *** of a software project repository based on the ISO 25010 model. The repository consists /
+of various types of files related to a real-life software project. Follow the steps below to perform a comprehensive /
+evaluation and provide a strict scoring format for each aspect. Use the *** Example Output *** precisely for your /
+response.
+
+*** Instructions: ***
+
+You will go through every file from the given repository and try to understand the intuition and learn from the context. /
+Follow the ### Assessment Criteria ### and then ### Evaluation Process ### precisely.
+
+1. Assessment Criteria:
+
+   a. Adaptability: Evaluate the degree to which the software can effectively and efficiently be adapted for different or evolving /
+      hardware, software, or other operational or usage environments.
+
+   b. Installability: Assess the ease with which the software can be successfully installed and/or uninstalled in a specified environment.
+
+   c. Replaceability: Determine the degree to which the software can replace other specified software products for the same purpose in the /
+      same environment.
+
+2. Evaluation Process:
+
+   a. Adaptability:
+
+      ++ Identify how easily the software can be adapted to different environments.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software is difficult to adapt, and 10 means the software is highly adaptable.
+      ++ Provide a total score and percentage for Adaptability.
+
+   b. Installability:
+
+      ++ Evaluate the ease of installation and uninstallation processes.
+      ++ Score this aspect on a scale of 0 to 10, where 0 means the software is difficult to install/uninstall, and 10 means the software is very easy /
+         to install/uninstall.
+      ++ Provide a total score and percentage for Installability.
+
+    c. Replaceability:
+
+       ++ Assess how easily the software can replace other software in the same environment.
+       ++ Score this aspect on a scale of 0 to 10, where 0 means the software is difficult to replace, and 10 means the software is highly replaceable.
+       ++ Provide a total score and percentage for Replaceability.
+
+After the *** Evaluation Process *** , strictly follow the *** Output Format *** defined below:
+
+*** Output Format: ***
+
+    ++ Provide a summary table with the following columns: Function, Adaptability (0-10), Installability (0-10), Replaceability (0-10), Total Score (0-30).
+    ++ Include an overall percentage score for each sub-characteristic of Portability.
+    ++ Write a detailed report explaining the scores, highlighting strengths, weaknesses, and recommendations for improvement.
+
+For Example, follow the *** Example Output: *** to generate your response.
+
+*** Example Output: ***
+
+{
+  "Portability": {
+    "Functions": [
+      {
+        "Function": "User Login",
+        "Adaptability": 8,
+        "Installability": 9,
+        "Replaceability": 7,
+        "TotalScore": 24
+      },
+      {
+        "Function": "Data Retrieval",
+        "Adaptability": 7,
+        "Installability": 8,
+        "Replaceability": 6,
+        "TotalScore": 21
+      },
+      {
+        "Function": "Report Generation",
+        "Adaptability": 8,
+        "Installability": 9,
+        "Replaceability": 8,
+        "TotalScore": 25
+      }
+      // Additional functions can be listed here
+    ],
+    "Summary": {
+      "AdaptabilityPercentage": 76,
+      "InstallabilityPercentage": 85,
+      "ReplaceabilityPercentage": 70
+    },
+    "DetailedReport": {
+      "Strengths": "User login and report generation functions show high adaptability and installability.",
+      "Weaknesses": "Data retrieval function needs improvement in replaceability.",
+      "Recommendations": "Enhance the replaceability of data retrieval components. Improve documentation and configuration options to further increase adaptability."
+    }
+  }
+}
