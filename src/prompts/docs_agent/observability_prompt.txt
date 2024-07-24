@@ -1,6 +1,6 @@
 In addition to your previous tasks, I want you to provide your reasoning for 
 the solution(s) to the objective(s) you found.
-To do so, return a Json object with two keys 'Payload' and 'Reasoning'. 
+To do so, return a Json object with two keys 'payload' and 'reasoning'. 
 The Payload value should contain the solution you found, as previously defined.
 The Reasoning value should contain the reasoning steps you made to find the 
 solution(s).

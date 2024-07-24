@@ -4,15 +4,14 @@ TODO Berücksichtigen, dass GPT nun Json-Objekte zurückgibt. Es gibt einen
 """
 import ast
 import astor
-import re
 import os
 from src.utils.ast_helpers import ClassFunctionVisitor, IndentLevelVisitor
-from src.utils.observer import Observable
+from src.utils.observer import ObservableAgent
 from src.config import PromptConfig
 from src.models import LLModel
 from src.controller.file_retriever import FileRetriever
 
-class DocsAgent(Observable):
+class DocsAgent(ObservableAgent):
     def __init__(
             self,
             prompts: PromptConfig,
@@ -20,6 +19,7 @@ class DocsAgent(Observable):
             target_path: str,
             programming_language: str = "Python"
             ):
+        super().__init__()
         self._prompts = prompts
         self._model = model
         self._programming_language = programming_language
@@ -207,39 +207,66 @@ class SystemContextAgent(DocsAgent):
         self.system_context_summary = self._summarize_context()
         
         # Actually create the diagram using openai
-        prompt = self._prompts.get_system_context_plantuml_prompt()
-        prompt = self._add_observability(prompt)
-        response = self._model.get_completion(
-            prompt.format(
+        prompt = self._prompts.get_system_context_plantuml_prompt().format(
                 system_context=self.system_context_summary,
                 process_name=self.project_name
                 )
+        prompt = self._add_observability(prompt)
+        data = self._model.get_completion(prompt)
+        if data["payload"].startswith("```plantuml"):
+            data["payload"] = data["payload"][11:]
+        if data["payload"].endswith("```"):
+            data["payload"] = data["payload"][:-3]
+
+        event_type, data = self._format_data(
+            data=data,
+            prompt=prompt,
+            class_name=self._get_class_name(),
+            method_name="make_system_context_diagram",
+            model_name=self._model._model_name
             )
-        if response.startswith("```plantuml"):
-            response = response[11:]
-        if response.endswith("```"):
-            response = response[:-3]
-        return response
+        self.notify(event_type, data)
+
+        return data["payload"]
     
     def _find_context(self, file_path):
-        prompt = self._prompts.get_system_context_prompt()
-        prompt = self._add_observability(prompt)
         with open(file_path, "r", encoding="utf-8") as file:
             file_content = file.read()
-        return self._model.get_completion(
-            prompt.format(
-                file_content=file_content
-                )
+
+        prompt = self._prompts.get_system_context_prompt().format(
+            file_content=file_content
             )
+        prompt = self._add_observability(prompt)
+        data = self._model.get_completion(prompt)
+
+        event_type, data = self._format_data(
+            data=data,
+            prompt=prompt,
+            class_name=self._get_class_name(),
+            method_name="_find_context",
+            model_name=self._model._model_name
+            )
+        self.notify(event_type, data)
+
+        return data["payload"]
 
     def _summarize_context(self):
-        prompt = self._prompts.get_system_context_diagram_prompt()
-        prompt = self._add_observability(prompt)
-        return self._model.get_completion(
-            prompt.format(
+        prompt = self._prompts.get_system_context_diagram_prompt().format(
                 summaries_of_file_analyses=self.system_context_responses
                 )
+        prompt = self._add_observability(prompt)
+        data = self._model.get_completion(prompt)
+
+        event_type, data = self._format_data(
+            data=data,
+            prompt=prompt,
+            class_name=self._get_class_name(),
+            method_name="_summarize_context",
+            model_name=self._model._model_name
             )
+        self.notify(event_type, data)
+
+        return data["payload"]
 
 class ClassAgent(DocsAgent):
     def __init__(

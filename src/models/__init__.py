@@ -62,7 +62,7 @@ class LLModel:
         )
         return response.choices[0].message.content
 
-    def get_completion(self, prompt, resp_fmt_type: str = "text"):
+    def get_completion(self, prompt, resp_fmt_type: str = "json_object"):
         """
         Gets a completion from the OpenAI API.
 

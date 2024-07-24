@@ -3,11 +3,11 @@ import argparse
 import sys
 import io
 import json
-from src.agents.docs_agent import DocsAgent
+from src.agents.docs_agent import DocsAgent, InCodeAgent, SystemContextAgent, ClassAgent
 from src.config import load_config
 from src.models import LLModel
 from src.utils.cache import DisabledCache, SimpleCache
-from src.utils.observer import Observer
+from src.utils.observer import AgentObserver
 from src.controller.file_retriever import FileRetriever
 
 def main():
@@ -33,14 +33,14 @@ def main():
 
     cache = SimpleCache(tmp_path="./.tmp")
 
-    agents_observer = Observer()
+    agent_observer = AgentObserver()
 
     dAgent = DocsAgent(
         config.prompts,
         LLModel(config, cache),
         input_path
     )
-    dAgent.attach(agents_observer)
+    dAgent.attach(agent_observer)
     if "in-code" in create_items or "*" in create_items:
         print("Creating in code documentation...")
         dAgent.make_in_code_docs()
@@ -61,32 +61,35 @@ def main():
 
 
 def test():
-    path = "C:\\Users\\t.kubera\\dev\\hackathon\\hackathon_code_gen\\resources\\simple-sw-projects-for-testing\\project"
-
-    #for j in range(1, 3):
-    #    print("Iteration " + str(j) + " ...")
-    j = 3
-    for i in range(1,5):
+    path = "C:\\Users\\t.kubera\\dev\\documentation-generation\\resources\\simple-sw-projects-for-testing\\project"
+    agent_observer = AgentObserver()
+    for i in range(1, 5):
         input_path = path + str(i)
         project_name = input_path.split("\\")[-1]
         config = load_config()
 
         cache = DisabledCache(tmp_path="./.tmp")
 
-        dAgent = DocsAgent(
+        dAgent = SystemContextAgent(
             config.prompts,
             LLModel(config, cache),
             input_path
         )
+        dAgent.attach(agent_observer)
         print("Creating system context diagram for " + input_path + " ...")
         plantuml = dAgent.make_system_context_diagram()
-        with open(input_path + f"/{project_name}_system_context_diagram{j}.puml", "w", encoding="utf-8") as file:
+        with open(input_path + f"/{project_name}_system_context_diagram.puml", "w", encoding="utf-8") as file:
             file.write(plantuml)
 
-        print("Creating class diagram for " + input_path + " ...")
-        plantuml = dAgent.make_class_diagram()
-        with open(input_path + f"/{project_name}_class_diagram{j}.puml", "w", encoding="utf-8") as file:
-            file.write(plantuml)
+    agent_observer.calc_total_costs()
+
+    try:
+        serializable_updates = {k: v for k, v in agent_observer.updates.items()}
+        with open("./.tmp/observer.json", "w") as file:
+            json.dump(serializable_updates, file, indent=4)
+    except TypeError as e:
+        with open("./.tmp/observer.txt", "w") as file:
+            file.write(str(agent_observer.updates))
 
 if __name__ == "__main__":
     test()
