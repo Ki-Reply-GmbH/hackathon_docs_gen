@@ -3,7 +3,7 @@ import argparse
 import sys
 import io
 import json
-from src.agents.docs_agent import DocsAgent, InCodeAgent, SystemContextAgent, ClassAgent
+from src.agents.docs_agent import DocsAgent, InCodeAgent, SystemContextAgent, ClassAgent, SWQAgent
 from src.config import load_config
 from src.models import LLModel
 from src.utils.cache import DisabledCache, SimpleCache
@@ -61,25 +61,21 @@ def main():
 
 
 def test():
-    path = "C:\\Users\\t.kubera\\dev\\documentation-generation\\resources\\simple-sw-projects-for-testing\\project"
+    path = "C:\\Users\\t.kubera\\dev\\documentation-generation\\resources\\IIRA"
     agent_observer = AgentObserver()
-    for i in range(1, 5):
-        input_path = path + str(i)
-        project_name = input_path.split("\\")[-1]
-        config = load_config()
 
-        cache = DisabledCache(tmp_path="./.tmp")
+    config = load_config()
 
-        dAgent = SystemContextAgent(
-            config.prompts,
-            LLModel(config, cache),
-            input_path
-        )
-        dAgent.attach(agent_observer)
-        print("Creating system context diagram for " + input_path + " ...")
-        plantuml = dAgent.make_system_context_diagram()
-        with open(input_path + f"/{project_name}_system_context_diagram.puml", "w", encoding="utf-8") as file:
-            file.write(plantuml)
+    cache = DisabledCache(tmp_path="./.tmp")
+
+    agent = SWQAgent(
+        config.prompts,
+        LLModel(config, cache),
+        path
+    )
+    agent.attach(agent_observer)
+    agent.make_swq_docs()
+
 
     agent_observer.calc_total_costs()
 
@@ -87,9 +83,14 @@ def test():
         serializable_updates = {k: v for k, v in agent_observer.updates.items()}
         with open("./.tmp/observer.json", "w") as file:
             json.dump(serializable_updates, file, indent=4)
+        
+        with open("./.tmp/swq_output.json", "w") as file:
+            json.dump(agent.sqw_responses, file, indent=4)
     except TypeError as e:
         with open("./.tmp/observer.txt", "w") as file:
             file.write(str(agent_observer.updates))
+        with open("./.tmp/swq_output.txt", "w") as file:
+            file.write(str(agent.sqw_responses))
 
 if __name__ == "__main__":
     test()

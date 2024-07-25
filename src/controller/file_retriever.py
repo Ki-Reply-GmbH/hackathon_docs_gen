@@ -69,7 +69,10 @@ class FileRetriever:
     def get_mapping(self, file_format=None):
         if file_format:
             return self.file_mapping[file_format]
-        return self.file_mapping
+        ret = []
+        for file_format in self.file_mapping:
+            ret += self.file_mapping[file_format]
+        return ret
     
     def __str__(self):
         ret = "Directory: " + self.directory + "\n"

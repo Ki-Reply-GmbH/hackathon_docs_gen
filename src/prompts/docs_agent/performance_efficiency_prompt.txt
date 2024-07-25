@@ -56,42 +56,42 @@ For Example, follow the *** Example Output: *** to generate your response.
 
 *** Example Output: ***
 
-{
-  "PerformanceEfficiency": {
+ {{
+   "PerformanceEfficiency": {{
     "Functions": [
-      {
+       {{
         "Function": "User Login",
         "TimeBehavior": 9,
         "ResourceUtilization": 8,
         "Capacity": 7,
         "TotalScore": 24
-      },
-      {
+      }},
+       {{
         "Function": "Data Retrieval",
         "TimeBehavior": 7,
         "ResourceUtilization": 6,
         "Capacity": 8,
         "TotalScore": 21
-      },
-      {
+      }},
+       {{
         "Function": "Report Generation",
         "TimeBehavior": 8,
         "ResourceUtilization": 7,
         "Capacity": 9,
         "TotalScore": 24
-      }
+      }}
       // Additional functions can be listed here
     ],
-    "Summary": {
+     "Summary": {{
       "TimeBehaviorPercentage": 80,
       "ResourceUtilizationPercentage": 70,
       "CapacityPercentage": 80
-    },
-    "DetailedReport": {
+    }},
+     "DetailedReport": {{
       "Strengths": "User login and report generation functions have excellent time behavior and resource utilization.",
       "Weaknesses": "Data retrieval function needs optimization in resource utilization.",
       "Recommendations": "Improve data retrieval algorithms to enhance resource efficiency. Consider load testing to further optimize capacity."
-    }
-  }
-}
+    }}
+  }}
+}}
 

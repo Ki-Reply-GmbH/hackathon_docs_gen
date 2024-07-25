@@ -72,10 +72,10 @@ For Example, follow the *** Example Output: *** to generate your response.
 
 *** Example Output: ***
 
-{
-  "Security": {
+{{
+  "Security": {{
     "Functions": [
-      {
+      {{
         "Function": "User Login",
         "Confidentiality": 9,
         "Integrity": 8,
@@ -83,8 +83,8 @@ For Example, follow the *** Example Output: *** to generate your response.
         "Accountability": 9,
         "Authenticity": 9,
         "TotalScore": 43
-      },
-      {
+      }},
+      {{
         "Function": "Data Retrieval",
         "Confidentiality": 8,
         "Integrity": 7,
@@ -92,8 +92,8 @@ For Example, follow the *** Example Output: *** to generate your response.
         "Accountability": 8,
         "Authenticity": 8,
         "TotalScore": 38
-      },
-      {
+      }},
+      {{
         "Function": "Report Generation",
         "Confidentiality": 8,
         "Integrity": 8,
@@ -101,22 +101,22 @@ For Example, follow the *** Example Output: *** to generate your response.
         "Accountability": 8,
         "Authenticity": 8,
         "TotalScore": 39
-      }
+      }}
       // Additional functions can be listed here
     ],
-    "Summary": {
+    "Summary": {{
       "ConfidentialityPercentage": 85,
       "IntegrityPercentage": 76,
       "NonRepudiationPercentage": 72,
       "AccountabilityPercentage": 83,
       "AuthenticityPercentage": 83
-    },
-    "DetailedReport": {
+    }},
+    "DetailedReport": {{
       "Strengths": "User login function demonstrates strong confidentiality, accountability, and authenticity measures.",
       "Weaknesses": "Data retrieval and report generation functions need improvements in non-repudiation mechanisms.",
       "Recommendations": "Enhance non-repudiation mechanisms for data retrieval and report generation. Implement additional integrity checks to further secure data."
-    }
-  }
-}
+    }}
+  }}
+}}
 
       

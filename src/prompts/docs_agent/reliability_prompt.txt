@@ -64,46 +64,46 @@ For Example, follow the *** Example Output: *** to generate your response.
 
 *** Example Output: ***
 
-{
-  "Reliability": {
+{{
+  "Reliability": {{
     "Functions": [
-      {
+      {{
         "Function": "User Login",
         "Maturity": 9,
         "Availability": 8,
         "FaultTolerance": 7,
         "Recoverability": 8,
         "TotalScore": 32
-      },
-      {
+      }},
+      {{
         "Function": "Data Retrieval",
         "Maturity": 7,
         "Availability": 7,
         "FaultTolerance": 6,
         "Recoverability": 7,
         "TotalScore": 27
-      },
-      {
+      }},
+      {{
         "Function": "Report Generation",
         "Maturity": 8,
         "Availability": 8,
         "FaultTolerance": 7,
         "Recoverability": 8,
         "TotalScore": 31
-      }
+      }}
       // Additional functions can be listed here
     ],
-    "Summary": {
+    "Summary": {{
       "MaturityPercentage": 80,
       "AvailabilityPercentage": 78,
       "FaultTolerancePercentage": 70,
       "RecoverabilityPercentage": 75
-    },
-    "DetailedReport": {
+    }},
+    "DetailedReport": {{
       "Strengths": "The user login and report generation functions exhibit high maturity and availability.",
       "Weaknesses": "Data retrieval function needs improvement in fault tolerance.",
       "Recommendations": "Enhance fault tolerance mechanisms for data retrieval. Implement more robust recovery protocols across all functions."
-    }
-  }
-}
+    }}
+  }}
+}}
 

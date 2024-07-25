@@ -80,10 +80,10 @@ For Example, follow the *** Example Output: *** to generate your response.
 
 *** Example Output: ***
 
-{
-  "Usability": {
+{{
+  "Usability": {{
     "Functions": [
-      {
+      {{
         "Function": "User Login",
         "AppropriatenessRecognizability": 9,
         "Learnability": 8,
@@ -92,8 +92,8 @@ For Example, follow the *** Example Output: *** to generate your response.
         "UserInterfaceAesthetics": 9,
         "Accessibility": 7,
         "TotalScore": 48
-      },
-      {
+      }},
+      {{
         "Function": "Data Retrieval",
         "AppropriatenessRecognizability": 8,
         "Learnability": 7,
@@ -102,8 +102,8 @@ For Example, follow the *** Example Output: *** to generate your response.
         "UserInterfaceAesthetics": 8,
         "Accessibility": 6,
         "TotalScore": 41
-      },
-      {
+      }},
+      {{
         "Function": "Report Generation",
         "AppropriatenessRecognizability": 8,
         "Learnability": 7,
@@ -112,23 +112,23 @@ For Example, follow the *** Example Output: *** to generate your response.
         "UserInterfaceAesthetics": 9,
         "Accessibility": 8,
         "TotalScore": 48
-      }
+      }}
       // Additional functions can be listed here
     ],
-    "Summary": {
+    "Summary": {{
       "AppropriatenessRecognizabilityPercentage": 85,
       "LearnabilityPercentage": 80,
       "OperabilityPercentage": 75,
       "UserErrorProtectionPercentage": 73,
       "UserInterfaceAestheticsPercentage": 88,
       "AccessibilityPercentage": 75
-    },
-    "DetailedReport": {
+    }},
+    "DetailedReport": {{
       "Strengths": "The user login and report generation functions are highly recognizable, have excellent UI aesthetics, and are easy to learn and operate.",
       "Weaknesses": "Data retrieval function needs improvements in operability and error protection.",
       "Recommendations": "Enhance user error protection mechanisms across all functions. Improve the operability and accessibility of data retrieval functions."
-    }
-  }
-}
+    }}
+  }}
+}}
 
 

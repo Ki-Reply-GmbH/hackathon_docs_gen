@@ -52,41 +52,41 @@ For Example, follow the *** Example Output: *** to generate your response.
 
 *** Example Output: ***
 
-{
-  "Portability": {
+{{
+  "Portability": {{
     "Functions": [
-      {
+      {{
         "Function": "User Login",
         "Adaptability": 8,
         "Installability": 9,
         "Replaceability": 7,
         "TotalScore": 24
-      },
-      {
+      }},
+      {{
         "Function": "Data Retrieval",
         "Adaptability": 7,
         "Installability": 8,
         "Replaceability": 6,
         "TotalScore": 21
-      },
-      {
+      }},
+      {{
         "Function": "Report Generation",
         "Adaptability": 8,
         "Installability": 9,
         "Replaceability": 8,
         "TotalScore": 25
-      }
+      }}
       // Additional functions can be listed here
     ],
-    "Summary": {
+    "Summary": {{
       "AdaptabilityPercentage": 76,
       "InstallabilityPercentage": 85,
       "ReplaceabilityPercentage": 70
-    },
-    "DetailedReport": {
+    }},
+    "DetailedReport": {{
       "Strengths": "User login and report generation functions show high adaptability and installability.",
       "Weaknesses": "Data retrieval function needs improvement in replaceability.",
       "Recommendations": "Enhance the replaceability of data retrieval components. Improve documentation and configuration options to further increase adaptability."
-    }
-  }
-}
+    }}
+  }}
+}}

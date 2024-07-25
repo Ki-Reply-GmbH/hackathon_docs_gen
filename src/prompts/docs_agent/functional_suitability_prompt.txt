@@ -60,44 +60,44 @@ For Example, follow the *** Example Output: *** to generate your response.
 
 *** Example Output: ***
 
-{
-  "FunctionalSuitability": {
+{{
+  "FunctionalSuitability": {{
     "Functions": [
-      {
+      {{
         "Function": "User Login",
         "Completeness": 10,
         "Correctness": 9,
         "Appropriateness": 8,
         "TotalScore": 27
-      },
-      {
+      }},
+      {{
         "Function": "Data Retrieval",
         "Completeness": 8,
         "Correctness": 7,
         "Appropriateness": 6,
         "TotalScore": 21
-      },
-      {
+      }},
+      {{
         "Function": "Report Generation",
         "Completeness": 9,
         "Correctness": 8,
         "Appropriateness": 7,
         "TotalScore": 24
-      }
+      }}
       // Additional functions can be listed here
     ],
-    "Summary": {
+    "Summary": {{
       "FunctionalCompletenessPercentage": 85,
       "FunctionalCorrectnessPercentage": 80,
       "FunctionalAppropriatenessPercentage": 75
-    },
-    "DetailedReport": {
+    }},
+    "DetailedReport": {{
       "Strengths": "The user login function is fully implemented and meets all requirements. Data retrieval and report generation functions are implemented with minor issues.",
       "Weaknesses": "Some functions have minor accuracy issues and could be more efficient.",
       "Recommendations": "Improve test coverage for data retrieval functions. Optimize report generation for better performance."
-    }
-  }
-}
+    }}
+  }}
+}}
 
 
 

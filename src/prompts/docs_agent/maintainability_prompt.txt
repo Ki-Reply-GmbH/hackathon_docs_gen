@@ -71,10 +71,10 @@ For Example, follow the *** Example Output: *** to generate your response.
 
 *** Example Output: ***
 
-{
-  "Maintainability": {
+{{
+  "Maintainability": {{
     "Functions": [
-      {
+      {{
         "Function": "User Login",
         "Modularity": 8,
         "Reusability": 7,
@@ -82,8 +82,8 @@ For Example, follow the *** Example Output: *** to generate your response.
         "Modifiability": 7,
         "Testability": 8,
         "TotalScore": 38
-      },
-      {
+      }},
+      {{
         "Function": "Data Retrieval",
         "Modularity": 7,
         "Reusability": 6,
@@ -91,8 +91,8 @@ For Example, follow the *** Example Output: *** to generate your response.
         "Modifiability": 6,
         "Testability": 7,
         "TotalScore": 32
-      },
-      {
+      }},
+      {{
         "Function": "Report Generation",
         "Modularity": 8,
         "Reusability": 7,
@@ -100,22 +100,22 @@ For Example, follow the *** Example Output: *** to generate your response.
         "Modifiability": 7,
         "Testability": 8,
         "TotalScore": 37
-      }
+      }}
       // Additional functions can be listed here
     ],
-    "Summary": {
+    "Summary": {{
       "ModularityPercentage": 76,
       "ReusabilityPercentage": 68,
       "AnalyzabilityPercentage": 70,
       "ModifiabilityPercentage": 68,
       "TestabilityPercentage": 76
-    },
-    "DetailedReport": {
+    }},
+    "DetailedReport": {{
       "Strengths": "The user login and report generation functions show high modularity and testability.",
       "Weaknesses": "Data retrieval function needs improvement in reusability and analyzability.",
       "Recommendations": "Improve the modularity and reusability of data retrieval components. Enhance documentation and diagnostic tools to improve analyzability and modifiability."
-    }
-  }
-}
+    }}
+  }}
+}}
 
 

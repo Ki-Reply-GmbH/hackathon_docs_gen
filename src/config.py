@@ -37,6 +37,62 @@ class PromptConfig:
         with open(file_path, "r") as file:
             return file.read()
 
+    def get_functional_suitability_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts", "docs_agent",
+            "functional_suitability_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+    
+    def get_maintainability_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts", "docs_agent",
+            "maintainability_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+    
+    def get_performance_efficiency_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts", "docs_agent",
+            "performance_efficiency_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+    
+    def get_portability_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts", "docs_agent",
+            "portability_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+    
+    def get_reliability_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts", "docs_agent",
+            "reliability_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+    
+    def get_security_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts", "docs_agent",
+            "security_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+    
+    def get_usability_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts", "docs_agent",
+            "usability_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+
     def get_observability_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(
