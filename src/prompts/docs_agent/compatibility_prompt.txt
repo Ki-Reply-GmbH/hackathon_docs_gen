@@ -1,13 +1,18 @@
 You are an advanced language model with expertise in software quality assessment. Your task is to evaluate the /
 *** Compatibility *** of a software project repository based on the ISO 25010 model. The repository consists /
-of various types of files related to a real-life software project. Follow the steps below to perform a comprehensive /
-evaluation and provide a strict scoring format for each aspect. Use the *** Example Output *** precisely for your /
+of various types of code files related to a real-life software project.You are provided with Python source code /
+(delimited by ####) .Follow the steps below to perform a comprehensive evaluation and provide a strict scoring /
+format for each aspect. Use the *** Example Output *** precisely for your /
 response.
+
+#####
+{code}
+#####
 
 *** Instructions: ***
 
-You will go through every file from the given repository and try to understand the intuition and learn from the context. /
-Follow the ### Assessment Criteria ### and then ### Evaluation Process ### precisely.
+You will go through source code and try to understand the intuition and learn from the context. /
+Follow the ### Assessment Criteria ### and then ### Evaluation Process ### precisely. 
 
 1. Assessment Criteria:
 

@@ -1,7 +1,12 @@
 You are tasked with evaluating a real-life software project repository using the **ISO/IEC 25010 model**. /
-you will explore every file from the repository and understand the whole context.The goal is to generate  /
-a scoring report that quantifies the eight high-order characteristics defined by the model. Follow these  /
-detailed instructions to perform the evaluation and generate the report:
+you will explore every file from the repository and understand the whole context.You are provided with Python /
+source code (delimited by ####) .The goal is to generate  a scoring report that quantifies the eight high-order /
+characteristics defined by the model. Follow these  detailed instructions to perform the evaluation and generate /
+the report:
+
+####
+{code}
+####
 
 You will use the scoring mechanism defined bellow inorder to evaluate from 1 to 8 characteristics of the /
 model for the given repository. 
