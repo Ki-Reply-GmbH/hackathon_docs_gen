@@ -1,0 +1,8 @@
+seqdiag {
+  browser -> webserver [label = "GET /index.html"];
+  webserver -> application [label = "render template"];
+  application -> database [label = "SELECT * FROM users"];
+  database --> application [label = "result"];
+  application --> webserver [label = "HTML content"];
+  webserver --> browser [label = "200 OK"];
+}
