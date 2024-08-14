@@ -1,0 +1,36 @@
+
+@startuml demo
+
+actor endpoint
+control gateway
+endpoint -> gateway: REST API request
+
+gateway -> gateway : Validate the request
+
+gateway -> ngninx_proxy : Send Request
+
+ngninx_proxy -> server : Send Request
+
+server -> database : Log Request
+
+database --> server : Log Successful
+
+server -> Application : REST Request
+
+activate Application
+
+Application -> Database : Query
+
+Application --> server : Response
+
+deactivate Application
+
+server --> ngninx_proxy : Response
+
+ngninx_proxy --> gateway : Response
+
+gateway -> gateway : validate timeout
+
+gateway --> endpoint : Response
+
+@enduml

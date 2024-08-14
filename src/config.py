@@ -211,7 +211,7 @@ class Config:
         ####################
         self.prompts = PromptConfig()
         self.AGI_VERBOSE = True
-        self.LLM_MODEL_NAME = os.environ.get("LLM_MODEL_NAME", "gpt-4o")
+        self.LLM_MODEL_NAME = os.environ.get("LLM_MODEL_NAME", "gpt-4o-turbo")
         self.LLM_TEMPERATURE = os.environ.get("LLM_TEMPERATURE", 0.0)
         self.LLM_MAX_LENGTH = os.environ.get("LLM_MAX_LENGTH", 4096)
         self.OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
