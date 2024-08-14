@@ -312,6 +312,7 @@ class SWQAgent(DocsAgent):
             "usability": {}
         }
 
+
     def make_swq_docs(self):
         file_paths = self.file_retriever.get_mapping()
         for file_path in file_paths:
@@ -324,8 +325,12 @@ class SWQAgent(DocsAgent):
             prompt_function = getattr(self._prompts, func.__name__)
             prompt = prompt_function()
             prompt = self._add_observability(prompt)
+            #TODO Flawed, because the keys func.__name__ is not defined inside self.sqw_responses.
             self.sqw_responses[func.__name__][file_path] = self._model.get_completion(
                 prompt.format(
                     source_code=code
                     )
                 )
+
+    def shafaits_new_method(self):
+        pass

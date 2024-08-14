@@ -37,6 +37,14 @@ class PromptConfig:
         with open(file_path, "r") as file:
             return file.read()
 
+    def get_iso_25010_prompt(self) -> str:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        prompt_path = os.path.join(
+            base_dir, "prompts", "docs_agent",
+            "get_iso_25010_prompt.txt"
+            )
+        return self._read_file_content(prompt_path)
+
     def get_functional_suitability_prompt(self) -> str:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         prompt_path = os.path.join(

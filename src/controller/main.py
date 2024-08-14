@@ -60,13 +60,12 @@ def main():
             file.write(plantuml)
 
 
-def test():
-    path = "C:\\Users\\t.kubera\\dev\\documentation-generation\\resources\\IIRA"
+def main_shafait():
+    """ Setup step """
+    path = "path/to/your/local/target/repo" #TODO Shafait: Set path to your local target repo
     agent_observer = AgentObserver()
-
     config = load_config()
-
-    cache = DisabledCache(tmp_path="./.tmp")
+    cache = SimpleCache(tmp_path="./.tmp")
 
     agent = SWQAgent(
         config.prompts,
@@ -74,23 +73,33 @@ def test():
         path
     )
     agent.attach(agent_observer)
+
+
+    """ Runnning the agent """
     agent.make_swq_docs()
+    agent.shafaits_new_method()
+    #...
 
 
+
+
+    """ Post processing - Calculating total costs of program execution and saving output to files """
     agent_observer.calc_total_costs()
 
     try:
         serializable_updates = {k: v for k, v in agent_observer.updates.items()}
         with open("./.tmp/observer.json", "w") as file:
             json.dump(serializable_updates, file, indent=4)
-        
         with open("./.tmp/swq_output.json", "w") as file:
             json.dump(agent.sqw_responses, file, indent=4)
+
     except TypeError as e:
+        # Just in case the json format is not serializable, we are storing in it in .txt files.
+        # If everything works fine, these files won't be created.
         with open("./.tmp/observer.txt", "w") as file:
             file.write(str(agent_observer.updates))
         with open("./.tmp/swq_output.txt", "w") as file:
             file.write(str(agent.sqw_responses))
 
 if __name__ == "__main__":
-    test()
+    main_shafait()
