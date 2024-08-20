@@ -7,11 +7,7 @@ import astor
 import os
 from src.utils.ast_helpers import ClassFunctionVisitor, IndentLevelVisitor
 from src.utils.observer import ObservableAgent
-from src.config import PromptConfig, get_functional_suitability_prompt, \
-                        get_maintainability_prompt, \
-                        get_performance_efficiency_prompt,\
-                        get_portability_prompt, get_reliability_prompt, \
-                        get_security_prompt, get_usability_prompt
+from src.config import PromptConfig
 from src.models import LLModel
 from src.controller.file_retriever import FileRetriever
 
@@ -284,16 +280,7 @@ class ClassAgent(DocsAgent):
         pass
 
 class SWQAgent(DocsAgent):
-    quality_dimension_funcs = [ #Compatibility is missing
-        get_functional_suitability_prompt,
-        get_maintainability_prompt,
-        get_performance_efficiency_prompt,
-        get_portability_prompt,
-        get_reliability_prompt,
-        get_security_prompt,
-        get_usability_prompt
-    ]
-
+    
     def __init__(
             self,
             prompts: PromptConfig,
@@ -302,6 +289,15 @@ class SWQAgent(DocsAgent):
             programming_language: str = "Python"
             ):
         super().__init__(prompts, model, target_path, programming_language)
+        self.quality_dimension_funcs = [ #Compatibility is missing
+        prompts.get_functional_suitability_prompt,
+        prompts.get_maintainability_prompt,
+        prompts.get_performance_efficiency_prompt,
+        prompts.get_portability_prompt,
+        prompts.get_reliability_prompt,
+        prompts.get_security_prompt,
+        prompts.get_usability_prompt
+        ]
         self.sqw_responses = { #Compatibility is missing
             "functional_suitability": {},
             "maintainability": {},
@@ -315,7 +311,9 @@ class SWQAgent(DocsAgent):
 
     def make_swq_docs(self):
         file_paths = self.file_retriever.get_mapping()
+        print(file_paths)
         for file_path in file_paths:
+            print(file_path)
             self._make_swq_docs(file_path)
     
     def _make_swq_docs(self, file_path):
@@ -326,6 +324,7 @@ class SWQAgent(DocsAgent):
             prompt = prompt_function()
             prompt = self._add_observability(prompt)
             #TODO Flawed, because the keys func.__name__ is not defined inside self.sqw_responses.
+            print("Hello")
             self.sqw_responses[func.__name__][file_path] = self._model.get_completion(
                 prompt.format(
                     source_code=code
