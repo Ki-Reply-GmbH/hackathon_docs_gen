@@ -289,24 +289,40 @@ class SWQAgent(DocsAgent):
             programming_language: str = "Python"
             ):
         super().__init__(prompts, model, target_path, programming_language)
-        self.quality_dimension_funcs = [ #Compatibility is missing
+        self.quality_dimension_funcs = [ 
         prompts.get_functional_suitability_prompt,
         prompts.get_maintainability_prompt,
         prompts.get_performance_efficiency_prompt,
         prompts.get_portability_prompt,
+        #prompts.get_compatibility_prompt
         prompts.get_reliability_prompt,
         prompts.get_security_prompt,
         prompts.get_usability_prompt
+       
         ]
         self.sqw_responses = { #Compatibility is missing
             "functional_suitability": {},
             "maintainability": {},
             "performance_efficiency": {},
             "portability": {},
+            # "compatibility" : {}
             "reliability": {},
             "security": {},
             "usability": {}
+           
         }
+        self.func_to_key_mapping = {
+            prompts.get_functional_suitability_prompt: "functional_suitability",
+            prompts.get_maintainability_prompt: "maintainability",
+            prompts.get_performance_efficiency_prompt: "performance_efficiency",
+            prompts.get_portability_prompt: "portability",
+            #prompts.get_compatibility_prompt: "compatibility",
+            prompts.get_reliability_prompt: "reliability",
+            prompts.get_security_prompt: "security",
+            prompts.get_usability_prompt: "usability"
+          
+        }
+        
 
 
     def make_swq_docs(self):
@@ -317,17 +333,24 @@ class SWQAgent(DocsAgent):
             self._make_swq_docs(file_path)
     
     def _make_swq_docs(self, file_path):
-        with open(file_path, "r", encoding="utf-8") as file:
-            code = file.read()
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                code = file.read()
+        except UnicodeDecodeError:
+            with open(file_path, 'r', encoding='latin-1') as file:
+                code = file.read()
+
         for func in self.quality_dimension_funcs:
             prompt_function = getattr(self._prompts, func.__name__)
             prompt = prompt_function()
             prompt = self._add_observability(prompt)
             #TODO Flawed, because the keys func.__name__ is not defined inside self.sqw_responses.
-            print("Hello")
-            self.sqw_responses[func.__name__][file_path] = self._model.get_completion(
+            #print("Hello")
+            
+            response_key = self.func_to_key_mapping[func]
+            self.sqw_responses[response_key][file_path] = self._model.get_completion(
                 prompt.format(
-                    source_code=code
+                    code=code
                     )
                 )
 

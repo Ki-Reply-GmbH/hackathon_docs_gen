@@ -62,7 +62,7 @@ def main():
 
 def main_shafait():
     """ Setup step """
-    path = "path/to/your/local/target/repo" #TODO Shafait: Set path to your local target repo
+    path = "C://Hak_ai/hackathon_docs_gen//resources//IIRA" #TODO Shafait: Set path to your local target repo
     agent_observer = AgentObserver()
     config = load_config()
     cache = SimpleCache(tmp_path="./.tmp")
