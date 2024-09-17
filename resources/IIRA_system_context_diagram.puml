@@ -1,0 +1,24 @@
+
+@startuml
+' System Context Diagram for IIRA
+
+' Define the system (Process Name) as the central element
+rectangle "IIRA" #pink as IIRA
+
+' Define the external entities
+actor "Users" as Users
+rectangle "Internal Database" as Database
+rectangle "Files" as Files
+rectangle "Data Sources" as DataSources
+
+' Define the primary data flows
+Users --> IIRA : User Interactions (inputs)
+IIRA --> Users : System to User Feedback (outputs)
+IIRA --> Database : Profile Management, Store Analysis Results
+Database --> IIRA : Retrieve Profiles, Analysis Results
+IIRA --> Files : Read/Write File Content, Generate Reports
+Files --> IIRA : File Content
+IIRA --> DataSources : Retrieve Input Data
+DataSources --> IIRA : Input Data for Analyses
+
+@enduml

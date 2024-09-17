@@ -33,6 +33,7 @@ class FileRetriever:
         file_list = []
 
         # Durchlaufen des Verzeichnisses und seiner Unterverzeichnisse
+        print(f"Searching in directory: {self.directory}")
         for root, dirs, files in os.walk(self.directory):
             # Ignorieren von versteckten Verzeichnissen
             dirs[:] = [d for d in dirs if not d[0] == '.' and not d in self.ignored_dirs]
