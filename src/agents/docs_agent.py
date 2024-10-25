@@ -5,11 +5,11 @@ TODO Berücksichtigen, dass GPT nun Json-Objekte zurückgibt. Es gibt einen
 import ast
 import astor
 import os
-from src.utils.ast_helpers import ClassFunctionVisitor, IndentLevelVisitor
-from src.utils.observer import ObservableAgent
-from src.config import PromptConfig
-from src.models import LLModel
-from src.controller.file_retriever import FileRetriever
+from app.hackathon_docs_gen.src.utils.ast_helpers import ClassFunctionVisitor, IndentLevelVisitor
+from app.hackathon_docs_gen.src.utils.observer import ObservableAgent
+from app.hackathon_docs_gen.src.config import PromptConfig
+from app.hackathon_docs_gen.src.models import LLModel
+from app.hackathon_docs_gen.src.controller.file_retriever import FileRetriever
 
 class DocsAgent(ObservableAgent):
     def __init__(

@@ -5,7 +5,7 @@
 # License: This program is licensed under the GNU General Public License version 3.
 # The full license can be found in the LICENSE file or at https://www.gnu.org/licenses/gpl-3.0.en.html.
 #
-from src.utils.observer import Observable
+from app.hackathon_docs_gen.src.utils.observer import Observable
 
 
 class Agent(Observable):

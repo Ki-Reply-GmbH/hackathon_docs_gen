@@ -1,10 +1,10 @@
 import sys
 import io
 import json
-from src.agents.docs_agent import DocsAgent
-from src.config import load_config
-from src.models import LLModel
-from src.utils.cache import DisabledCache, SimpleCache
+from app.hackathon_docs_gen.src.agents.docs_agent import DocsAgent
+from app.hackathon_docs_gen.src.config import load_config
+from app.hackathon_docs_gen.src.models import LLModel
+from app.hackathon_docs_gen.src.utils.cache import DisabledCache, SimpleCache
 
 
 def make_readme():
